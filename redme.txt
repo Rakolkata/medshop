@@ -1,0 +1,5 @@
+php artisan migrate:fresh
+php artisan db:seed
+
+and hit this api to get payment details with post request
+http://localhost/vprotect/public/api/payments

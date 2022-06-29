@@ -1,0 +1,1 @@
+ALTER TABLE `customer_contact_details` ADD `pan_no` VARCHAR(20) NULL AFTER `email`, ADD `Gst_no` VARCHAR(40) NULL AFTER `pan_no`;
