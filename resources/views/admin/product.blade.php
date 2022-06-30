@@ -84,26 +84,31 @@
               </div>
             </div>
           </div>
-        <div class="card-body">
-<table class="table table-bordered" id="datatable">
-<thead>
-<tr>
-<th scope="col">SL.No.</th>
-                    <th scope="col">Gematric Name</th>
-                    <th scope="col">Brand</th>
-                    <th scope="col">Title</th> 
-                    <th scope="col">Stock</th>
-                    <th scope="col">Qnty</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Sell Price</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Action</th>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive container">
+  <h4 class="mb-0">Product List List</h4>
+    <table class="table table-bordered" id="datatable">
+      <thead>
+        <tr>
+          <th scope="col">SL.No.</th>
+          <th scope="col">Gematric Name</th>
+          <th scope="col">Brand</th>
+          <th scope="col">Title</th> 
+          <th scope="col">Stock</th>
+          <th scope="col">Qnty</th>
+          <th scope="col">Price</th>
+          <th scope="col">Sell Price</th>
+          <th scope="col">Description</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+    </table>
+</div>
+</div>
 
-</tr>
-</thead>
-</table>
-</div>
-</div>
 </body>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script> 
 <script>
@@ -169,10 +174,13 @@
 </script>
 
 <script> 
- window.onload = function() {  
+ $(document).ready(function(){  
    document.getElementById('Update').style.visibility = 'hidden';
    document.getElementById('cancel').style.visibility = 'hidden';     
-};
+});
+</script>
+</html>
+<script type="text/javascript">
 $('#Update').click(function(){    
     $.ajaxSetup({
   headers: {
@@ -196,4 +204,3 @@ $('#Update').click(function(){
     },"json");
 });
 </script>
-</html>

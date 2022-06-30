@@ -91,9 +91,15 @@ class ProductController extends Controller
        $product->price = $request->price;
        $product->sellPrice = $request->sellPrice;
        $product->description = $request->description;
-       $product->save();
-       return back();
-      
+       $result=$product->save();
+       if($result)
+       {
+        $flag=true;
+       return response()->json(['status'=>$flag]);
+       }else{
+        $flag=false;
+       return response()->json(['status'=>$flag]);
+       }
     }
 
 

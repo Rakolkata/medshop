@@ -82,6 +82,11 @@
               <i class="fa fa-th-list text-blue" ></i>Add Product
             </a>
           </li>
+          <li class="nav-item {{ 'admin/OrderDetails' == request()->path() ? 'active' : '' }}">
+           <a class="nav-link" href="#">
+              <i class="fa fa-th-list text-blue" ></i>Order Details
+            </a>
+          </li>
              
           
  
