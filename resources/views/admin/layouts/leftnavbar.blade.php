@@ -78,22 +78,13 @@
             </a>
           </li>
            <li class="nav-item {{ 'admin/product' == request()->path() ? 'active' : '' }}">
-           <a class="nav-link" href="{{route('product.index')}}">
+           <a class="nav-link" href="{{route('product.create')}}">
               <i class="fa fa-th-list text-blue" ></i>Add Product
             </a>
           </li>
              
-          <!--li class="nav-item {{ 'admin/ChangePassword' == request()->path() ? 'active' : '' }}">
-           <a class="nav-link" href="#">
-              <i class="ni ni-key-25 text-blue"></i> Change Password
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.forgotpassword') }}">
-              <i class="ni ni-key-25 text-blue"></i> Forget Password
-            </a>
-          </li-->
-         </li>
+          
+ 
        </ul>
         
       </div>

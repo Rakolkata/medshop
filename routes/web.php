@@ -53,9 +53,19 @@ Route::get('admin/auth/passwords/forgetPassword','Auth\ForgotPasswordController@
 Route::post('admin/auth/passwords/forgetPassword','Auth\ForgotPasswordController@validate_user')->name('admin.validate.forgotpassword');
 Route::post('admin/auth/login','Auth\ForgotPasswordController@UpdatePassword')->name('admin.update.forgotpassword');
 Route::post('admin/auth/passwords/forgetPassword','Auth\ForgotPasswordController@validate_user')->name('admin.validate.forgotpassword');
- 
- //product index 
-Route::get('admin/product','ProductController@index')->name('product.index');
+//product create
+Route::get('admin/product','ProductController@create')->name('product.create');
+//product store
+Route::post('admin/productStore','ProductController@store')->name('product.store');
+//product get
+Route::get('admin/productGet','ProductController@getProduct')->name('product.get');
+//product delete
+Route::get('admin/productDestroy{id?}','ProductController@deleteProduct')->name('delete.Product');
+//product edit
+Route::post('admin/productEdit','ProductController@editProduct')->name('edit.product');
+//product update updateProduct
+
+Route::post('admin/productUpdate','ProductController@updateProduct')->name('update.product');
 
 });
 

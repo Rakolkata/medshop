@@ -9,9 +9,9 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $table="batch";
+    protected $table="product";
     protected $primaryKey='id';
     protected $fillable=[
-        'id','product_name','quantity','description','status'
-    ];
+        'id','gematricName','brand',' title','stock','quantity','price','sellPrice','description'
+       ];
 }
