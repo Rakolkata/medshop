@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    protected $table="order";
+    protected $table="orderdetails";
     protected $primaryKey='id';
     protected $fillable=[
-        'id','gematricName','brand',' title','stock','quantity','price','sellPrice','description'
+        'id','customerName','orderId',' orderNumber','productId','productName','price','quantity','totalPrice','paymentMode','deliveryDate','deliveryNote'
        ];
 }

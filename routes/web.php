@@ -62,6 +62,13 @@ Route::post('admin/productEdit','ProductController@editProduct')->name('edit.pro
 Route::post('admin/productUpdate','ProductController@updateProduct')->name('update.product');
 //order
 Route::get('admin/order','orderController@create')->name('order.create');
+Route::post('admin/orderStore','orderController@store')->name('order.store');
+Route::get('admin/orderShow','orderController@show')->name('order.show');
+Route::get('admin/orderDestroy{id?}','orderController@Destroy')->name('order.delete');
+Route::post('admin/orderEdit','orderController@edit')->name('order.edit');
+Route::post('admin/orderUpdate','orderController@update')->name('order.update');
+
+
 
 
 });
