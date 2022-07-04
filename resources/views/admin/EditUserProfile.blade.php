@@ -14,7 +14,7 @@
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-  <title>Dovetail-crm</title>
+  <title>Medshop</title>
   <!-- Fonts -->
   <link href="{{asset('public/user/css/head.css?v=1.0.0')}}" rel="stylesheet">
   <!-- Icons -->

@@ -67,7 +67,13 @@ Route::get('admin/orderShow','orderController@show')->name('order.show');
 Route::get('admin/orderDestroy{id?}','orderController@Destroy')->name('order.delete');
 Route::post('admin/orderEdit','orderController@edit')->name('order.edit');
 Route::post('admin/orderUpdate','orderController@update')->name('order.update');
+Route::post('admin/orderUpdate','orderController@update')->name('order.update');
 
+//user
+Route::get('admin/addCustomer','usercontroller@create')->name('user.create');
+Route::post('admin/CustomerStore','usercontroller@store')->name('user.store');
+Route::get('admin/Customershow','usercontroller@show')->name('user.show');
+Route::get('admin/ustomerDestroy{id?}','usercontroller@delete')->name('user.delete');
 
 
 

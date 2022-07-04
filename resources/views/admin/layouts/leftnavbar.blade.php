@@ -77,6 +77,11 @@
               <i class="ni ni-tv-2 text-blue"></i>Dashboard
             </a>
           </li>
+          <li class="nav-item {{ 'admin/user' == request()->path() ? 'active' : '' }}">
+           <a class="nav-link" href="{{route('user.create')}}">
+              <i class="fa fa-th-list text-blue" ></i>Add Customer
+            </a>
+          </li>
            <li class="nav-item {{ 'admin/product' == request()->path() ? 'active' : '' }}">
            <a class="nav-link" href="{{route('product.create')}}">
               <i class="fa fa-th-list text-blue" ></i>Add Product

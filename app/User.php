@@ -20,7 +20,7 @@ class User extends Authenticatable
     protected $guard = 'users';
 
     protected $fillable = [
-        'name', 'mobile','user_name','email','user_id','password','address','state','pincode','image'
+        'name', 'mobile','user_name','email','alternate_email','user_id','address','state','pincode','image','email_verified_at'
     ];
 
     /**
@@ -28,9 +28,9 @@ class User extends Authenticatable
      *
      * @var array
      */
-    /*protected $hidden = [
+    protected $hidden = [
         'password', 'remember_token',
-    ];*/
+    ];
 
     
 }
