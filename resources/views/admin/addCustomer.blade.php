@@ -3,10 +3,10 @@
  <head>
   {{-- <link rel="stylesheet" type="text/css" href="{{asset('public/user/css/tbl.css?v=1.0.0')}}"> --}}
  <link href="{{ asset('public/css/datatables.bootstrap.css') }}" rel="stylesheet">
+ <script src="{{ asset('public/js/custom.js')}}"></script>
  @include('admin/layouts/head')
   @include('admin/layouts/masterhead')
-
- </head>
+</head>
 <body>
      @include('admin/layouts/leftnavbar')
   <!-- Main content -->
@@ -30,36 +30,33 @@
                    <div class="row jumbotron"style="padding:5px">
                    <input type="hidden" name="id"  id="id" value="">
                    <div class="col-sm-4">                                          <label for="name">Name<span style="color:red;">*</span></label>
-                     <input  type="text"  id="name"  class="typeahead  form-control form-control"  name="name" required placeholder="Enter customer name">
+                     <input  type="text"  id="name" onkeyup="checkletter(this)"  class="typeahead  form-control form-control"  name="name" required placeholder="Enter customer name">
                    </div>
                    <div class="col-sm-4">
                      <label for="user_id">Customer id<span style="color:red;">*</span></label>
-                     <input  type="text"  id="user_id"  class="typeahead  form-control form-control"  name="user_id" required placeholder="Enter  Customer id">
+                     <input  type="text"  id="user_id"  class="typeahead  form-control form-control"  name="user_id" required placeholder="Enter Customer id">
                    </div>
                   <div class="col-sm-4">
                    <label for="user_name">User name<span style="color:red;">*</span></label>
                      <input  type="text"  id="user_name"  class="typeahead  form-control form-control"  name="user_name" required placeholder="Enter User name">
                       
                   </div>
-                  <div class="col-sm-4">
+                  <div class="col-sm-4" id="password1">
                    <label for="password">Password<span style="color:red;">*</span></label>
                      <input  type="password"  id="password"  class="typeahead  form-control form-control"  name="password" required placeholder="Enter password">
                       
                   </div>
                   <div class="col-sm-4">
                    <label for="mobile">Mobile</label>
-                     <input  type="number"  id="mobile"  class="typeahead  form-control form-control"  name="mobile" placeholder="Enter mobile number">
-                      
+                     <input  type="number"  id="mobile"  class="typeahead  form-control form-control" pattern="[1-9]{1}[0-9]{9}" name="mobile" placeholder="Enter mobile number">
                   </div>
                   <div class="col-sm-4">
                    <label for="email">Email</label>
                      <input  type="email"  id="email"  class="typeahead  form-control form-control"  name="email"  placeholder="Enter Email">
-                      
                   </div>
                   <div class="col-sm-4">
                    <label for="alternate_email"> Alternate email</label>
                      <input  type="email"  id="alternate_email"  class="typeahead  form-control form-control"  name="alternate_email"  placeholder="Enter  Alternate Email">
-                      
                   </div>
                   <div class="col-sm-4">
                       <label for="address">Address</label>
@@ -77,13 +74,11 @@
                       <label for="pincode">pincode</label>
                       <input type="number" id="pincode" class="form-control" name="pincode" placeholder="Enter pincode">
                   </div>
-                  <div class="col-sm-4">
+                  <div class="col-sm-4" id="image1">
                       <label for="image">image</label>
                       <input type="file" id="image" class="form-control" name="image" placeholder="Add image">
                   </div>
-
-                   
-                     <div  class="col-sm-2 form-inline" style="padding-top:30px;">
+                  <div  class="col-sm-2 form-inline" style="padding-top:30px;">
                        <div class="row">
                       <div class="col-sm-2">
                        <button type="submit"name="send" id="submitbtn" value="Submit" class="btn btn-primary btn-sm">Save</button>
@@ -92,7 +87,7 @@
                        <a id="Update"  class="btn btn-danger btn btn-sm ">Update</a>
                        </div>
                        <div class="col-sm-4">
-                       <a id="cancel" href="{{ route('product.create') }}" class="btn btn-success btn-sm">Cancel</a>
+                       <a id="cancel" href="{{ route('user.create') }}" class="btn btn-success btn-sm">Cancel</a>
                        </div>
                        </div>
                      </div>
@@ -112,7 +107,7 @@
         <tr>
           <th scope="col">SL.No.</th>
           <th scope="col">Name</th>
-          <th scope="col">User id/th>
+          <th scope="col">User id</th>
           <th scope="col">User name</th> 
           <th scope="col">email</th>
           <th scope="col">mobile</th>
@@ -156,8 +151,9 @@
    function myfunction(item)
     {  
         document.getElementById('submitbtn').style.visibility = 'hidden';
-       document.getElementById('Update').style.visibility = 'visible';
-       document.getElementById('cancel').style.visibility = 'visible';
+        document.getElementById('image1').style.visibility = 'hidden';
+        document.getElementById('Update').style.visibility = 'visible';
+        document.getElementById('cancel').style.visibility = 'visible';
       
       $.ajaxSetup({
         headers: {
@@ -167,20 +163,21 @@
      
         $.ajax({
            type:'POST',
-           url:"{{ route('edit.product') }}",
+           url:"{{ route('user.edit') }}",
            data:{item:item},
            success:function(data){
            var item =JSON.parse(data);
              document.getElementById("id").value=item["id"];
-             document.getElementById("gematricName").value=item["gematricName"];
-             document.getElementById("brand").value=item["brand"];
-             document.getElementById("title").value=item["title"];
-             document.getElementById("stock").value=item["stock"];
-             document.getElementById("quantity").value=item["quantity"];
-             document.getElementById("price").value=item["price"];
-             document.getElementById("sellPrice").value=item["sellPrice"];
-             document.getElementById("description").value=item["description"];
-             
+             document.getElementById("name").value=item["name"];
+             document.getElementById("user_id").value=item["user_id"];
+             document.getElementById("user_name").value=item["user_name"];
+             document.getElementById("mobile").value=item["mobile"];
+             document.getElementById("email").value=item["email"];
+             document.getElementById("alternate_email").value=item["alternate_email"];
+             document.getElementById("address").value=item["address"];
+             document.getElementById("country").value=item["country"];
+             document.getElementById("state").value=item["state"];
+             document.getElementById("pincode").value=item["pincode"];
              },error: function (xhr) {
                         console.log((xhr.responseJSON.errors));
                     }
@@ -206,8 +203,7 @@ $('#Update').click(function(){
 });
     $.ajax({
        type:'POST',
-       url:"{{ route('update.product')}}",
-      
+       url:"{{ route('user.update')}}",
        data:$('#updaterecord').serialize(),
        success:function(data){ 
         if(data.status==true)

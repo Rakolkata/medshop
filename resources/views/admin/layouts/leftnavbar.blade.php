@@ -72,11 +72,7 @@
         </div>
         <!-- Navigation -->
         <ul class="navbar-nav" role="menu" aria-labelledby="menu1">
-          <li class="nav-item {{ 'admin/home' == request()->path() ? 'active' : '' }}" >
-            <a class="nav-link" href="{{ route('admin.home') }}" name="Dashboard">
-              <i class="ni ni-tv-2 text-blue"></i>Dashboard
-            </a>
-          </li>
+          
           <li class="nav-item {{ 'admin/user' == request()->path() ? 'active' : '' }}">
            <a class="nav-link" href="{{route('user.create')}}">
               <i class="fa fa-th-list text-blue" ></i>Add Customer

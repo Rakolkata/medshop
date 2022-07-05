@@ -75,6 +75,44 @@ class usercontroller extends Controller
         $com =User::where('id',$request->id)->delete();
         return back();        
     }
+    
+    public function edit(Request $request)
+     {  
+      $id=$request->post('item');
+      $item =User::where('id',$id)->first();      
+      if($item!=null)
+      {
+        return json_encode($item);
+      }
+      else{
+            $flag=false;
+        return response()->json(['success'=>$flag]);
+      }
+   }
+
+   public function update(Request $request) 
+   {  
+       $product=User::where('id',$request->id)->first();
+       $user->name = $request->name;
+       $user->user_id = $request->user_id;
+       $user->user_name = $request->user_name;
+       $user->mobile = $request->mobile;
+       $user->email = $request->email;
+       $user->alternate_email = $request->alternate_email;
+       $user->address = $request->address;
+       $user->country = $request->country;
+       $user->state = $request->state;
+       $user->pincode = $request->pincode;
+       $result=$user->save();
+       if($result)
+       {
+        $flag=true;
+       return response()->json(['status'=>$flag]);
+       }else{
+        $flag=false;
+       return response()->json(['status'=>$flag]);
+       }
+    }
 
 
 
