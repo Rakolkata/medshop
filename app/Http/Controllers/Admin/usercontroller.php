@@ -10,6 +10,8 @@ use App\Model\admin\Product;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use App\Model\admin\state;
+use App\Model\admin\country;
 
 class usercontroller extends Controller
 {
@@ -24,7 +26,9 @@ class usercontroller extends Controller
 
         $id = Auth::user()->id; 
         $user = Admin::where('id',$id)->first();
-        return view('admin.addCustomer');
+        $StateList = state::all(['PK', 'State']);
+        $CountryList = country::all(['PK','country']);
+        return view('admin.addCustomer',compact('StateList','CountryList'));
     }
 
     //store user

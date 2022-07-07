@@ -7,7 +7,7 @@
  @include('admin/layouts/head')
   @include('admin/layouts/masterhead')
 </head>
-<body>
+<body onload="OnloadFun()">
      @include('admin/layouts/leftnavbar')
   <!-- Main content -->
   <div class="main-content">
@@ -34,7 +34,7 @@
                    </div>
                    <div class="col-sm-4">
                      <label for="user_id">Customer id<span style="color:red;">*</span></label>
-                     <input  type="text"  id="user_id"  class="typeahead  form-control form-control"  name="user_id" required placeholder="Enter Customer id">
+                     <input  type="number"  id="user_id"  class="typeahead  form-control form-control"  name="user_id" required placeholder="Enter Customer id">
                    </div>
                   <div class="col-sm-4">
                    <label for="user_name">User name<span style="color:red;">*</span></label>
@@ -43,12 +43,12 @@
                   </div>
                   <div class="col-sm-4" id="password1">
                    <label for="password">Password<span style="color:red;">*</span></label>
-                     <input  type="password"  id="password"  class="typeahead  form-control form-control"  name="password" required placeholder="Enter password">
+                     <input  type="password" class="typeahead  form-control form-control"  maxlength="8" name="password" required placeholder="Enter password">
                       
                   </div>
                   <div class="col-sm-4">
                    <label for="mobile">Mobile</label>
-                     <input  type="number"  id="mobile"  class="typeahead  form-control form-control" pattern="[1-9]{1}[0-9]{9}" name="mobile" placeholder="Enter mobile number">
+                     <input  type="number"  id="mobile" onchange="ValidatePhoneNumber(this)"  class="typeahead  form-control form-control"  name="mobile" placeholder="Enter mobile number">
                   </div>
                   <div class="col-sm-4">
                    <label for="email">Email</label>
@@ -64,15 +64,29 @@
                   </div>
                   <div class="col-sm-4">
                       <label for="country">Country</label>
-                      <input type="text" id="country" class="form-control" name="country" placeholder="Enter country">
+                      <select type="text" id="country" class="form-control" name="country" placeholder="Enter country">
+                      <option selected value="India">India</option>
+                     @foreach ($CountryList as $row)
+              <option value="{{$row->country}}">{{$row->country}} 
+                          </option>
+                          @endforeach   
+                      </select>
                   </div> 
-                  <div class="col-sm-4">
+                  <div class="col-sm-4" id="india">
                       <label for="state">state</label>
-                      <input type="text" id="state" class="form-control" name="state" placeholder="Enter state">
+                      <select type="text" id="state" class="form-control" name="state" placeholder="Enter state">
+                      @foreach ($StateList as $row)
+                    <option value="{{$row->State}}">{{$row->State}}</option>
+                     @endforeach   
+                    </select>
                   </div>
+                  <div class="col-sm-3" id="other">
+                      <label for="State">State</label>
+                      <input type="text" name="foreignerState" class="form-control" placeholder=" Enter State">
+                    </div>
                   <div class="col-sm-4">
                       <label for="pincode">pincode</label>
-                      <input type="number" id="pincode" class="form-control" name="pincode" placeholder="Enter pincode">
+                      <input type="number" maxlength="6" id="pincode" class="form-control" name="pincode" placeholder="Enter pincode">
                   </div>
                   <div class="col-sm-4" id="image1">
                       <label for="image">image</label>
@@ -81,13 +95,13 @@
                   <div  class="col-sm-2 form-inline" style="padding-top:30px;">
                        <div class="row">
                       <div class="col-sm-2">
-                       <button type="submit"name="send" id="submitbtn" value="Submit" class="btn btn-primary btn-sm">Save</button>
+                       <button type="submit"name="send" id="submitbtn" value="Submit" class="btn btn-success btn-sm">Save</button>
                       </div>
                       <div class="col-sm-4-half">
-                       <a id="Update"  class="btn btn-danger btn btn-sm ">Update</a>
+                       <a id="Update"  class="btn btn-success btn btn-sm ">Update</a>
                        </div>
                        <div class="col-sm-4">
-                       <a id="cancel" href="{{ route('user.create') }}" class="btn btn-success btn-sm">Cancel</a>
+                       <a id="cancel" href="{{ route('user.create') }}" class="btn btn-danger btn-sm">Cancel</a>
                        </div>
                        </div>
                      </div>
@@ -190,7 +204,18 @@
 <script> 
  $(document).ready(function(){  
    document.getElementById('Update').style.visibility = 'hidden';
-   document.getElementById('cancel').style.visibility = 'hidden';     
+   document.getElementById('cancel').style.visibility = 'hidden';  
+    var country=document.getElementById('country').value;
+    if(country=="India")
+    {
+      $('#other').hide();
+      $('#india').show(); 
+    } else if(country!=="India")
+    {
+        $('#other').show();
+        $('#india').hide();
+         
+    }    
 });
 </script>
 </html>
@@ -215,5 +240,16 @@ $('#Update').click(function(){
                         
         }   
     },"json");
+});
+$(function() {
+    $('#country').change(function(){
+        if($('#country').val() == 'India') {
+            $('#other').hide();
+            $('#india').show(); 
+        } else if($('#country').val()!=='India') {
+            $('#other').show();
+            $('#india').hide();
+        } 
+    });
 });
 </script>

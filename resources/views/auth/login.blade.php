@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-  <title>crm-Project</title>
+  <title>Medshop</title>
   <!-- Favicon -->
   <link href="# " rel="icon" type="image/svg">
   <!-- Fonts -->
@@ -50,7 +50,7 @@
       </div>
     </nav>
     <!-- Header -->
-    <div class="header bg-gradient-primary py-7">
+    <div class="header bg-gradient-success py-7">
       <div class="container">
         <div class="header-body text-center ">
           <div class="row justify-content-center">
@@ -135,7 +135,7 @@
                   </div>
               </div><br>
                 <div class="text-center"> 
-                   <button type="submit" class="btn btn-primary my-4">
+                   <button type="submit" class="btn btn-success my-4">
                           Sign in
                        </button> 
                 </div>

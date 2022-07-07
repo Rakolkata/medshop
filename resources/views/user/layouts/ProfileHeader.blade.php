@@ -3,7 +3,7 @@
       <div class="container-fluid">
         <!-- Brand -->
        <div id="brandlogo">
-         <img alt="Image placeholder" class="rounded" src="{{ asset('public/images/fabfinner.png') }}" width="110px" height="78px">     
+         <img alt="Image placeholder" class="rounded" src="{{ asset('public/images/img.webp') }}" width="110px" height="78px">     
        </div>
 
 
@@ -71,7 +71,7 @@
       </div>
     </nav>
     <!-- Header -->
-    <div class="header bg-gradient-primary pb-4.5 pt-7 pt-md-4.5">
+    <div class="header bg-gradient-success pb-4.5 pt-7 pt-md-4.5">
       <div class="container-fluid">
        
       </div>

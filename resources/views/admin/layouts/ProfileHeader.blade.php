@@ -4,7 +4,7 @@
         <!-- Brand -->
  
        <div id="brandlogo">
-       <a href="javascript:void(0);" class="select_button1" style="padding-left:20px;"> <img alt="Image placeholder" id ="logo" class="rounded" src="" width="80px;" height="50px;">     
+       <a href="javascript:void(0);" class="select_button1" style="padding-left:20px;"> <img   alt="Image placeholder" id ="logo" class="rounded" src="{{ asset('public/images/img.webp') }}" width="80px;" height="50px;">     
 </a> 
 
 
@@ -41,7 +41,7 @@
                
               <div class="dropdown-divider"></div>
               <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
-                                         document.getElementById('logout-form').submit();">
+                document.getElementById('logout-form').submit();">
                 <i class="ni ni-user-run"></i>
                 <span>Logout</span> 
               </a> 
@@ -54,7 +54,7 @@
       </div>
     </nav>
     <!-- Header -->
-    <div class="header bg-gradient-primary pb-4.5 pt-6 pt-md-4.5">
+    <div class="header bg-gradient-success pb-4.5 pt-6 pt-md-4.5">
       <div class="container-fluid">
        
       </div>

@@ -33,7 +33,7 @@ else
   var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
   if(input_val.value.match(phoneno))
   {
-   console.log('valid');
+   console.log('Valid Mobile no');
   }
   else
   {
@@ -41,3 +41,16 @@ else
     input_val.value = "";
   }
 };
+
+  function checkPassword(input_val)
+  {
+    var password = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$/;
+    if(password.value.match(input_val))
+    {
+        console.log('Password true');
+    }
+    else{
+        alert("Password must contain at least 1 capital letter,\n\n1 small letter, 1 number and 1 special character.\n\nFor special characters you can pick one of these -,(,!,@,#,$,),%,<,>..!");
+    }   input_val.value = "";
+};
+

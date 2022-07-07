@@ -5,9 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-  <title>Dovetail-crm</title>
+  <title>Medshop</title>
   <!-- Favicon -->
-  <link href="{{ asset('public/svg/Dovetailicon.svg') }} " rel="icon" type="image/svg">
+  <link href="#" rel="icon" type="image/svg">
   <!-- Fonts -->
   <link href="{{asset('public/user/css/head.css?v=1.0.0')}}" rel="stylesheet">
   <!-- Icons -->
@@ -146,7 +146,7 @@ myInput.onkeyup = function() {
       </div>
     </nav>
     <!-- Header -->
-    <div class="header bg-gradient-primary py-7">
+    <div class="header bg-gradient-success py-7">
       <div class="container">
         <div class="header-body text-center ">
           <div class="row justify-content-center">
@@ -216,7 +216,7 @@ myInput.onkeyup = function() {
    
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-4">
-                                <center><button type="submit" class="btn btn-primary">
+                                <center><button type="submit" class="btn btn-success">
                                     Reset Password
                                 </button></center>
                             </div>
@@ -236,7 +236,10 @@ myInput.onkeyup = function() {
           </div>
         </div>
         <div class="col-xl-6">
-          <ul class="nav nav-footer justify-content-center justify-content-xl-end">            
+          <ul class="nav nav-footer justify-content-center justify-content-xl-end"> 
+          <li class="nav-item">
+               <a href="{{ route('welcome')}}" class="nav-link" target="_blank">Home</a>
+            </li>           
             <li class="nav-item">
               <a href="#" class="nav-link" target="_blank">About Us</a>
             </li>

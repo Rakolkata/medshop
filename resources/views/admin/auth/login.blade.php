@@ -9,7 +9,7 @@
   <meta name="keywords" content="Accounting Software">
   <meta name="description" content="Dovetail-crm is a technology-driven  manufacturing company  delivering Billing, Payment &amp; Delivery Solutions for Small &amp; Medium Businesses.This software  is the web version of Accounting Software and  modified version of  Tally application. It extends the feature of tally application and provide flexibility to the user to use either web application for accounting or both tally and web application but data will be synced and will provide flexibility to the user.Start 7 Days Free Trial Now!">
    <!-- Favicon -->
-  <link href="{{ asset('public/svg/Dovetailicon.svg') }} " rel="icon" type="image/svg">
+  <link href=""  rel="icon" type="image/svg">
   <!-- Fonts -->
   <link href="{{asset('public/user/css/head.css?v=1.0.0')}}" rel="stylesheet">
   <!-- Icons -->
@@ -48,12 +48,12 @@
       </div>
     </nav>
     <!-- Header -->
-    <div class="header bg-gradient-primary py-5">
+    <div class="header bg-gradient-success py-5">
       <div class="container">
         <div class="header-body text-center ">
           <div class="row justify-content-center">
             <div class="col-lg-5 col-md-6">
-              <img src="#"/> 
+              <img src=""/> 
             </div>
           </div>
         </div>
@@ -132,7 +132,7 @@
                   </div>
               </div><br>
                 <div class="text-center"> 
-                   <button type="submit" class="btn btn-primary my-2">
+                   <button type="submit" class="btn btn-success my-2">
                           Sign in
                        </button> 
                 </div>

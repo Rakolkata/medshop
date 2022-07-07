@@ -7,7 +7,7 @@
       </button>
       <!-- Brand -->
       <a class="navbar-brand pt-0" href="{{ route('home') }}">
-        <img src="#" class="navbar-brand-img"  class="rounded" alt="...">
+        <img src="{{ asset('public/images/medi.svg') }}" class="navbar-brand-img"  class="rounded" alt="...">
       </a>
       <!-- User -->
       <ul class="nav align-items-center d-md-none">
@@ -54,7 +54,7 @@
           <div class="row">
             <div class="col-6 collapse-brand">
               <a href="../index.html">
-                <img src="#">
+                <img src="{{ asset('public/images/medi.svg') }}">
               </a>
             </div>
             <div class="col-6 collapse-close">
@@ -73,13 +73,6 @@
             </a>
           </li>         
          
-           <li class="nav-item">
-            <a class="nav-link" href="{{ route('forgotpassword') }}">
-              <i class="ni ni-key-25 text-info"></i> Forgot Password
-            </a>
-          </li>        
-          
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ route('register.profile', ['id' => Auth::user()->id]) }}">
               <i class="ni ni-circle-08 text-pink"></i> Profile

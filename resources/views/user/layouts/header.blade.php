@@ -1,9 +1,9 @@
  <!-- Top navbar -->
     <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
       <div class="container-fluid">
-        <!-- Brand -->
+        <!-- Brand ---->
         <div id="brandlogo">
-         <img alt="Image placeholder" class="rounded"src="#" width="120px" height="80px">     
+         <img alt="Image placeholder" class="rounded"src="{{ asset('public/images/img.webp') }}" width="120px" height="80px">     
        </div>
         <!-- Form -->
         <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
@@ -49,7 +49,7 @@
       </div>
     </nav>
     <!-- Header -->
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="header bg-gradient-success pb-8 pt-5 pt-md-8">
       <div class="container-fluid">
         <div class="header-body">
           <!-- Card stats -->

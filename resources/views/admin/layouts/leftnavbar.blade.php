@@ -13,7 +13,7 @@
       </button>
       <!-- Brand -->
       <a class="navbar-brand pt-0" href="{{ route('home') }}">
-        <img src="#" class="navbar-brand-img" alt="..." style="padding-bottom:0px;">
+        <img src="{{ asset('public/images/medi.svg') }}"class="navbar-brand-img" alt="..." style="padding-bottom:0px;">
       </a>
       <!-- User -->
       <ul class="nav align-items-center d-md-none"  role="menu" aria-labelledby="menu1">
@@ -40,14 +40,16 @@
             <div class=" dropdown-header noti-title">
               <h6 class="text-overflow m-0">Welcome!</h6>
             </div>
-            <!---a href="#" class="dropdown-item">
-              <i class="ni ni-single-02"></i>
-              <span>My profile</span>
-            </a---> 
+            <div class="dropdown-item">
+            <a href="#">
+              <i class="ni ni-single-02"> 
+              <span>My profile</span></i>
+            </a> 
+          </div>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item">
-              <i class="ni ni-user-run"></i>
-              <span>Logout</span>
+              <i class="ni ni-user-run">
+              <span>Logout</span></i>
             </a>
           </div>
         </li>
@@ -68,24 +70,24 @@
                 <span></span>
               </button>
             </div>
-          </div>
+          </div>  
         </div>
         <!-- Navigation -->
         <ul class="navbar-nav" role="menu" aria-labelledby="menu1">
           
           <li class="nav-item {{ 'admin/user' == request()->path() ? 'active' : '' }}">
            <a class="nav-link" href="{{route('user.create')}}">
-              <i class="fa fa-th-list text-blue" ></i>Add Customer
+              <i class="fa fa-th-list text-green" ></i>Add Customer
             </a>
           </li>
            <li class="nav-item {{ 'admin/product' == request()->path() ? 'active' : '' }}">
            <a class="nav-link" href="{{route('product.create')}}">
-              <i class="fa fa-th-list text-blue" ></i>Add Product
+              <i class="fa fa-th-list text-green" ></i>Add Product
             </a>
           </li>
           <li class="nav-item {{ 'admin/order' == request()->path() ? 'active' : '' }}">
            <a class="nav-link" href="{{route('order.create')}}">
-              <i class="fa fa-th-list text-blue"></i>Order Details
+              <i class="fa fa-th-list text-green"></i>Order Details
             </a>
           </li>
         </ul>

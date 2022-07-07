@@ -30,7 +30,7 @@
                    <div class="row jumbotron"style="padding:5px">
                    <input type="hidden" name="id"  id="id" value="">
                    <div class="col-sm-4">                                          <label for="customername">Customer Name<span style="color:red;">*</span></label>
-                     <input  type="text"  id="customerName"  class="typeahead  form-control form-control"  name="customerName" required placeholder="Enter Customer Name">
+                     <input  type="text"  id="customerName"  class="typeahead  form-control form-control"  onkeyup="checkletter(this)" name="customerName" required placeholder="Enter Customer Name">
                    </div>
                    <div class="col-sm-4">
                      <label for="orderId">Order id<span style="color:red;">*</span></label>
@@ -48,12 +48,11 @@
                   </div>
                   <div class="col-sm-4">
                    <label for="productName">Product Name<span style="color:red;">*</span></label>
-                     <input  type="text"  id="productName"  class="typeahead  form-control form-control"  name="productName" required placeholder="Enter Product Name">
+                     <input  type="text" onkeyup="checkletter(this)"  id="productName"  class="typeahead  form-control form-control"  name="productName" required placeholder="Enter Product Name">
                   </div>
                   <div class="col-sm-4">
                    <label for="price">Price<span style="color:red;">*</span></label>
                      <input  type="number"  id="price"  class="typeahead  form-control form-control"  name="price" required placeholder="Enter price">
-                      
                   </div>
 
                   <div class="col-sm-4">
@@ -62,7 +61,7 @@
                       
                   </div>
                   
-                  <div class="col-sm-4">
+                  <div class="col-sm-4">calculatePrice
                    <label for="totalPrice">Total Price<span style="color:red;">*</span></label>
                      <input  type="number"  id="totalPrice"  class="typeahead  form-control form-control"  name="totalPrice" required placeholder="Enter  Total Price">
                       
@@ -82,13 +81,13 @@
                   <div  class="col-sm-2 form-inline" style="padding-top:30px;">
                        <div class="row">
                       <div class="col-sm-2">
-                       <button type="submit"name="send" id="submitbtn" value="Submit" class="btn btn-primary btn-sm">Save</button>
+                       <button type="submit"name="send" id="submitbtn" value="Submit" class="btn btn-success btn-sm">Save</button>
                       </div>
                       <div class="col-sm-4-half">
-                       <a id="Update"  class="btn btn-danger btn btn-sm ">Update</a>
+                       <a id="Update"  class="btn btn-success btn btn-sm ">Update</a>
                        </div>
                        <div class="col-sm-4">
-                       <a id="cancel" href="{{ route('order.create') }}" class="btn btn-success btn-sm">Cancel</a>
+                       <a id="cancel" href="{{ route('order.create') }}" class="btn btn-danger btn-sm">Cancel</a>
                        </div>
                        </div>
                      </div>
@@ -215,4 +214,26 @@ $('#Update').click(function(){
         }   
     },"json");
 });
+
+$(function() {
+    
+    $('#quantity').on("change", function() {
+        calculatePrice();
+    });
+    $('#price').on("change", function() {
+        calculatePrice();
+    });
+
+    function calculatePrice(){
+        var quantity = $('#quantity').val();
+        var rate = $('#price').val();
+        if(quantity != "" && rate != ""){
+            var price = quantity * rate;
+        }
+        $('#totalPrice').val(price.toFixed(2));
+    }
+});
+
+
+
 </script>

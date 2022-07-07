@@ -30,7 +30,7 @@
                    <div class="row jumbotron"style="padding:5px">
                    <input type="hidden" name="id"  id="id" value="">
                    <div class="col-sm-4">                                          <label for="gematricname">Gematric Name<span style="color:red;">*</span></label>
-                     <input  type="text"  id="gematricName"  class="typeahead  form-control form-control"  name="gematricName" required placeholder="Enter Gematric Name">
+                     <input  type="text"  id="gematricName"  onkeyup="checkletter(this)" class="typeahead  form-control form-control"  name="gematricName" required placeholder="Enter Gematric Name">
                    </div>
                    <div class="col-sm-4">
                      <label for="brand">Brand<span style="color:red;">*</span></label>
@@ -69,13 +69,13 @@
                      <div  class="col-sm-2 form-inline" style="padding-top:30px;">
                        <div class="row">
                       <div class="col-sm-2">
-                       <button type="submit"name="send" id="submitbtn" value="Submit" class="btn btn-primary btn-sm">Save</button>
+                       <button type="submit"name="send" id="submitbtn" value="Submit" class="btn btn-success btn-sm">Save</button>
                       </div>
                       <div class="col-sm-4-half">
-                       <a id="Update"  class="btn btn-danger btn btn-sm ">Update</a>
+                       <a id="Update"  class="btn btn-success btn btn-sm ">Update</a>
                        </div>
                        <div class="col-sm-4">
-                       <a id="cancel" href="{{ route('product.create') }}" class="btn btn-success btn-sm">Cancel</a>
+                       <a id="cancel" href="{{ route('product.create') }}" class="btn btn-danger btn-sm">Cancel</a>
                        </div>
                        </div>
                      </div>

@@ -12,9 +12,9 @@
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-  <title>Dovetail-crm</title>
+  <title>Medshop</title>
   <!-- Favicon -->
-  <link href="{{ asset('public/images/DovetailLogo.jpg') }}" rel="icon" type="image/jpg">
+  <link href="#" rel="icon" type="image/jpg">
   <!-- Fonts -->
   <link href="{{asset('public/user/css/head.css?v=1.0.0')}}" rel="stylesheet">
   <!-- Icons -->
@@ -183,7 +183,7 @@
               </form>
             </div>
           </div>
-          </form>
+         
         </div>
       </div>
 </body>

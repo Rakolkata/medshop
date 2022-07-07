@@ -24,8 +24,6 @@ Route::get('profile/{id?}', 'Auth\RegisterController@edit')->name('register.prof
 Route::get('admin/register/profile/{id?}', 'Auth\RegisterController@edit')->name('admin.register.profile');
 Route::patch('register/{admin}/update', 'Auth\RegisterController@update')->name('profile.update');
 
-Route::get('changePassword', 'Auth\ResetPasswordController@ShowChangePassword')->name('passwordreset.show');
-Route::post('changePassword', 'Auth\ResetPasswordController@UpdatePassword')->name('password.reset');
 
 
 Route::get('auth/Password/forgotpassword','Auth\ForgotPasswordController@index')->name('forgotpassword');
@@ -43,7 +41,7 @@ Route::get('admin/home','HomeController@index')->name('admin.home');
 
 
 
-Route::post('admin/ChangePassword', 'Auth\ResetPasswordController@UpdatePassword')->name('admin.Change.password');
+
 Route::get('admin.profile/{id?}', 'Auth\RegisterController@edit')->name('profile.register');
 Route::patch('admin/register/{user}/update', 'Auth\RegisterController@update')->name('admin.profile.update');Route::post('admin/profile/{id?}', 'Auth\RegisterController@ImageUpload')->name('admin.image.upload');
 

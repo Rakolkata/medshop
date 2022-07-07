@@ -5,11 +5,11 @@
    <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>crm : Digital Enablers for SMEs</title>
+  <title>Medshop</title>
   <meta name="keywords" content="Accounting Software">
   <meta name="description" content="crm is a technology-driven  manufacturing company  delivering Billing, Payment &amp; Delivery Solutions for Small &amp; Medium Businesses.This software  is the web version of Accounting Software and  modified version of  Tally application. It extends the feature of tally application and provide flexibility to the user to use either web application for accounting or both tally and web application but data will be synced and will provide flexibility to the user.Start 7 Days Free Trial Now!">
   <!-- Favicon -->
-  <link href="{{ asset('public/svg/Dovetailicon.svg') }} " rel="icon" type="image/svg">
+  <link href="#" rel="icon" type="image/svg">
   <!-- Fonts -->
    <link href="{{asset('public/user/css/head.css?v=1.0.0')}}" rel="stylesheet">
   <!-- Icons -->
@@ -143,7 +143,7 @@ myInput.onkeyup = function() {
       </div>
     </nav>
     <!-- Header -->
-    <div class="header bg-gradient-primary py-5">
+    <div class="header bg-gradient-success py-5">
       <div class="container">
         <div class="header-body text-center ">
           <div class="row justify-content-center">
@@ -213,7 +213,7 @@ myInput.onkeyup = function() {
    
                         <div class="form-group row mb-0">
                             <div class="col-md-4 offset-md-4">
-                                <center><button type="submit" class="btn btn-primary btn-sm">
+                                <center><button type="submit" class="btn btn-success btn-sm">
                                     Reset Password
                                 </button></center>
                             </div>

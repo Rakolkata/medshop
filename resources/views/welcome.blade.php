@@ -3,9 +3,9 @@
         <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>crm : Digital Enablers for SMEs</title>
+        <title>Medshop</title>
         <meta name="keywords" content="Accounting Software">
-        <meta name="description" content="Dovetail-crm is a technology-driven  manufacturing company  delivering Billing, Payment &amp; Delivery Solutions for Small &amp; Medium Businesses.This software  is the web version of Accounting Software and  modified version of  Tally application. It extends the feature of tally application and provide flexibility to the user to use either web application for accounting or both tally and web application but data will be synced and will provide flexibility to the user.Start 7 Days Free Trial Now!">
+        <meta name="description" content="Medshop is a technology-driven  manufacturing company  delivering Billing, Payment &amp; Delivery Solutions for Small &amp; Medium Businesses.This software  is the web version of Accounting Software and  modified version of  Tally application. It extends the feature of tally application and provide flexibility to the user to use either web application for accounting or both tally and web application but data will be synced and will provide flexibility to the user.Start 7 Days Free Trial Now!">
        <!-- Fonts -->
         <link href="{{asset('public/user/css/lnt.css?v=1.0.0')}}" rel="stylesheet" type="text/css">
          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -89,21 +89,21 @@
                     <a href="{{ url('/home') }}">Home</a>
                     @else 
                    <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius:10px;"><strong>Login</strong>
+                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius:10px;"><strong>Login</strong>
                   <span class="caret"></span></button>
                   <ul class="dropdown-menu">
                   <li><a href="{{ route('admin.login') }}"><strong>Admin login</strong></a></li>
                   <li><a href="{{ route('login') }}"><strong>User login</strong></a></li>
                   </ul>
-                   <span> <img src="# " height="30px" width="150px"></span>
+                   <span> <img src="{{ asset('public/images/imgmedshop.webp') }}" height="100%" width="100px"></span>
                   </div>
                   @endauth
                 </div>
                @endif
 
             <div class="content">
-                <span><img alt="Image placeholder" class="rounded" src="#" width="230px" height="170px"></span>
-                <div class="title m-b-mb">Ray Software Service</div>
+                <span><img alt="Image placeholder" class="rounded" src="{{ asset('public/images/img.webp') }}" width="230px" height="190px"></span>
+                <div class="title m-b-mb">MEDSHOP</div>
 
                 <div class="links" style="display:center;">
                     <a href="#">Home</a>
