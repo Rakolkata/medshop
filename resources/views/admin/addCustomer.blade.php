@@ -7,7 +7,7 @@
  @include('admin/layouts/head')
   @include('admin/layouts/masterhead')
 </head>
-<body onload="OnloadFun()">
+<body>
      @include('admin/layouts/leftnavbar')
   <!-- Main content -->
   <div class="main-content">
@@ -190,7 +190,17 @@
              document.getElementById("alternate_email").value=item["alternate_email"];
              document.getElementById("address").value=item["address"];
              document.getElementById("country").value=item["country"];
-             document.getElementById("state").value=item["state"];
+              if(item["country"]=="India"){
+                  $("#state option").filter(function(){
+                  return $(this).attr('value')==item["state"];
+                  }).attr('selected',true); 
+                  $('#india').show();
+                    $('#other').hide();
+             }else{
+                    $('#india').hide();
+                    $('#other').show(); 
+               document.getElementById("foreignerState").value=item["state"]; 
+             }
              document.getElementById("pincode").value=item["pincode"];
              },error: function (xhr) {
                         console.log((xhr.responseJSON.errors));

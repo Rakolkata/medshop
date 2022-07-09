@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
  <head>
- @include('user/layouts/head')
   <style>
     @media (max-width: 1026px) {
         #brandlogo {
@@ -12,7 +11,7 @@
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-  <title>Medshop</title>
+  <title>crm</title>
   <!-- Favicon -->
   <link href="#" rel="icon" type="image/jpg">
   <!-- Fonts -->
@@ -69,7 +68,7 @@
                     </div>
                     <div class="col-4 text">
                       {{-- <a href="#!" class="btn btn-larg btn-primary">Update</a> --}}
-                     <input type="submit" id="update" name="save" value="update" class="btn btn-primary">
+                     <input type="submit" id="update" name="save" value="update" class="btn btn-success">
                   </div>
                 </div>
               </form>
@@ -79,7 +78,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xl-8 order-xl-1 pt-md-6" style="padding-left:0px;">
+        <div class="col-xl-8 order-xl-1 pt-md-6" style="padding-left:20%;">
            <form role="form" action="{{ route('profile.update',$user) }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             {{ method_field('PATCH') }}
@@ -114,7 +113,7 @@
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-first-name">Name</label> 
-                        <input type="text" class="form-control" id="input-name" class="form-control form-control-alternative" name="name" placeholder="Name" disabled="" value="{{ $user->name }}">
+                        <input type="text" class="form-control" id="input-name" class="form-control form-control-alternative" name="name" placeholder="Name"  value="{{ $user->name }}">
 
                       </div>
                     </div>
@@ -138,26 +137,10 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label>State:</label>
-                          <select>                      
-                           <option>abc</option>
-                          </select>
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-last-name">Pin Code</label>
-                        <input type="number" id="Pin Number" class="form-control form-control-alternative" placeholder="Pin Number" name="pincode"value="{{ $user->pincode }}" >
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  
                 <br>
                 <div class="form-group" style="padding-left:100px;">
-                <input type="submit" id="Save" name="send" value="Save" class="btn btn-primary">
+                <input type="submit" id="Save" name="send" value="Save" class="btn btn-success">
               </div>
                   {{-- <div class="row">
                     <div class="col-lg-4">
@@ -183,9 +166,11 @@
               </form>
             </div>
           </div>
-         
+          </form>
         </div>
       </div>
+    </div>  
+  </div>
 </body>
 
 </html>

@@ -12,7 +12,7 @@
                 <h6 class="text-overflow m-0">Welcome!</h6>
               </div>
               <div class="dropdown-item"></div>
-                <i class="ni ni-single-02"></i>&nbsp;&nbsp;&nbsp;
+                <i class="ni ni-single-02"></i>
                 <span class="mb-0 text-sm ">My profile</span>
               </a>
                
@@ -23,7 +23,7 @@
         </ul>
       </div>
         <!-- Form -->
-        <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
+        <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto pl-10">
           <div class="form-group mb-0">
             <div class="input-group input-group-alternative">
               <div class="input-group-prepend">
@@ -36,7 +36,7 @@
         <!-- User -->
          <ul class="navbar-nav align-items-center d-none d-md-flex">
           <li class="nav-item dropdown">
-            <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="media align-items-center">
                 <span class="avatar avatar-sm rounded-circle">
                   <img alt="Image placeholder" src="{{ asset('public/user/img/theme/team-4-800x800.jpg') }}">

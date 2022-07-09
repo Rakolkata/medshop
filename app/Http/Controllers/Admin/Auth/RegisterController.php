@@ -142,7 +142,7 @@ class RegisterController extends Controller
             $user->save();
            
         }
-       echo ('<script type="text/javascript">alert("Image uploaded successfully!")</script>');    
+        echo ('<script type="text/javascript">alert("Image uploaded successfully!")</script>');    
         return back();
      }
 

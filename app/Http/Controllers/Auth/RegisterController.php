@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\File;
+use App\model\admin\state;
+use App\model\admin\country;
+
 
 class RegisterController extends Controller
 {
@@ -82,8 +85,10 @@ class RegisterController extends Controller
     public function edit($id)
     {        
         $user = User::where('id',$id)->first();  
-        $UserCode = $user->user_id;        
-        return view('user.profile',compact('user'));
+        $UserCode = $user->user_id; 
+        $StateList = state::all(['PK', 'State']);
+        $CountryList = country::all(['PK','country']);       
+        return view('user.profile',compact('user','StateList','CountryList'));
     }
 
     

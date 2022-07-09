@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Model\admin\state;
 use App\Model\admin\country;
+use Illuminate\Support\Facades\hash;
 
 class usercontroller extends Controller
 {
@@ -38,13 +39,18 @@ class usercontroller extends Controller
        $user->name = $request->name;
        $user->user_id = $request->user_id;
        $user->user_name = $request->user_name;
-       $user->password = $request->password;
+       $user->password = Hash::make(request('password'));
        $user->mobile = $request->mobile;
        $user->email = $request->email;
        $user->alternate_email = $request->alternate_email;
        $user->address = $request->address;
        $user->country = $request->country;
-       $user->state = $request->state;
+       if(request('country')=="India"){
+           $user->State=request('state');
+         }
+         else{
+           $user->State=request('foreignerState');
+         }
        $user->pincode = $request->pincode;
        if($request->hasFile('image'))
         {
@@ -52,14 +58,23 @@ class usercontroller extends Controller
             $fileName = pathinfo($fileNameExt, PATHINFO_FILENAME);
             $fileExt = $request->file('image')->getClientOriginalExtension();
             $fileNameToStore = $fileName.'_'.time().'.'.$fileExt;
-            $pathToStore = $request->file('image')->storeAs('public/images',$fileNameToStore); 
+            $pathToStore = $request->file('image')->storeAs('public/images',$fileNameToStore);
+
+            $imagestored=Auth::user()->image;
+            if($imagestored!=null)
+            {                
+                $imagepath ='storage/app/'.$imagestored;
+                if(File::exists($imagepath))
+                {                    
+                    File::delete($imagepath);
+                }                
+            }
             $user->image = $pathToStore;
-        }
             $user->save();
             return redirect()->route('user.create')
             ->with('success','Customer has been created successfully.');
        }
-
+ }
         public function show()
     {        
                $query=User::all();

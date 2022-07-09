@@ -89,7 +89,7 @@
     </div>
   </div>
   <div class="table-responsive container">
-  <h4 class="mb-0">Product List List</h4>
+  <h4 class="mb-0">Product List</h4>
     <table class="table table-bordered" id="datatable">
       <thead>
         <tr>
