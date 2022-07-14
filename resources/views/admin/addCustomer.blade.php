@@ -32,20 +32,6 @@
                    <div class="col-sm-4">                                          <label for="name">Name<span style="color:red;">*</span></label>
                      <input  type="text"  id="name" onkeyup="checkletter(this)"  class="typeahead  form-control form-control"  name="name" required placeholder="Enter customer name">
                    </div>
-                   <div class="col-sm-4">
-                     <label for="user_id">Customer id<span style="color:red;">*</span></label>
-                     <input  type="number"  id="user_id"  class="typeahead  form-control form-control"  name="user_id" required placeholder="Enter Customer id">
-                   </div>
-                  <div class="col-sm-4">
-                   <label for="user_name">User name<span style="color:red;">*</span></label>
-                     <input  type="text"  id="user_name"  class="typeahead  form-control form-control"  name="user_name" required placeholder="Enter User name">
-                      
-                  </div>
-                  <div class="col-sm-4" id="password1">
-                   <label for="password">Password<span style="color:red;">*</span></label>
-                     <input  type="password" class="typeahead  form-control form-control"  maxlength="8" name="password" required placeholder="Enter password">
-                      
-                  </div>
                   <div class="col-sm-4">
                    <label for="mobile">Mobile</label>
                      <input  type="number"  id="mobile" onchange="ValidatePhoneNumber(this)"  class="typeahead  form-control form-control"  name="mobile" placeholder="Enter mobile number">
@@ -82,15 +68,11 @@
                   </div>
                   <div class="col-sm-3" id="other">
                       <label for="State">State</label>
-                      <input type="text" name="foreignerState" class="form-control" placeholder=" Enter State">
+                      <input type="text" name="foreignerState" onkeyup="checkletter(this)"  class="form-control" placeholder=" Enter State">
                     </div>
                   <div class="col-sm-4">
                       <label for="pincode">pincode</label>
                       <input type="number" maxlength="6" id="pincode" class="form-control" name="pincode" placeholder="Enter pincode">
-                  </div>
-                  <div class="col-sm-4" id="image1">
-                      <label for="image">image</label>
-                      <input type="file" id="image" class="form-control" name="image" placeholder="Add image">
                   </div>
                   <div  class="col-sm-2 form-inline" style="padding-top:30px;">
                        <div class="row">
@@ -121,8 +103,6 @@
         <tr>
           <th scope="col">SL.No.</th>
           <th scope="col">Name</th>
-          <th scope="col">User id</th>
-          <th scope="col">User name</th> 
           <th scope="col">email</th>
           <th scope="col">mobile</th>
           <th scope="col">address</th>
@@ -147,8 +127,6 @@
             
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             { data: 'name', name: 'name' },
-            { data: 'user_id', name: 'user_id' },
-            { data: 'user_name', name: 'user_name' },
             { data: 'email', name: 'email' },
             { data: 'mobile', name: 'mobile' },
             { data: 'address', name: 'address' },
@@ -165,7 +143,6 @@
    function myfunction(item)
     {  
         document.getElementById('submitbtn').style.visibility = 'hidden';
-        document.getElementById('image1').style.visibility = 'hidden';
         document.getElementById('Update').style.visibility = 'visible';
         document.getElementById('cancel').style.visibility = 'visible';
       
@@ -183,8 +160,6 @@
            var item =JSON.parse(data);
              document.getElementById("id").value=item["id"];
              document.getElementById("name").value=item["name"];
-             document.getElementById("user_id").value=item["user_id"];
-             document.getElementById("user_name").value=item["user_name"];
              document.getElementById("mobile").value=item["mobile"];
              document.getElementById("email").value=item["email"];
              document.getElementById("alternate_email").value=item["alternate_email"];

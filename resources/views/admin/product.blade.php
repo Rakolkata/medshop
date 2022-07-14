@@ -6,7 +6,7 @@
  @include('admin/layouts/head')
   @include('admin/layouts/masterhead')
 
- </head>
+</head>
 <body>
      @include('admin/layouts/leftnavbar')
   <!-- Main content -->
@@ -24,9 +24,9 @@
               <div class="row" id="demo">
                  <div class="col-md-12">
                   <div class="container">
-                    <form method="post" id="updaterecord" action="{{ route('product.store') }}">
+                    <form method="post" id="updaterecord" action="{{ route('product.store') }}" enctype="multipart/form-data">
                       @csrf
-                       <h4 style="text-align:center;color:#000033;">Add Product</h4>
+                    <h4 style="text-align:center;color:#000033;">Add Product</h4>
                    <div class="row jumbotron"style="padding:5px">
                    <input type="hidden" name="id"  id="id" value="">
                    <div class="col-sm-4">                                          <label for="gematricname">Gematric Name<span style="color:red;">*</span></label>
@@ -65,14 +65,17 @@
                       <label for="description">Description<span style="color:red;">*</span></label>
                       <input type="text" id="description" class="form-control" name="description" placeholder="Enter description" required>
                   </div>
-                   
-                     <div  class="col-sm-2 form-inline" style="padding-top:30px;">
+                   <div class="col-sm-4">
+                      <label for="image">Image</label>
+                      <input type="file" id="image" class="form-control" name="image">
+                  </div>
+                  <div  class="col-sm-2 form-inline" style="padding-top:30px;">
                        <div class="row">
                       <div class="col-sm-2">
                        <button type="submit"name="send" id="submitbtn" value="Submit" class="btn btn-success btn-sm">Save</button>
                       </div>
                       <div class="col-sm-4-half">
-                       <a id="Update"  class="btn btn-success btn btn-sm ">Update</a>
+                       <a id="Update"  class="btn btn-success btn btn-sm">Update</a>
                        </div>
                        <div class="col-sm-4">
                        <a id="cancel" href="{{ route('product.create') }}" class="btn btn-danger btn-sm">Cancel</a>
@@ -163,6 +166,7 @@
              document.getElementById("price").value=item["price"];
              document.getElementById("sellPrice").value=item["sellPrice"];
              document.getElementById("description").value=item["description"];
+             document.getElementById("image").value=item["image"];
              
              },error: function (xhr) {
                         console.log((xhr.responseJSON.errors));

@@ -129,13 +129,14 @@ class RegisterController extends Controller
 
     public function update(User $user)
     { 
-          $data = $this->validator([           
+          $data = $this->validator([ 
+           'name' => ['required', 'string', 'max:255'],          
            'mobile' => ['required', 'string'],
            'address' => ['required', 'string','max:255'],
            'state'=>['required','string','max:30'],
            'pincode'=>['required','string','min:6','max:6'],
         ]);
-        
+        $user->name = request('name');
         $user->mobile = request('mobile');
         $user->address = request('address');
         $user->state = request('state'); 

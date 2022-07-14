@@ -37,7 +37,7 @@
                 <h6 class="text-overflow m-0"> Welcome ! </h6>
               </div>
               <div class="dropdown-item"></div>
-                <a href="#">
+                <a href="{{route('admin.register.profile', ['id' => Auth::user()->id])}}">
                 <i class="ni ni-single-02"></i>
                 <span> My profile </span>
               </a>

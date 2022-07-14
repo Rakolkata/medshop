@@ -24,7 +24,7 @@ return new class extends Migration
             $table->biginteger('quantity');
             $table->biginteger('totalPrice');
             $table->string('paymentMode',100);
-            $table->datetime('deliveryDate');
+            $table->date('deliveryDate');
             $table->text('deliveryNote');
             $table->timestamps();
         });

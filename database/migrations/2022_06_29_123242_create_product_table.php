@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('price');
             $table->decimal('sellPrice');
             $table->string('description',300);
+            $table->string('image');
             $table->timestamps();
         });
     }

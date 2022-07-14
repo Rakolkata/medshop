@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html>
  <head>
-  <style>
-    @media (max-width: 1026px) {
+  {{-- <link rel="stylesheet" type="text/css" href="{{asset('public/user/css/tbl.css?v=1.0.0')}}"> --}}
+ <link href="{{ asset('public/css/datatables.bootstrap.css') }}" rel="stylesheet">
+ @include('user/layouts/head')
+ <style>
+    @media (max-width: 1032px) {
         #brandlogo {
-            display: none;
+            display: block;
         }
     }
 </style>
 <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
-  <title>crm</title>
-  <!-- Favicon -->
-  <link href="#" rel="icon" type="image/jpg">
-  <!-- Fonts -->
-  <link href="{{asset('public/user/css/head.css?v=1.0.0')}}" rel="stylesheet">
+   <link href="{{asset('public/user/css/head.css?v=1.0.0')}}" rel="stylesheet">
   <!-- Icons -->
   <link href="{{ asset('public/user/vendor/nucleo/css/nucleo.css') }}" rel="stylesheet">
   <link href="{{ asset('public/user/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
@@ -41,7 +38,7 @@
               <div class="col-lg-3 order-lg-2">
                 <div class="card-profile-image">
                  <a href="#">
-                    <img src="{{ URL::asset('storage/app')}} {{'/'.$user->image}}" class="rounded-circle" alt="" onerror=this.src="{{ asset('public/user/img/theme/team-4-800x800.jpg') }}">
+                    <img src="{{ URL::asset('storage/app')}} {{'/'.$user->image}}" class="rounded-circle" alt="" onerror=this.src="{{ asset('public/user/img/theme/team-4-800x800.jpg') }}" >
                   </a>
                 </div>
               </div>

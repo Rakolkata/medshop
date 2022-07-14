@@ -41,7 +41,7 @@
               <h6 class="text-overflow m-0">Welcome!</h6>
             </div>
             <div class="dropdown-item">
-            <a href="#">
+            <a href="#"> 
               <i class="ni ni-single-02"> 
               <span>My profile</span></i>
             </a> 
@@ -77,19 +77,26 @@
           
           <li class="nav-item {{ 'admin/user' == request()->path() ? 'active' : '' }}">
            <a class="nav-link" href="{{route('user.create')}}">
-              <i class="fa fa-th-list text-green" ></i>Add Customer
+              <i class="fa fa-th-list text-green" ></i>Customers
             </a>
           </li>
            <li class="nav-item {{ 'admin/product' == request()->path() ? 'active' : '' }}">
            <a class="nav-link" href="{{route('product.create')}}">
-              <i class="fa fa-th-list text-green" ></i>Add Product
+              <i class="fa fa-th-list text-green" ></i>Products
             </a>
           </li>
           <li class="nav-item {{ 'admin/order' == request()->path() ? 'active' : '' }}">
            <a class="nav-link" href="{{route('order.create')}}">
-              <i class="fa fa-th-list text-green"></i>Order Details
+              <i class="fa fa-th-list text-green"></i>Orders
             </a>
           </li>
+          {{-- --}} 
+          <li class="nav-item {{ 'admin.profile/1' == request()->path() ? 'active' : '' }}">
+           <a class="nav-link" href="{{ route('profile.register', ['id' => Auth::user()->id]) }}">
+              <i class="ni ni-circle-08 text-green"></i>Profile
+            </a>
+          </li>{{-- --}}
+
         </ul>
         
       </div>

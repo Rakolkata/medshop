@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\admin;
-
 use App\Http\Controllers\Controller;
 use App\Model\admin\Admin;
 use Illuminate\Http\Request;
@@ -42,6 +41,15 @@ class ProductController extends Controller
        $product->price = $request->price;
        $product->sellPrice = $request->sellPrice;
        $product->description = $request->description;
+        if($request->hasfile('image'))
+        {
+            $fileNameExt = $request->file('image')->getClientOriginalName();
+            $fileName = pathinfo($fileNameExt, PATHINFO_FILENAME);
+            $fileExt = $request->file('image')->getClientOriginalExtension();
+            $fileNameToStore = $fileName.'_'.time().'.'.$fileExt;
+            $pathToStore = $request->file('image')->storeAs('public/images',$fileNameToStore);
+            $product->image=$pathToStore;
+        }
        $product->save();
        return redirect()->route('product.create')
        ->with('success','Product has been created successfully.');
@@ -83,6 +91,23 @@ class ProductController extends Controller
    public function updateProduct(Request $request) 
    {  
        $product=Product::where('id',$request->id)->first();
+       if($request->hasFile('image'))
+      {
+
+        if($request->image!=null){
+            $imagepath ='storage/app/'.$product->image;
+            if(File::exists($imagepath))
+            {                    
+                File::delete($imagepath);            
+            }
+        }
+        $fileNameExt = $request->file('image')->getClientOriginalName();
+        $fileName = pathinfo($fileNameExt, PATHINFO_FILENAME);
+        $fileExt = $request->file('image')->getClientOriginalExtension();
+        $fileNameToStore = $fileName.'_'.time().'.'.$fileExt;
+        $pathToStore = $request->file('image')->storeAs('public/images',$fileNameToStore);
+        $product->image=$pathToStore;
+      }
        $product->gematricName = $request->gematricName;
        $product->brand = $request->brand;
        $product->stock = $request->stock;

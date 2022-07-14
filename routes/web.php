@@ -18,13 +18,12 @@
 Route::get('/','mainPageController@welcomeindex')->name('welcome');
 
 
+
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('profile/{id?}', 'Auth\RegisterController@edit')->name('register.profile');
-Route::get('admin/register/profile/{id?}', 'Auth\RegisterController@edit')->name('admin.register.profile');
-Route::patch('register/{admin}/update', 'Auth\RegisterController@update')->name('profile.update');
-
-
+Route::get('/home','HomeController@index')->name('home');
+Route::get('profile/{id?}','Auth\RegisterController@edit')->name('register.profile');
+Route::get('admin/register/profile/{id?}','Auth\RegisterController@edit')->name('admin.register.profile');
+Route::patch('register/{admin}/update','Auth\RegisterController@update')->name('profile.update');
 
 Route::get('auth/Password/forgotpassword','Auth\ForgotPasswordController@index')->name('forgotpassword');
 Route::post('auth/Password/forgotpassword','Auth\ForgotPasswordController@validate_user')->name('validate.forgotpassword');

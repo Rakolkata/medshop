@@ -102,7 +102,6 @@
                             {{$row->State}}">{{$row->State}} 
                           </option>
                           @endforeach                         
-
                           </select>
                       </div>
                     </div>
@@ -116,7 +115,7 @@
                 </div>
                 <br>
                 <div class="col-lg-12 col-sm-6">
-                <center><input type="submit" id="Save" name="send" value="Save" class="btn btn-primary"></center>
+                <center><input type="submit" id="Save" name="send" value="Save" class="btn btn-success"></center>
               </div>
                   {{-- <div class="row">
                     <div class="col-lg-4">
@@ -142,8 +141,7 @@
               </form>
             </div>
           </div>
-
-          </form>
+         </form>
         </div>
       </div>
 </body>

@@ -65,7 +65,7 @@
                     </div>
                     <div class="col-4 text">
                       {{-- <a href="#!" class="btn btn-larg btn-primary">Update</a> --}}
-                     <input type="submit" id="update" name="save" value="update" class="btn btn-primary">
+                     <input type="submit" id="update" name="save" value="update" class="btn btn-success">
                   </div>
                 </div>
               </form>
@@ -158,7 +158,7 @@
                 </div>
                 <br>
                 <div class="form-group" style="padding-left:100px;">
-                <input type="submit" id="Save" name="send" value="Save" class="btn btn-primary">
+                <input type="submit" id="Save" name="send" value="Save" class="btn btn-success">
               </div>
                   {{-- <div class="row">
                     <div class="col-lg-4">

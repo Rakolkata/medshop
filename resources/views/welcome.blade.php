@@ -38,9 +38,9 @@
             }
 
             .top-right {
-                position: absolute;
+                position:fixed;
                 right:10px;
-                top: 18px;
+                top: 0px;
             }
 
             .content {
@@ -64,9 +64,9 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
-            .btn-primary{
+            .btn-success{
                 color: #fff !important;
-                background-color: gold; 
+                background-color:success; 
                 display: inline-block;
                 padding: 10px !important;
                 text-align: center;

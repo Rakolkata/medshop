@@ -52,28 +52,10 @@ class usercontroller extends Controller
            $user->State=request('foreignerState');
          }
        $user->pincode = $request->pincode;
-       if($request->hasFile('image'))
-        {
-            $fileNameExt = $request->file('image')->getClientOriginalName();
-            $fileName = pathinfo($fileNameExt, PATHINFO_FILENAME);
-            $fileExt = $request->file('image')->getClientOriginalExtension();
-            $fileNameToStore = $fileName.'_'.time().'.'.$fileExt;
-            $pathToStore = $request->file('image')->storeAs('public/images',$fileNameToStore);
-
-            $imagestored=Auth::user()->image;
-            if($imagestored!=null)
-            {                
-                $imagepath ='storage/app/'.$imagestored;
-                if(File::exists($imagepath))
-                {                    
-                    File::delete($imagepath);
-                }                
-            }
-            $user->image = $pathToStore;
-            $user->save();
+       $user->save();
             return redirect()->route('user.create')
             ->with('success','Customer has been created successfully.');
-       }
+       
  }
         public function show()
     {        
@@ -110,11 +92,9 @@ class usercontroller extends Controller
    }
 
    public function update(Request $request) 
-   {  
-       $product=User::where('id',$request->id)->first();
+   {   
+       $user=User::where('id',$request->id)->first();
        $user->name = $request->name;
-       $user->user_id = $request->user_id;
-       $user->user_name = $request->user_name;
        $user->mobile = $request->mobile;
        $user->email = $request->email;
        $user->alternate_email = $request->alternate_email;
@@ -123,6 +103,7 @@ class usercontroller extends Controller
        $user->state = $request->state;
        $user->pincode = $request->pincode;
        $result=$user->save();
+
        if($result)
        {
         $flag=true;

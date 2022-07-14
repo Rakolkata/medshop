@@ -4,16 +4,14 @@ namespace App\Http\Controllers\Admin\Auth;
 use App\Rules\MatchOldPassword;
 use App\Http\Controllers\Controller;
 use App\Model\admin\Admin;
-use App\Model\API\CustomerMasterModel;
-use App\Model\API\InvoiceMasters;
-use App\Model\API\SaleSubscription;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use App\tblstate;
 use Illuminate\Support\Facades\File;
+use App\Model\admin\state;
+use App\Model\admin\country;
 
 class RegisterController extends Controller
 {
@@ -83,22 +81,13 @@ class RegisterController extends Controller
 
 
     public function edit($id)
-    {         
+    {   
+        $StateList = state::all(['PK', 'State']);
+        $CountryList = country::all(['PK','country']);      
         $user =Admin::where('id',$id)->first();
-        $headData = $this->deshboard_count();
-        $StateList = tblstate::all(['PK', 'State']);
-        return view('admin.profile',compact('user','headData','StateList'));   
+        return view('admin.profile',compact('user','StateList','CountryList'));   
     }
-
-
-    public function ShowChangePassword()
-    {
-        //$id = Auth::user()->user_id; 
-        //$admin = Admin::where('id',$id)->first();
-        $headData = $this->deshboard_count();
-        return view('admin/ChangePassword',compact('headData'));
-    }
-
+   
    public function ChangePassword(Request $request)
    {
          $request->validate([
@@ -166,40 +155,5 @@ class RegisterController extends Controller
 
         return back();
     }
-    public function deshboard_count()
-    {
-        $paid=0;
-        $unpaid=0;
-        $totalamt=0;
-        $recamt=0;
-        $id=Auth::user()->id;
-        $Subscriptionquery=SaleSubscription::where('id',$id)->count();
-        $Invoicequery=InvoiceMasters::where('customer_id',$id)->get();
-        $balance=0;
-
-
-        foreach($Invoicequery as $row)
-        {
-          $totalamt=isset(InvoiceMasters::find($row->id)->ledgers()->first()->amount)?InvoiceMasters::find($row->id)->ledgers()->first()->amount:"0";
-           $recamt =InvoiceMasters::find($row->id)->receipt()->sum('amount');
-            if($totalamt==$recamt)
-            {
-             $paid++;
-            }
-            else{
-             $unpaid ++;
-            }
-        }
-
-
-
-        return array(
-            'subscription'=>$Subscriptionquery,
-            'invoice'=>$Invoicequery->count(),
-            'paid'=>$paid,
-            'unpaid'=>$unpaid,
-            'balance'=>$balance
-        );
-
-    }
+    
 }

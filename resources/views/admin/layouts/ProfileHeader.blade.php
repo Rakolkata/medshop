@@ -22,7 +22,7 @@
             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="media align-items-center">
                 <span class="avatar avatar-sm rounded-circle">
-                 <img src="#" class="rounded-circle" alt="" onerror=this.src="#" >
+                 <img src="" class="rounded-circle">
                 </span>
                 <div class="media-body ml-2 d-none d-lg-block">
                   <span class="mb-0 text-sm  font-weight-bold">{{Auth::user()->name}}</span>
@@ -34,7 +34,7 @@
                 <h6 class="text-overflow m-0">Welcome!</h6>
               </div>
               <div class="dropdown-item"></div>
-                <a href="#">
+                <a href="{{route('admin.register.profile', ['id' => Auth::user()->id])}}">
                 <i class="ni ni-single-02"></i>
                 <span>My profile</span>
               </a>
