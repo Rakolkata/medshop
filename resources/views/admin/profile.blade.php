@@ -31,14 +31,14 @@
     <!-- Page content -->
       <div class="container-fluid mt--7">
          
-      <div class="row" style="padding-top:40px;">
+         <div class="row" style="padding-top:40px;">
         <div class="col-xl-4 order-xl-2 mb-5 pt-md-9 mb-xl-0">
           <div class="card card-profile shadow">
             <div class="row justify-content-center">
               <div class="col-lg-3 order-lg-2">
                 <div class="card-profile-image">
                  <a href="#">
-                    <img src="{{ URL::asset('storage/app')}} {{'/'.$user->image}}" class="rounded-circle" alt="" onerror=this.src="{{ asset('public/user/img/theme/team-4-800x800.jpg') }}" >
+                    <img src="{{ URL::asset('storage/app')}} {{'/'.$user->image}}" class="rounded-circle" alt="">
                   </a>
                 </div>
               </div>
@@ -186,7 +186,9 @@
           </div>
           </form>
         </div>
+         </div>
       </div>
+  </div>
 </body>
 
 </html>

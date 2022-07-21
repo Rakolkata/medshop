@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\admin;
-
 use App\Http\Controllers\Controller;
 use App\Model\admin\Admin;
 use Illuminate\Http\Request;
@@ -13,6 +12,7 @@ use App\User;
 use App\Model\admin\state;
 use App\Model\admin\country;
 use Illuminate\Support\Facades\hash;
+use Illuminate\Support\Facades\Validator;
 
 class usercontroller extends Controller
 {
@@ -32,9 +32,40 @@ class usercontroller extends Controller
         return view('admin.addCustomer',compact('StateList','CountryList'));
     }
 
+    public function GetUserByName(Request $request)
+     {        
+       $name=$request->post('name');
+       $Userlist=User::select("id","name")
+                    ->where('name','LIKE',"%$name%")
+                   
+                    ->get();          
+      if($Userlist!=null)
+      {
+        return json_encode($Userlist);
+      }
+      else{
+        $flag=false;
+        return response()->json(['success'=>$flag]);
+      }
+        
+    }
+
     //store user
     public function store(Request $request)
      { 
+
+        $request->validate([
+            'name' =>'required', 'string', 'max:255',
+            'user_id'=>'required',
+            'user_name'=>'required','string',
+            'mobile'=>'max:10',
+            'email'=>'email:rfc,dns',
+            'alternate_email'=>'email:rfc,dns',
+            'address' =>'required','string',
+            'country' =>'required','string',
+            'State'=>'required','string',
+            'pincode'=>'required','min:6','max:6',
+         ]);
        $user = new User;
        $user->name = $request->name;
        $user->user_id = $request->user_id;
@@ -93,6 +124,19 @@ class usercontroller extends Controller
 
    public function update(Request $request) 
    {   
+       $request->validate([
+            'name' =>'required', 'string', 'max:255',
+            'user_id'=>'required',
+            'user_name'=>'required','string',
+            'mobile'=>'max:10',
+            'email'=>'email:rfc,dns',
+            'alternate_email'=>'email:rfc,dns',
+            'address' =>'required','string',
+            'country' =>'required','string',
+            'State'=>'required','string',
+            'pincode'=>'required','min:6','max:6',
+         ]);
+
        $user=User::where('id',$request->id)->first();
        $user->name = $request->name;
        $user->mobile = $request->mobile;

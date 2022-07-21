@@ -11,6 +11,7 @@ use App\Model\admin\Order;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use Illuminate\Support\Facades\Validator;
 class orderController extends Controller
 {
     public function __construct()
@@ -31,6 +32,21 @@ class orderController extends Controller
      //store Order Details
      public function store(Request $request)
      { 
+        $request->validate([
+            'customerName' =>'required', 'string', 'max:255',
+            'orderId'=>'required',
+            'productId'=>'required',
+            'productName'=>'required',
+            'orderNumber'=>'required','string',
+            'quantity'=>'required',
+            'price'=>'required',
+            'totalPrice'=>'required',
+            'paymentMode' =>'required','string',
+            'deliveryDate' =>'date',
+            'deliveryNote'=>'required','string',
+            
+         ]);
+
        $orderDetail = new Order;
        $orderDetail->customerName = $request->customerName;
        $orderDetail->orderId = $request->orderId;
@@ -44,6 +60,7 @@ class orderController extends Controller
        $orderDetail->deliveryDate = $request->deliveryDate;
        $orderDetail->deliveryNote = $request->deliveryNote;
        $orderDetail->save();
+       
        return redirect()->route('order.create')
        ->with('success','Order has been created successfully.');
        }
@@ -82,6 +99,21 @@ class orderController extends Controller
      }
       public function update(Request $request) 
    {  
+
+      $request->validate([
+            'customerName' =>'required', 'string', 'max:255',
+            'orderId'=>'required',
+            'productId'=>'required',
+            'productName'=>'required',
+            'orderNumber'=>'required','string',
+            'quantity'=>'required',
+            'price'=>'required',
+            'totalPrice'=>'required',
+            'paymentMode' =>'required','string',
+            'deliveryDate' =>'date',
+            'deliveryNote'=>'required','string',
+            
+         ]);
        $orderDetail=Order::where('id',$request->id)->first();
        $orderDetail->customerName = $request->customerName;
        $orderDetail->orderId = $request->orderId;

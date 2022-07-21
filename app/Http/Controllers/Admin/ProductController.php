@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Model\admin\Product;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use App\User;
 
 
@@ -28,10 +29,39 @@ class ProductController extends Controller
        return view('admin.product');
     }
 
+    public function GetProductByName(Request $request)
+     {        
+       $name=$request->post('gematricName');
+       $Productlist=Product::select("id","gematricName")
+                    ->where('gematricName','LIKE',"%$name%")
+                   
+                    ->get();          
+      if($Productlist!=null)
+      {
+        return json_encode($Productlist);
+      }
+      else{
+        $flag=false;
+        return response()->json(['success'=>$flag]);
+      }
+        
+    }
+
 
     //store product
     public function store(Request $request)
      { 
+        $request->validate([
+            'gematricName' =>'required', 'string', 'max:255',
+            'brand'=>'required','string',
+            'stock'=>'required','string',
+            'quantity'=>'required',
+            'price'=>'required',
+            'sellPrice'=>'required',
+            'description' =>'required',
+            'title' =>'required|max:255',
+            'image' =>'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+         ]);
        $product = new Product;
        $product->gematricName = $request->gematricName;
        $product->brand = $request->brand;
@@ -90,6 +120,18 @@ class ProductController extends Controller
    
    public function updateProduct(Request $request) 
    {  
+      
+      $request->validate([
+            'gematricName' =>'required', 'string', 'max:255',
+            'brand'=>'required','string',
+            'stock'=>'required','string',
+            'quantity'=>'required',
+            'price'=>'required',
+            'sellPrice'=>'required',
+            'description' =>'required',
+            'title' =>'required|max:255',
+            'image' =>'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+         ]);
        $product=Product::where('id',$request->id)->first();
        if($request->hasFile('image'))
       {

@@ -26,7 +26,7 @@
           <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <div class="media align-items-center">
               <span class="avatar avatar-sm rounded-circle">
-                <img src="#" alt="" onerror=this.src="{{ asset('public/user/img/theme/team-4-800x800.jpg') }}">
+                <img src="{{ asset('public/user/img/theme/team-4-800x800.jpg') }}" alt="" >
               </span>
             </div>
           </a>

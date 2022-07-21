@@ -38,7 +38,7 @@
               <div class="col-lg-3 order-lg-2">
                 <div class="card-profile-image">
                  <a href="#">
-                    <img src="{{ URL::asset('storage/app')}} {{'/'.$user->image}}" class="rounded-circle" alt="" onerror=this.src="{{ asset('public/user/img/theme/team-4-800x800.jpg') }}" >
+                    <img src="{{ URL::asset('storage/app')}} {{'/'.$user->image}}" class="rounded-circle" alt="" >
                   </a>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+            <!DOCTYPE html>
 <html>
  <head>
   {{-- <link rel="stylesheet" type="text/css" href="{{asset('public/user/css/tbl.css?v=1.0.0')}}"> --}}
@@ -17,12 +17,19 @@
       <div class="container-fluid mt--7">
          
       <div class="row" style="padding-top:110px;">
-       <div class="col">
+        <div class="col">
+          @if (\Session::has('message'))
+        <div class="alert alert-success alert-dismissible" style="margin-top:10px;">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>{!! \Session::get('message') !!}</strong> 
+       </div>
+        @endif
           <div class="card shadow">
-              
             <div class="card-header border-0">
-              <div class="row" id="demo">
-                 <div class="col-md-12">
+             
+              <div class="row">
+                <div id="show" ><button class="btn-success">Add New</button></div>
+                 <div class="col-md-12" style="display: none;" id="menu">
                   <div class="container">
                     <form method="post" id="updaterecord" action="{{ route('order.store') }}">
                       @csrf
@@ -30,53 +37,85 @@
                    <div class="row jumbotron"style="padding:5px">
                    <input type="hidden" name="id"  id="id" value="">
                    <div class="col-sm-4">                                          <label for="customername">Customer Name<span style="color:red;">*</span></label>
-                     <input  type="text"  id="customerName"  class="typeahead  form-control form-control"  onkeyup="checkletter(this)" name="customerName" required placeholder="Enter Customer Name">
+                     <input  type="text"  id="customerName"  class="@error('customerName') is-invalid @enderror form-control"  onkeyup="checkletter(this)" name="customerName" placeholder="Enter Customer Name">
+                     @error('customerName')
+                      <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                     @enderror
                    </div>
                    <div class="col-sm-4">
                      <label for="orderId">Order id<span style="color:red;">*</span></label>
-                     <input  type="number"  id="orderId"  class="typeahead  form-control form-control"  name="orderId" required placeholder="Enter  Order Id">
+                     <input  type="number"  id="orderId"  class="@error('orderId') is-invalid @enderror form-control"  name="orderId"  placeholder="Enter  Order Id">
+                     @error('orderId')
+                      <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                     @enderror
                    </div>
                   <div class="col-sm-4">
                    <label for="orderNumber">Order Number<span style="color:red;">*</span></label>
-                     <input  type="text"  id="orderNumber"  class="typeahead  form-control form-control"  name="orderNumber" required placeholder="Enter Order Number">
-                      
+                     <input  type="text"  id="orderNumber"  class="@error('orderNumber') is-invalid @enderror form-control"  name="orderNumber"  placeholder="Enter Order Number">
+                      @error('orderNumber')
+                      <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                     @enderror
                   </div>
                   <div class="col-sm-4">
                    <label for="productId">Product id<span style="color:red;">*</span></label>
-                     <input  type="number"  id="productId"  class="typeahead  form-control form-control"  name="productId" required placeholder="Enter Product Id">
+                     <input  type="number"  id="productId"  class="@error('productId') is-invalid @enderror form-control"  name="productId"  placeholder="Enter Product Id">
+                     @error('productId')
+                      <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                     @enderror
                       
                   </div>
                   <div class="col-sm-4">
                    <label for="productName">Product Name<span style="color:red;">*</span></label>
-                     <input  type="text" onkeyup="checkletter(this)"  id="productName"  class="typeahead  form-control form-control"  name="productName" required placeholder="Enter Product Name">
+                     <input  type="text" onkeyup="checkletter(this)"  id="productName"  class="@error('productName') is-invalid @enderror form-control"  name="productName"  placeholder="Enter Product Name">
+                     @error('productName')
+                      <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                     @enderror
                   </div>
                   <div class="col-sm-4">
                    <label for="price">Price<span style="color:red;">*</span></label>
-                     <input  type="number"  id="price"  class="typeahead  form-control form-control"  name="price" required placeholder="Enter price">
+                     <input  type="number"  id="price"  class="@error('price') is-invalid @enderror form-control"  name="price"  placeholder="Enter price">
+                     @error('price')
+                      <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                     @enderror
                   </div>
 
                   <div class="col-sm-4">
                    <label for="qnty">Quantity<span style="color:red;">*</span></label>
-                     <input  type="number"  id="quantity"  class="typeahead  form-control form-control"  name="quantity" required placeholder="Enter qnty">
+                     <input  type="number"  id="quantity"  class="@error('quantity') is-invalid @enderror form-control"  name="quantity"  placeholder="Enter qnty">
+                     @error('quantity')
+                      <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                     @enderror
                       
                   </div>
                   
-                  <div class="col-sm-4">calculatePrice
+                  <div class="col-sm-4">
                    <label for="totalPrice">Total Price<span style="color:red;">*</span></label>
-                     <input  type="number"  id="totalPrice"  class="typeahead  form-control form-control"  name="totalPrice" required placeholder="Enter  Total Price">
+                     <input  type="number"  id="totalPrice"  class="@error('totalPrice') is-invalid @enderror form-control"  name="totalPrice"  placeholder="Enter  Total Price">
+                     @error('totalPrice')
+                      <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                     @enderror
                       
                   </div>
                   <div class="col-sm-4">
                       <label for="paymentMode">Mode of Payment<span style="color:red;">*</span></label>
-                      <input type="text" id="paymentMode" class="form-control" name="paymentMode" placeholder="Enter Mode of Payment" required>
+                      <input type="text" id="paymentMode" class="@error('paymentMode') is-invalid @enderror form-control" name="paymentMode" placeholder="Enter Mode of Payment">
+                      @error('paymentMode')
+                      <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                     @enderror
                   </div>
                   <div class="col-sm-4">
                       <label for="deliveryDate">Delivery Date<span style="color:red;">*</span></label>
-                      <input type="date" id="deliveryDate" class="form-control" name="deliveryDate" placeholder="Enter Delivery Date" required>
+                      <input type="date" id="deliveryDate" class="@error('deliveryDate') is-invalid @enderror form-control" name="deliveryDate" placeholder="Enter Delivery Date">
+                      @error('deliveryDate')
+                      <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                     @enderror
                   </div>
                   <div class="col-sm-8">
                       <label for="deliveryNote">Delivery Note<span style="color:red;">*</span></label>
-                      <input type="text" id="deliveryNote" class="form-control" name="deliveryNote" placeholder="Enter Delivery Note" required>
+                      <input type="text" id="deliveryNote" class="@error('deliveryNote') is-invalid @enderror form-control" name="deliveryNote" placeholder="Enter Delivery Note">
+                      @error('deliveryNote')
+                      <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                     @enderror
                   </div>
                   <div  class="col-sm-2 form-inline" style="padding-top:30px;">
                        <div class="row">
@@ -123,7 +162,7 @@
 </body>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script> 
 <script>
-   $(function() {
+    $(function() {
     $('#datatable').DataTable({
         processing: true,
         serverSide: true,
@@ -189,6 +228,9 @@
    document.getElementById('Update').style.visibility = 'hidden';
    document.getElementById('cancel').style.visibility = 'hidden';     
 });
+  $('#show').click(function() {
+      $('#menu').toggle("slide");
+    });
 </script>
 </html>
 <script type="text/javascript">
@@ -234,6 +276,8 @@ $(function() {
     }
 });
 
-
-
 </script>
+
+
+
+   

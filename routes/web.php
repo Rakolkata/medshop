@@ -16,6 +16,15 @@
 
 });*/
 Route::get('/','mainPageController@welcomeindex')->name('welcome');
+//ui
+Route::get('/about','mainPageController@about')->name('about');
+Route::get('/cart','mainPageController@cart')->name('cart');
+Route::get('/checkout','mainPageController@checkout')->name('checkout');
+Route::get('/contact','mainPageController@contact')->name('contact');
+Route::get('/main','mainPageController@main')->name('main');
+Route::get('/shop-single','mainPageController@shop_single')->name('shop-single');
+Route::get('/shop','mainPageController@shop')->name('shop');
+Route::get('/thankyou','mainPageController@thankyou')->name('thankyou');
 
 
 
@@ -57,6 +66,7 @@ Route::get('admin/productGet','ProductController@getProduct')->name('product.get
 Route::get('admin/productDestroy{id?}','ProductController@deleteProduct')->name('delete.Product');
 Route::post('admin/productEdit','ProductController@editProduct')->name('edit.product');
 Route::post('admin/productUpdate','ProductController@updateProduct')->name('update.product');
+Route::post('admin/productName','ProductController@GetProductByName')->name('product.Name');
 //order
 Route::get('admin/order','orderController@create')->name('order.create');
 Route::post('admin/orderStore','orderController@store')->name('order.store');
@@ -73,6 +83,9 @@ Route::get('admin/Customershow','usercontroller@show')->name('user.show');
 Route::get('admin/ustomerDestroy{id?}','usercontroller@delete')->name('user.delete');
 Route::post('admin/CustomerEdit','usercontroller@edit')->name('user.edit');
 Route::post('admin/CustomerUpdate','usercontroller@update')->name('user.update');
+Route::post('admin/CustomerName','usercontroller@GetUserByName')->name('user.Name');
+
+
 
 
 

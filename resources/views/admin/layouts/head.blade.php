@@ -17,6 +17,7 @@
   <!-- Argon CSS -->
   <link type="text/css" href="{{asset('public/user/css/argon.css?v=1.0.0')}}" rel="stylesheet">
    <script src="{{asset('public/user/js/head.js')}}"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <meta name="csrf-token" content="{{ csrf_token() }}">
   
 

@@ -14,6 +14,6 @@ class mainPageController extends Controller
 
     public function  welcomeindex()
     {
-        return view('welcome');
+        return view('welcomefg');
     }
 }
