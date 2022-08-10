@@ -79,6 +79,8 @@ class RegisterController extends Controller
             'password'=> Hash::make($data['password']),
             'email'=>$data['email'],
         ]);
+        return view('/welcome');
+
     }
 
     
@@ -144,8 +146,7 @@ class RegisterController extends Controller
         $user->save();    
         return back();
     }
-  
-   
+
       
 }
 

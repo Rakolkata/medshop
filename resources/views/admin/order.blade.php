@@ -120,7 +120,7 @@
                   <div  class="col-sm-2 form-inline" style="padding-top:30px;">
                        <div class="row">
                       <div class="col-sm-2">
-                       <button type="submit"name="send" id="submitbtn" value="Submit" class="btn btn-success btn-sm">Save</button>
+                       <button type="submit" name="send" id="submitbtn" value="Submit" class="btn btn-success btn-sm">Save</button>
                       </div>
                       <div class="col-sm-4-half">
                        <a id="Update"  class="btn btn-success btn btn-sm ">Update</a>
@@ -189,7 +189,7 @@
         document.getElementById('submitbtn').style.visibility = 'hidden';
        document.getElementById('Update').style.visibility = 'visible';
        document.getElementById('cancel').style.visibility = 'visible';
-      
+       
       $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -1,284 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-  <title>MEDSHOP &mdash; Colorlib</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
- <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('public/fonts/icomoon/style.css') }}">
-  <link rel="stylesheet" href="{{ asset('public/css/bootstrap.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('public/fonts/flaticon/font/flaticon.css') }}">
-  <link rel="stylesheet" href="{{ asset('public/css/magnific-popup.css') }}">
-  <link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}">
-  <link rel="stylesheet" href="{{ asset('public/css/owl.carousel.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('public/css/owl.theme.default.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('public/css/aos.css') }}">
-  <link rel="stylesheet" href="{{ asset('public/css/style.css') }}">
-
-</head>
-
-<body>
-
-  <div class="site-wrap">
-
-
-    <div class="site-navbar py-2">
-
-      <div class="search-wrap">
-        <div class="container">
-          <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
-          <form action="#" method="post">
-            <input type="text" class="form-control" placeholder="Search keyword and hit enter...">
-          </form>
-        </div>
-      </div>
-
-      <div class="container">
-        <div class="d-flex align-items-center justify-content-between">
-          <div class="logo">
-            <div class="site-logo">
-              <a href="{{ route('welcome') }}" class="js-logo-clone"><strong class="text-primary">MEDI</strong>SHOP</a>
-            </div>
-          </div>
-          <div class="main-nav d-none d-lg-block">
-            <nav class="site-navigation text-right text-md-center" role="navigation">
-              <ul class="site-menu js-clone-nav d-none d-lg-block">
-                <li><a href="{{ route('welcome') }}">Home</a></li>
-                <li class="active"><a href="{{ route('shop')}}">Store</a></li>
-                <li class="has-children">
-                  <a href="#">Products</a>
-                  <ul class="dropdown">
-                    <li><a href="#">Supplements</a></li>
-                    <li class="has-children">
-                      <a href="#">Vitamins</a>
-                      <ul class="dropdown">
-                        <li><a href="#">Supplements</a></li>
-                        <li><a href="#">Vitamins</a></li>
-                        <li><a href="#">Diet &amp; Nutrition</a></li>
-                        <li><a href="#">Tea &amp; Coffee</a></li>
-                      </ul>
-                    </li>
-                    <li><a href="#">Diet &amp; Nutrition</a></li>
-                    <li><a href="#">Tea &amp; Coffee</a></li>
-                    
-                  </ul>
-                </li>
-                <li><a href="{{ route('about') }}">About</a></li>
-                <li><a href="{{ route('contact') }}">Contact</a></li>
-              </ul>
-            </nav>
-          </div>
-          <div class="icons">
-            <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
-            <a href="{{ route('cart') }}" class="icons-btn d-inline-block bag">
-              <span class="icon-shopping-bag"></span>
-              <span class="number">2</span>
-            </a>
-            <a href="#" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span
-                class="icon-menu"></span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="bg-light py-3">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 mb-0">
-            <a href="{{ route('welcome') }}">Home</a> <span class="mx-2 mb-0">/</span> 
-            <strong class="text-black">Cart</strong>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="site-section">
-      <div class="container">
-        <div class="row mb-5">
-          <form class="col-md-12" method="post">
-            <div class="site-blocks-table">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th class="product-thumbnail">Image</th>
-                    <th class="product-name">Product</th>
-                    <th class="product-price">Price</th>
-                    <th class="product-quantity">Quantity</th>
-                    <th class="product-total">Total</th>
-                    <th class="product-remove">Remove</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="product-thumbnail">
-                      <img src="{{ asset('public/images/product_02.png') }}" alt="Image" class="img-fluid">
-                    </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black">Ibuprofen</h2>
-                    </td>
-                    <td>₹55.00</td>
-                    <td>
-                      <div class="input-group mb-3" style="max-width: 120px;">
-                        <div class="input-group-prepend">
-                          <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+@section('content')
+<!-- Table -->
+<div class="bg-light">
+<table id="cart" class="table table-hover table-condensed">
+    <thead>
+        <tr>
+            <th style="width:50%">Product</th>
+            <th style="width:10%">Price</th>
+            <th style="width:8%">Quantity</th>
+            <th style="width:22%" class="text-center">Subtotal</th>
+            <th style="width:10%"></th>
+        </tr>
+    </thead>
+    <tbody>
+         @php $totalAmount=0  @endphp
+            @foreach($cartlist as $product)
+                <tr data-id="{{ $product->id }}">
+                    <td data-th="Product">
+                        <div class="row">
+                            <div class="col-sm-3 hidden-xs"><img src="{{asset('/storage/app').'/'.$product->image}}" width="100" height="100" class="img-responsive"/></div>
+                            <div class="col-sm-9">
+                                <h4 class="nomargin">{{ $product->gematricName }}</h4>
+                            </div>
                         </div>
-                        <input type="text" class="form-control text-center" value="1" placeholder=""
-                          aria-label="Example text with button addon" aria-describedby="button-addon1">
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                        </div>
-                      </div>
-    
                     </td>
-                    <td>₹49.00</td>
-                    <td><a href="#" class="btn btn-primary height-auto btn-sm">X</a></td>
-                  </tr>
-    
-                  <tr>
-                    <td class="product-thumbnail">
-                      <img src="{{ asset('public/images/product_01.png') }}" alt="Image" class="img-fluid">
+                    <td data-th="Price">${{$product->price }}</td>
+                    <td data-th="Quantity">
+                        <input type="number" min="1" onkeypress="return event.charCode >= 49" onfocusout="updateQuantity(event)" data-value={{$product->id}} value="{{ $product->quantity }}" class="form-control" required/>
                     </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black">Bioderma</h2>
+                    <td data-th="Subtotal" class="text-center">${{ $product->price * $product->quantity }}</td>
+                    <td class="actions" data-th="">
+                        <a href="{{route('remove.from.cart').'/'.$product->id }}" class="btn btn-danger btn-sm remove-from-cart"><i class="fa fa-trash"></i></a>
                     </td>
-                    <td>₹49.00</td>
-                    <td>
-                      <div class="input-group mb-3" style="max-width: 120px;">
-                        <div class="input-group-prepend">
-                          <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                        </div>
-                        <input type="text" class="form-control text-center" value="1" placeholder=""
-                          aria-label="Example text with button addon" aria-describedby="button-addon1">
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                        </div>
-                      </div>
-    
-                    </td>
-                    <td>₹49.00</td>
-                    <td><a href="#" class="btn btn-primary height-auto btn-sm">X</a></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </form>
-        </div>
-    
-        <div class="row">
-          <div class="col-md-6">
-            <div class="row mb-5">
-              <div class="col-md-6 mb-3 mb-md-0">
-                <button class="btn btn-primary btn-md btn-block">Update Cart</button>
-              </div>
-              <div class="col-md-6">
-                <button class="btn btn-outline-primary btn-md btn-block">Continue Shopping</button>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <label class="text-black h4" for="coupon">Coupon</label>
-                <p>Enter your coupon code if you have one.</p>
-              </div>
-              <div class="col-md-8 mb-3 mb-md-0">
-                <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
-              </div>
-              <div class="col-md-4">
-                <button class="btn btn-primary btn-md px-4">Apply Coupon</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 pl-5">
-            <div class="row justify-content-end">
-              <div class="col-md-7">
-                <div class="row">
-                  <div class="col-md-12 text-right border-bottom mb-5">
-                    <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <div class="col-md-6">
-                    <span class="text-black">Subtotal</span>
-                  </div>
-                  <div class="col-md-6 text-right">
-                    <strong class="text-black">₹230.00</strong>
-                  </div>
-                </div>
-                <div class="row mb-5">
-                  <div class="col-md-6">
-                    <span class="text-black">Total</span>
-                  </div>
-                  <div class="col-md-6 text-right">
-                    <strong class="text-black">₹230.00</strong>
-                  </div>
-                </div>
-    
-                <div class="row">
-                  <div class="col-md-12">
-                    <button class="btn btn-primary btn-lg btn-block" onclick="window.location='{{ route('checkout') }} '">Proceed To
-                      Checkout</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <footer class="site-footer">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-
-            <div class="block-7">
-              <h3 class="footer-heading mb-4">About <strong class="text-primary">MEDSHOP</strong></h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius quae reiciendis distinctio voluptates
-                sed dolorum excepturi iure eaque, aut unde.</p>
-            </div>
-
-          </div>
-          <div class="col-lg-3 mx-auto mb-5 mb-lg-0">
-            <h3 class="footer-heading mb-4">Navigation</h3>
-            <ul class="list-unstyled">
-              <li><a href="#">Supplements</a></li>
-              <li><a href="#">Vitamins</a></li>
-              <li><a href="#">Diet &amp; Nutrition</a></li>
-              <li><a href="#">Tea &amp; Coffee</a></li>
-            </ul>
-          </div>
-
-          <div class="col-md-6 col-lg-3">
-            <div class="block-5 mb-5">
-              <h3 class="footer-heading mb-4">Contact Info</h3>
-              <ul class="list-unstyled">
-                <li class="address">203 Fake St. Mountain View, San Francisco, California, USA</li>
-                <li class="phone"><a href="tel://23923929210">+2 392 3929 210</a></li>
-                <li class="email">emailaddress@domain.com</li>
-              </ul>
-            </div>
-
-
-          </div>
-        </div>
-        <div class="row pt-5 mt-5 text-center">
-          <div class="col-md-12">
-            <p>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-              Copyright &copy;
-              <script>document.write(new Date().getFullYear());</script> All rights reserved |
-              with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank"
-                class="text-primary">Colorlib</a>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            </p>
-          </div>
-
-        </div>
-      </div>
-    </footer>
-  </div>
-
-  <script src="{{ asset('public/js/jquery-3.3.1.min.js') }}"></script>
+                </tr>
+                @php $totalAmount=$totalAmount+$product->price * $product->quantity; @endphp
+            @endforeach
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5" class="text-right"><h3><strong>Total ${{$totalAmount}}</strong></h3></td>
+        </tr>
+        <tr>
+            <td colspan="5" class="text-right">
+                <a href="{{ route('shop') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
+                <button class="btn btn-success" onclick="window.location='{{ route('checkout') }}'">Checkout</button>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+</div>
+<script src="{{ asset('public/js/jquery-3.3.1.min.js') }}"></script>
   <script src="{{ asset('public/js/jquery-ui.js') }}"></script>
   <script src="{{ asset('public/js/popper.min.js') }}"></script>
   <script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
@@ -287,6 +59,31 @@
   <script src="{{ asset('public/js/aos.js') }}"></script>
   <script src="{{ asset('public/js/main.js') }}"></script>
 
-</body>
+  <script>
+  function updateQuantity(e)
+  { 
+     var itemquantity = e.target.value;
+      var productId = e.target.dataset.value;
+      $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+    }); 
+      $.ajax({
+        type:'POST',
+        url:"{{ route('update.productQuantity') }}",
+        data:{quantity:itemquantity,productid:productId},
+        success:function(data){ 
+           var obj = JSON.parse(JSON.stringify(data))
+         if(obj.success==true)
+         {
+            location.reload();
+            return false;
+         }
+        },error: function (xhr) {            
+        }      
+      },"json");
+ }
+</script>
 
-</html>
+@endsection

@@ -71,7 +71,7 @@ class orderController extends Controller
             return Datatables::of($query)
             ->addIndexColumn()
             ->addColumn('action',function($row){
-            $btn = '<a href="#" onclick="myfunction('.$row->id.')";>
+            $btn = '<a href="#"  onclick="myfunction('.$row->id.')";>
             <span style="color:green;"><i class="fas fa-edit "></i></span></a>'.'&nbsp;<a href="'.route('order.delete',$row->id).'">
             <span style="color:red;"><i class="fa fa-trash"></i></span></a>';
             return $btn;

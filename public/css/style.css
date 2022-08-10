@@ -158,7 +158,7 @@ a {
     display: block;
     height: 40px;
     width: 40px;
-    line-height: 40px; }
+    line-height: 50px; }
     @media (max-width: 991.98px) {
       .icons-btn span {
         width: 24px; } }
@@ -1260,3 +1260,7 @@ a {
   .btn-outline-white:hover {
     color: #75b239;
     background: #fff; }
+
+  .content-bg{
+    background-color: #FFFAFA;
+  }

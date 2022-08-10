@@ -1,4 +1,7 @@
 <?php
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,21 +21,29 @@
 Route::get('/','mainPageController@welcomeindex')->name('welcome');
 //ui
 Route::get('/about','mainPageController@about')->name('about');
-Route::get('/cart','mainPageController@cart')->name('cart');
-Route::get('/checkout','mainPageController@checkout')->name('checkout');
+Route::get('/cart','CartController@showcart')->name('user.cart');
+Route::get('/checkout','OrderController@checkout')->name('checkout');
 Route::get('/contact','mainPageController@contact')->name('contact');
 Route::get('/main','mainPageController@main')->name('main');
-Route::get('/shop-single','mainPageController@shop_single')->name('shop-single');
+Route::get('/shop-single/{id?}','mainPageController@shop_single')->name('shop-single');
 Route::get('/shop','mainPageController@shop')->name('shop');
 Route::get('/thankyou','mainPageController@thankyou')->name('thankyou');
+//Route::post('/cart','CartController@updateProductQuantity')->name('cart.update');
+Route::get('/cart/update/{id?}','CartController@removeProductFromCart')->name('cart.ProductRemove');
+Route::post('/checkout','OrderController@orders_create')->name('order_create');
+Route::get('shop', [ProductController::class, 'index'])->name('shop');
+Route::get('add-to-cart/{id}', [CartController::class, 'addProductToCart'])->name('add.to.cart');
+Route::patch('update-cart', [ProductController::class, 'update'])->name('update.cart');
+Route::get('remove-from-cart/{id?}', [CartController::class, 'removeProductFromCart'])->name('remove.from.cart');
 
-
-
+Route::post('cart/updateQuantity','CartController@updateProductQuantity')->name('update.productQuantity');
 Auth::routes();
 Route::get('/home','HomeController@index')->name('home');
 Route::get('profile/{id?}','Auth\RegisterController@edit')->name('register.profile');
+Route::post('/welcome','RegisterController@create')->name('register_create');
 Route::get('admin/register/profile/{id?}','Auth\RegisterController@edit')->name('admin.register.profile');
 Route::patch('register/{admin}/update','Auth\RegisterController@update')->name('profile.update');
+
 
 Route::get('auth/Password/forgotpassword','Auth\ForgotPasswordController@index')->name('forgotpassword');
 Route::post('auth/Password/forgotpassword','Auth\ForgotPasswordController@validate_user')->name('validate.forgotpassword');
@@ -84,7 +95,6 @@ Route::get('admin/ustomerDestroy{id?}','usercontroller@delete')->name('user.dele
 Route::post('admin/CustomerEdit','usercontroller@edit')->name('user.edit');
 Route::post('admin/CustomerUpdate','usercontroller@update')->name('user.update');
 Route::post('admin/CustomerName','usercontroller@GetUserByName')->name('user.Name');
-
 
 
 

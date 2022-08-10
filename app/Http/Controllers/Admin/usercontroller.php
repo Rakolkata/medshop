@@ -53,8 +53,7 @@ class usercontroller extends Controller
     //store user
     public function store(Request $request)
      { 
-
-        $request->validate([
+           $request->validate([
             'name' =>'required', 'string', 'max:255',
             'user_id'=>'required',
             'user_name'=>'required','string',

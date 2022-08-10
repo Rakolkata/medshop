@@ -79,8 +79,13 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{{ route('welcome', ['id' => Auth::user()->id]) }}">
+              <i class="ni ni-shop text-pink"></i>Home
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                <i class="ni ni-user-run"></i>logout
+                <i class="ni ni-user-run text-pink"></i>logout
             </a> 
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
               {{ csrf_field() }}
