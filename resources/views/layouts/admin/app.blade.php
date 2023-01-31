@@ -18,7 +18,16 @@
 
     <!-- Custom styles for this template-->
     <link href="{{url('css/sb-admin-2.min.css')}}" rel="stylesheet">
-    
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js" ></script>
+    <style>
+    #search_input:focus{
+    outline: none;
+    }
+    #search_input{
+        border: none;
+    }
+    </style>
 </head>
 
 <body id="page-top">
@@ -42,7 +51,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="">
+                <a class="nav-link" href="{{route('admin.home')}}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -84,7 +93,7 @@
                 <div id="collapseorder" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Order Managment:</h6>
-                        <a class="collapse-item" >Add Customer & Order</a>                        
+                        <a class="collapse-item" href="{{route('admin.craete_order')}}">Add Customer & Order</a>                        
                     </div>
                 </div>
             </li>

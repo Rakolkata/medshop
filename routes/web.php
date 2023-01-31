@@ -6,8 +6,8 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\FunctionController;
 use App\Http\Controllers\Admin\ScheduleController; 
-use App\Http\Controllers\Admin\ProductController;
-
+use App\Http\Controllers\Admin\ProductController; 
+use App\Http\Controllers\Admin\OrderController;
 
 
 
@@ -70,21 +70,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::post('/admin/store/product', [ProductController::class, 'store'])->name('admin.store_product');
     Route::get('/admin/delete/product/{id}', [ProductController::class, 'delete'])->name('admin.delete_product');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    Route::get('/admin/create/order', [OrderController::class, 'index'])->name('admin.craete_order');
+    Route::get('/admin/get/product', [OrderController::class, 'autocomplete'])->name('admin.get_product');
+    Route::get('/admin/get/product-generic_name', [OrderController::class, 'get_generic_name'])->name('admin.get_generic_name');
 
 
 
