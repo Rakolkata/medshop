@@ -71,8 +71,12 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/delete/product/{id}', [ProductController::class, 'delete'])->name('admin.delete_product');
 
     Route::get('/admin/create/order', [OrderController::class, 'index'])->name('admin.craete_order');
-    Route::get('/admin/get/product', [OrderController::class, 'autocomplete'])->name('admin.get_product');
-    Route::get('/admin/get/product-generic_name', [OrderController::class, 'get_generic_name'])->name('admin.get_generic_name');
+    Route::get('/admin/product/name', [OrderController::class, 'prod_name'])->name('admin.prod_name');
+    Route::get('/admin/product/details', [OrderController::class, 'prod_details'])->name('admin.prod_details');
+
+
+
+
 
 
 

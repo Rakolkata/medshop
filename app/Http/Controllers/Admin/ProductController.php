@@ -45,8 +45,7 @@ class ProductController extends Controller
     $product->Ingredients = $req['infredients'];
     $product->Schedule = $req['schedule'];
     $product->Description = $req['description'];
-    $product->Categories_id;
-    $product->Title;
+    $product->gstrate = 12;
     $product->save();
     return redirect()->route('admin.view_product')->with('msg','Product Added!');
     }

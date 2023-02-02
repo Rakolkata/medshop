@@ -19,15 +19,20 @@
     <!-- Custom styles for this template-->
     <link href="{{url('css/sb-admin-2.min.css')}}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js" ></script>
-    <style>
-    #search_input:focus{
-    outline: none;
-    }
-    #search_input{
-        border: none;
-    }
-    </style>
+<style>
+
+.container{width:1100px; margin:0 auto;}
+.ciRow3, .ciRow2{clear:both; display:block; margin-bottom:15px;}
+.ciRow3:after, .ciRow2:after{content:""; clear:both; display:block; height:1px; width:100%;}
+.ciRow3 .ciCol{width:31%; float:left; margin-right:2%;}
+.ciRow2 .ciCol{width:48%; float:left; margin-right:2%;}
+.ciRow3 .ciCol label{clear:both; display:block; margin-bottom:5px;}
+.ciRow3 .ciCol input{border:1px solid #ebebeb; padding:10px; width:90%;}
+.ciRow2 .ciCol label{clear:both; display:block; margin-bottom:5px;}
+.ciRow2 .ciCol textarea{border:1px solid #ebebeb; padding:10px; width:91%;}
+.customerInfo .container{background:#f7f7f7; padding:30px; border-radius:0px 0px 20px 20px; margin-bottom:10px;}   
+</style>
+ 
 </head>
 
 <body id="page-top">
