@@ -18,6 +18,9 @@ class FunctionController extends Controller
     }
 
     public function store(Request $req){
+    $req->validate([
+        'name'=>'required|unique:med__functions'
+    ]);
     $function = new Med_Function;
     $function->Name = $req['name'];
     $function->save();

@@ -17,6 +17,9 @@ class BrandController extends Controller
     return view('admin.view_brand')->with(compact('brand'));
     }
     public function store(Request $req){
+    $req->validate([
+    'name'=>'required|unique:brands'
+    ]);
     echo $req['name'];
     $brand = new Brand;
     $brand->Name = $req['name'];

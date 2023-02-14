@@ -23,7 +23,7 @@ use App\Http\Controllers\Admin\OrderController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
@@ -69,10 +69,17 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/add/product', [ProductController::class, 'index'])->name('admin.add_product');
     Route::post('/admin/store/product', [ProductController::class, 'store'])->name('admin.store_product');
     Route::get('/admin/delete/product/{id}', [ProductController::class, 'delete'])->name('admin.delete_product');
+    Route::post('/admin/product/excel', [ProductController::class, 'importData'])->name('admin.product_exel_import');
+
 
     Route::get('/admin/create/order', [OrderController::class, 'index'])->name('admin.craete_order');
     Route::get('/admin/product/name', [OrderController::class, 'prod_name'])->name('admin.prod_name');
     Route::get('/admin/product/details', [OrderController::class, 'prod_details'])->name('admin.prod_details');
+    Route::post('/admin/order/store', [OrderController::class, 'store'])->name('admin.order_store');
+    Route::get('/admin/order-list', [OrderController::class, 'view'])->name('admin.order_view');
+
+    Route::get('/admin/order-details/{Order_id}', [OrderController::class, 'order_details'])->name('admin.order_details');
+
 
 
 

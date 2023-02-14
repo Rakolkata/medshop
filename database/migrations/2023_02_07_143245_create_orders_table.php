@@ -13,15 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->tinyInteger('type')->nullable();
-            /* Users: 0=>shopkeepar, 1=>Admin, 2=>shopowner */
-            $table->rememberToken();
+            $table->unsignedBigInteger('Profile_id');
+            $table->foreign('Profile_id')->references('id')->on('order__user__profiles');
+            $table->float('Total_Order');
+            $table->float('Total_Gst');
+            $table->float('Discount');
+            $table->float('Adjustment');
             $table->timestamps();
         });
     }
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('orders');
     }
 };

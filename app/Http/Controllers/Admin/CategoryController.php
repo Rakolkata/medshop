@@ -20,6 +20,10 @@ class CategoryController extends Controller
     }
 
     public function store(Request $req){
+        $req->validate(
+            [
+                'name'=>'required|unique:categories',
+            ]);
     $category = new Category;
     $category->Name = $req['name'];
     $category->save();

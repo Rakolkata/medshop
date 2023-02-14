@@ -37,6 +37,7 @@
           </tr>
         </thead>
         <tbody class="text-center">
+          @if (count($brand)>=1)
           @foreach ($brand as $item)
           <tr>
             <th scope="row">{{$loop->iteration}}</th>
@@ -47,7 +48,11 @@
             </td>
             
           </tr>   
-          @endforeach
+          @endforeach   
+          @else
+          <td colspan="3">{{"Data Not Available"}}</td>      
+          @endif
+
         </tbody>
       </table>
       <div class="d-flex">

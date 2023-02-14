@@ -19,20 +19,9 @@
     <!-- Custom styles for this template-->
     <link href="{{url('css/sb-admin-2.min.css')}}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<style>
-
-.container{width:1100px; margin:0 auto;}
-.ciRow3, .ciRow2{clear:both; display:block; margin-bottom:15px;}
-.ciRow3:after, .ciRow2:after{content:""; clear:both; display:block; height:1px; width:100%;}
-.ciRow3 .ciCol{width:31%; float:left; margin-right:2%;}
-.ciRow2 .ciCol{width:48%; float:left; margin-right:2%;}
-.ciRow3 .ciCol label{clear:both; display:block; margin-bottom:5px;}
-.ciRow3 .ciCol input{border:1px solid #ebebeb; padding:10px; width:90%;}
-.ciRow2 .ciCol label{clear:both; display:block; margin-bottom:5px;}
-.ciRow2 .ciCol textarea{border:1px solid #ebebeb; padding:10px; width:91%;}
-.customerInfo .container{background:#f7f7f7; padding:30px; border-radius:0px 0px 20px 20px; margin-bottom:10px;}   
-</style>
- 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    @stack('styles') 
 </head>
 
 <body id="page-top">
@@ -98,7 +87,8 @@
                 <div id="collapseorder" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Order Managment:</h6>
-                        <a class="collapse-item" href="{{route('admin.craete_order')}}">Add Customer & Order</a>                        
+                        <a class="collapse-item" href="{{route('admin.craete_order')}}">Create Order</a> 
+                        <a class="collapse-item" href="{{route('admin.order_view')}}">Order List</a>                        
                     </div>
                 </div>
             </li>
@@ -335,7 +325,7 @@
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+        aria-hidden="true" >
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
