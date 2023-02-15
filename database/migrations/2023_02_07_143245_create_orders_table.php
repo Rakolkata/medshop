@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('Profile_id');
-            $table->foreign('Profile_id')->references('id')->on('order__user__profiles');
+            $table->foreign('Profile_id')->references('id')->on('order__user__profiles')->onUpdate('cascade')->onDelete('cascade');
             $table->float('Total_Order');
             $table->float('Total_Gst');
             $table->float('Discount');

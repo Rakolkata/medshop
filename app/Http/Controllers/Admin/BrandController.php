@@ -36,4 +36,19 @@ class BrandController extends Controller
     }
     return redirect()->back()->with('msg-dleted','Brand Deleted!');
     }
+
+    public function edit($id){
+    $brand =  Brand::find($id);
+    if ($brand != null) {
+        return view('admin.update_brand')->with(compact('brand'));
+    }
+    }
+
+    public function update($id,Request $req){
+    $brand = Brand::find($id);
+    $brand->Name = $req['name'];
+    $brand->save();
+    return redirect()->route('admin.view_brand')->with('brand_updated','Brand Updated!');
+
+    }
 }

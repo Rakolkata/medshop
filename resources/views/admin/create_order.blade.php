@@ -15,7 +15,7 @@
     </div>
     
      <div class="ciRow2">      
-      <div class="ciCol"><label>Address</label><textarea name="customer_address"></textarea></div>
+      <div class="ciCol"><label>Address</label><textarea name="customer_address" required></textarea></div>
       <div class="ciCol"><label>Dr. Name/Reg. No.</label ><textarea name ="doc_name_regdno"></textarea></div>
     </div>
   </div>
@@ -180,8 +180,9 @@ $(document).on('click', '#item'+(tl), function(){
 $(document).on('keyup', '#qty'+(tl), function(){
 var qty = $('#qty'+(tl)).val();
 var stock = $('#qty'+(tl)).attr("max");
+var qty_id =  $('#qty'+(tl)).attr("id");
 if (parseInt(qty) >= parseInt(stock)) {
-alert('Stock is '+ stock);
+  $("#"+(qty_id)).addClass("qty_outoff_stock");
 }
 var rate = $('#rate'+(tl)).val();
 $('#subtotal'+(tl)).val(qty * rate);
@@ -194,7 +195,7 @@ var ftl = $('#table').find('tr').length;
 const total_subtotal = [];
 for (let index = 1; index <= ftl; index++) {
   total_subtotal.push(parseFloat($('#subtotal'+(index)).val()));
-  console.log("i  " + (index));
+
 }
 var sum_add = 0;
 total_subtotal.forEach(x_add => {
@@ -311,10 +312,10 @@ $('#total_discount').val(0);
   $(document).on('keyup', '#qty'+(tl), function(){
   var qty = $('#qty'+(tl)).val();
   var stock = $('#qty'+(tl)).attr("max");
+  var qty_id =  $('#qty'+(tl)).attr("id");
   if (parseInt(qty) >= parseInt(stock)) {
-  alert('Stock is '+ stock);
-
-   }
+  $("#"+(qty_id)).addClass("qty_outoff_stock");
+  }
   var rate = $('#rate'+(tl)).val();
   $('#subtotal'+(tl)).val(qty * rate);
   var subtotal = $('#subtotal'+(tl)).val();
@@ -373,6 +374,9 @@ $('#total_discount').val(0);
  .ciRow2 .ciCol label{clear:both; display:block; margin-bottom:5px;}
  .ciRow2 .ciCol textarea{border:1px solid #ebebeb; padding:10px; width:91%;}
  .customerInfo .container{background:#f7f7f7; padding:30px; border-radius:0px 0px 20px 20px; margin-bottom:10px;}   
+ .qty_outoff_stock{
+  background-color: red;
+ }
  </style>
 @endpush
 @endsection

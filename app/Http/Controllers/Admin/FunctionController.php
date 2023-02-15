@@ -35,4 +35,21 @@ class FunctionController extends Controller
     }
     return redirect()->route('admin.view_function')->with('msg-deleted','Function Deleted!');   
     }
+
+    public function edit($id){
+    $function = Med_Function::find($id);
+    if ($function != null) {
+    return view('admin.update_function')->with(compact('function'));
+    }
+    }
+
+    public function update($id,Request $req){
+    $req->validate([
+    'name' => 'required',
+    ]);
+    $function = Med_Function::find($id);
+    $function->Name = $req['name'];
+    $function->save();
+    return redirect()->route('admin.view_function')->with('function_updated','Function Updated!');
+    }
 }

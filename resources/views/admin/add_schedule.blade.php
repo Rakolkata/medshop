@@ -10,6 +10,11 @@
 @csrf
 <label class="form-label">Name</label>
 <input class="form-control" type="text" name="name" placeholder="Enter Schedule Name">
+<span class="text-danger Text-capitalize">
+@error('name')
+{{$message}}  
+@enderror
+</span>
 <button class="btn btn-block mt-2 text-white" style="background-color: #4e73df">Submit</button>
 </form>
 </div>

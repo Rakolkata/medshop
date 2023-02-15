@@ -109,8 +109,7 @@ class OrderController extends Controller
     foreach ($order_id as $item) {
       $Order_Details[] = Order_details::where('Order_id',$item)
       ->join('products','products.id','=','order_details.Product_id')
-      ->select('products.Title as Title','products.MRP as mrp','products.SKU as Sku','products.Exp_date as Exp','Order_details.qty as Qty','Order_details.rate as Rate','Order_details.gst as Gst','Order_details.Product_price as Total')
-      ->get();
+      ->select('products.Title as Title','products.MRP as mrp','products.SKU as Sku','products.Exp_date as Exp','order_details.qty as Qty','order_details.rate as Rate','order_details.gst as Gst','order_details.Product_price as Total')->get();
      
     }
  

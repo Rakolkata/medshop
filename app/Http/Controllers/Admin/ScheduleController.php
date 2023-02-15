@@ -18,6 +18,9 @@ class ScheduleController extends Controller
     }
 
     public function store(Request $req){
+        $req->validate([
+        "name"=>"required",
+        ]);
     $schedule = new Schedule; 
     $schedule->Name = $req['name'];
     $schedule->save();
@@ -30,5 +33,19 @@ class ScheduleController extends Controller
         $schedule->delete();
     }
     return redirect()->route('admin.view_schedule')->with('msg-deleted','Schedule Deleted!');
+    }
+
+    public function edit($id){
+    $schedule = Schedule::find($id); 
+    if ($schedule != null) {
+    return view('admin.update_schedule')->with(compact('schedule'));
+    }
+    }
+
+    public function update($id,Request $req){
+    $schedule = Schedule::find($id); 
+    $schedule->Name = $req['name'];
+    $schedule->save();
+    return redirect()->route('admin.view_schedule')->with('schedule_updated','Schedule Updated!');
     }
 }

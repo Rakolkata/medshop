@@ -10,7 +10,7 @@
     <div class="row">
     <div class="col-md-6 mb-2">
     <label class="form-label">Title</label>
-    <input class="form-control" type="text" name="title" placeholder="Enter Product Title">
+    <input class="form-control" type="text" name="title" placeholder="Enter Product Title" value="{{ old('title') }}">
     <span class="text-capitalize text-danger">
     @error('title')
      {{$message}}       
@@ -20,51 +20,31 @@
     <div class="col-md-6 mb-2">
     <label class="form-label">Batch No.</label>
     <input class="form-control" type="text" name="bath_no" placeholder="Enter Product Batch No.">
-    <span class="text-capitalize text-danger">
-    @error('bath_no')
-    {{$message}}       
-    @enderror
-    </span>
     </div>
 
     <div class="col-md-6 mb-2">
     <label class="form-label">MRP</label>
     <input class="form-control" type="number" min="0" step=".01"  name="mrp" placeholder="0.00">
-    <span class="text-capitalize text-danger">
-    @error('mrp')
-    {{'The MRP Field Is Required.'}}       
-    @enderror
-    </span>
     </div>
 
     <div class="col-md-6 mb-2">
     <label class="form-label">Price/unit</label>
     <input class="form-control" type="number" min="0" step=".01" name="price" placeholder="0.00">
-    <span class="text-capitalize text-danger">
-    @error('price')
-    {{'The Price/unit Field Is Required.'}}       
-    @enderror
-    </span>
+    </div>
+
+    <div class="col-md-6 mb-2">
+        <label class="form-label">Gst Rate</label>
+        <input class="form-control" type="number" min="0" step=".01" name="gst_rate" placeholder="0.00">
     </div>
 
     <div class="col-md-6 mb-2">
     <label class="form-label">Stock</label>
-    <input class="form-control" type="number" name="stock" placeholder="Enter Product Stock">
-    <span class="text-danger text-capitalize">
-    @error('stock')
-    {{$message}}       
-    @enderror
-    </span>
+    <input class="form-control" type="number" min="0" name="stock" value="0" placeholder="Enter Product Stock">
     </div>
 
     <div class="col-md-6 mb-2">
     <label class="form-label">Exp. date</label>
     <input class="form-control" type="date"  name="exp_date"  placeholder="Enter Product Exp date">
-    <span class="text-danger text-capitalize">
-    @error('date')
-    {{"The Exp. Date Field Is Required."}}          
-    @enderror
-    </span>
     </div>
 
     <div class="col-md-6 mb-2">
@@ -75,11 +55,6 @@
         <option value="{{$item->Categories_id}}">{{$item->Name}}</option>    
         @endforeach
       </select>
-    <span class="text-danger text-capitalize">
-    @error('category')
-    {{$message}}       
-    @enderror
-    </span>
     </div>
 
     <div class="col-md-6 mb-2">
@@ -90,21 +65,11 @@
             <option value="{{$item->id}}">{{$item->Name}}</option>    
             @endforeach
         </select>
-        <span class="text-danger text-capitalize">
-        @error('brand')
-        {{$message}}       
-        @enderror
-        </span>
     </div> 
 
     <div class="col-md-6 mb-2">
         <label class="form-label">Box No.</label>
         <input type="text" class="form-control" name="box_no" placeholder="Enter Product Box No."> 
-        <span class="text-danger text-capitalize">
-        @error('box_no')
-        {{$message}}       
-        @enderror
-        </span>
     </div>
 
     <div class="col-md-6 mb-2">
@@ -115,39 +80,24 @@
             <option value="{{$item->id}}">{{$item->Name}}</option>    
             @endforeach
         </select>
-        <span class="text-danger text-capitalize">
-        @error('function')
-        {{$message}}       
-        @enderror
-        </span>
     </div> 
 
     <div class="col-md-6 mb-2">
         <label class="form-label">Generic name</label>
         <input type="text" class="form-control" name="generic_name" placeholder="Enter Product Generic name"> 
-        <span class="text-danger text-capitalize">
-        @error('generic_name')
-        {{$message}}       
-        @enderror
-        </span>
     </div> 
 
     <div class="col-md-6 mb-2">
         <label class="form-label">Ingredients</label>
         <input type="text" class="form-control" name="infredients" placeholder="Enter Product Ingredients">
-        <span class="text-danger text-capitalize">
-        @error('infredients')
-        {{'The Ingredients Field Is Required.'}}       
-        @enderror
-        </span> 
     </div> 
 
     <div class="col-md-6 mb-2">
         <label class="form-label">Schedule</label>
-        <select class="form-control" name="schedule" aria-label="Default select example">
+        <select class="form-control" name="schedule" >
             <option disabled selected value> -- select an option -- </option>
             @foreach ($schedule as $item)
-            <option value="{{$item->id}}">{{$item->Name}}</option>    
+            <option value="{{$item->id}}" {{ old('schedule') == $item->id ? "selected" : "" }}>{{$item->Name}}</option>    
             @endforeach
         </select>
         <span class="text-danger text-capitalize">
@@ -160,11 +110,6 @@
     <div class="col-md-12">
       <label for="exampleFormControlTextarea1" class="form-label">Description</label>
       <textarea class="form-control" name="description" rows="3"></textarea>
-      <span class="text-danger text-capitalize">
-      @error('description')
-      {{$message}}       
-      @enderror
-     </span>
     </div>
 
     <button class="btn mt-2 text-white" style="background-color: #4e73df">Submit</button>

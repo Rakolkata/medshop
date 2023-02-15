@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('Phone');
             $table->string('Address');
-            $table->string('Doc_Name_RegdNo');
+            $table->string('Doc_Name_RegdNo')->nullable();
             $table->unsignedBigInteger('User_id');
-            $table->foreign('User_id')->references('id')->on('users');
+            $table->foreign('User_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
