@@ -90,6 +90,11 @@ class OrderController extends Controller
       $order_details->gst = $prod_gst[$index]; 
       $order_details->Product_price	 = $prod_price[$index]; 
       $order_details->save();
+      $product = Product::find( $order_details->Product_id );
+      $stock = $product->Stock;
+      echo $stock;
+      $product->Stock =$stock-$order_details->qty;
+      $product->save();
      }
 
      return redirect()->route('admin.order_view');

@@ -87,7 +87,8 @@ class ProductController extends Controller
                     $Product->MRP = $sheet->getCell( 'C' . $row )->getValue(); 
                     $Product->Price_unit = $sheet->getCell( 'D' . $row )->getValue();
                     $Product->Stock = $sheet->getCell( 'E' . $row )->getValue();
-                    $Product->Exp_date = date("Y-m-d", $sheet->getCell( 'F' . $row )->getValue());
+                    $exp_date =  \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($sheet->getCell( 'F' . $row )->getValue());
+                    $Product->Exp_date = $exp_date;
                     $category_find= Category::where('Name',$sheet->getCell( 'G' . $row )->getValue())->first();
                     if ($category_find != null) {
                         $category_id=$category_find->Categories_id;
