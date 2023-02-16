@@ -54,7 +54,7 @@
 </form>
 </div>
 
- <table class="table table-striped table-responsive text-capitalize">
+ <table class="table table-striped text-capitalize" style="width:100%">
     <thead class="text-white" style="background-color: #4e73df">
       <tr>
         <th scope="col">Title</th>
