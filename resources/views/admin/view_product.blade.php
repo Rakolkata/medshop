@@ -54,10 +54,9 @@
 </form>
 </div>
 
- <table class="table table-striped">
+ <table class="table table-striped table-responsive">
     <thead class="text-white" style="background-color: #4e73df">
       <tr>
-        <th scope="col">#</th>
         <th scope="col">Title</th>
         <th scope="col">SKU</th>
         <th scope="col">MRP</th> 
@@ -75,7 +74,6 @@
       @if (count($product)>=1)
       @foreach ($product as $item)
       <tr>
-          <th scope="row">{{$loop->iteration}}</th>
           <td>{{$item->Title}}</td>
           <td>{{$item->SKU}}</td>
           <td>{{$item->MRP}}</td>

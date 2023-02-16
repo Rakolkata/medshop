@@ -30,7 +30,7 @@ class ProductController extends Controller
     if ($search !="") {
         $product=Product::where('Title','=',$search)->orWhere('Function', '=', $search)->paginate(25);
     }else {
-        $product = Product::with('category','brand','function','schedule')->paginate(25);
+        $product = Product::with('category','brand','function','schedule')->orderBy('Title', 'ASC')->paginate(25);
     }
     return view('admin.view_product')->with(compact('product'));
     }

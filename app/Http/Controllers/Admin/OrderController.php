@@ -10,7 +10,8 @@ use  App\Models\User;
 use  App\Models\Order;
 use  App\Http\Controllers\Auth\RegisterController; 
 use  App\Models\Order_User_Profile;
-use  App\Models\Order_details;
+use  App\Models\Order_details; 
+
 
 
 class OrderController extends Controller
@@ -104,7 +105,7 @@ class OrderController extends Controller
     public function view(){
     $order= Order::join('order__user__profiles', 'order__user__profiles.id', '=', 'orders.Profile_id')
     ->join('users','users.id','=','order__user__profiles.User_id')
-    ->select(['orders.Total_Order','users.name','orders.id','order__user__profiles.Doc_Name_RegdNo','order__user__profiles.Address'])->get();
+    ->select(['orders.Total_Order','users.name','orders.id','order__user__profiles.Doc_Name_RegdNo','order__user__profiles.Address'])->paginate(15);
     $order_id=[];
     foreach ($order as $value) {
      $order_id[]=$value->id;
@@ -128,6 +129,15 @@ class OrderController extends Controller
         ->get();
        return View('admin.order_details')->with(compact('order_details'));
 
+    }
+
+    public function delete($id){
+    echo $id;
+    $order = Order::find($id);
+    if ($order != null) {
+        $order->delete();
+    }
+    return redirect()->route('admin.order_view')->with('order_deleetd','Order Deleted!');
     }
 
 

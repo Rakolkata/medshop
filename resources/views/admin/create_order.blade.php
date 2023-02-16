@@ -23,8 +23,8 @@
 <div class="row">
   <div class="col-md-12">
       <div class="form-group">
-          <table class="table table-responsive" >
-              <thead>
+          <table class="table table-striped table-responsive" >
+              <thead style="background-color: #4e73df;color:#fff">
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
