@@ -97,6 +97,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/order/delete/{id}', [OrderController::class, 'delete'])->name('admin.order_delete');
 
     Route::get('/admin/reports', [ReportsController::class, 'index'])->name('admin.reports');
+    Route::post('/admin/reports/export', [ReportsController::class, 'export'])->name('admin.reports_exports');
+
 
 
 

@@ -6,9 +6,10 @@
 <div class="card m-1 p-1" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;z-index:1">
 <h5 class="p-2"><span style="border-bottom:1px solid #4e73df">Reports :</span></h5>
 <div class="container">
-<form action="" method="post">
+<form action="{{route('admin.reports_exports')}}" method="post">
+@csrf
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <label for="" class="form-label">Select Schedule</label>
         <select class="form-control form-select-lg" name="" id="">
             <option disabled selected value> -- select an option -- </option>
@@ -16,6 +17,9 @@
             <option value="{{$item->id}}">{{$item->Name}}</option>   
             @endforeach
         </select>
+    </div>
+    <div class="col-md-6">
+        
     </div>
     <div class="col-md-6 mt-2">
         <label class="form-label">From</label>

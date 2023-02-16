@@ -28,7 +28,7 @@ class ProductController extends Controller
     public function view(Request $req){
     $search=$req['search'] ??"";
     if ($search !="") {
-        $product=Product::where('Title','=',$search)->orWhere('Function', '=', $search)->paginate(25);
+        $product=Product::where('Title','LIKE','%'.$search.'%')->orWhere('Function', '=', $search)->paginate(25);
     }else {
         $product = Product::with('category','brand','function','schedule')->orderBy('Title', 'ASC')->paginate(25);
     }

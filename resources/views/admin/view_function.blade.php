@@ -32,7 +32,7 @@
     <div class="m-2">
         <h5><span style="border-bottom:1px solid #4e73df">Manage Your Function</span></h5>
     </div>
-        <table class="table table-striped text-center">
+        <table class="table table-striped text-capitalize">
             <thead class="text-white" style="background-color: #4e73df">
               <tr>
                 <th scope="col">#</th>
@@ -41,7 +41,7 @@
               </tr>
             </thead>
           
-            <tbody class="text-center">
+            <tbody>
               @if (count($function)>=1)
               @foreach ($function as $item)
               <tr>

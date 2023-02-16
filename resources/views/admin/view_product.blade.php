@@ -32,7 +32,7 @@
   {!! \Session::get('msg-deleted') !!}
 </div>
 @endif
-<div class="card m-3 p-3 " style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
+<div class="card m-1 p-1" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
 
 <div style="text-align:right">
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -54,7 +54,7 @@
 </form>
 </div>
 
- <table class="table table-striped table-responsive">
+ <table class="table table-striped table-responsive text-capitalize">
     <thead class="text-white" style="background-color: #4e73df">
       <tr>
         <th scope="col">Title</th>
@@ -70,7 +70,7 @@
         <th scope="col">Action</th>
       </tr>
     </thead>
-    <tbody class="text-center">
+    <tbody >
       @if (count($product)>=1)
       @foreach ($product as $item)
       <tr>

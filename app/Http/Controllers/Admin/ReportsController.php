@@ -12,4 +12,8 @@ class ReportsController extends Controller
         $Schedule = Schedule::all();
     return view('admin.reports')->with(compact('Schedule'));
     }
+
+    public function export(){
+        
+    }
 }
