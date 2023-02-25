@@ -26,6 +26,8 @@ class CategoryController extends Controller
             ]);
     $category = new Category;
     $category->Name = $req['name'];
+    $category->HSN = $req['HSN']; 
+    $category->Gstrate = $req['gst_rate']; 
     $category->save();
     return redirect (route('admin.view_category'))->with(Session::flash('message', "Category Added!"));
      
@@ -49,6 +51,8 @@ class CategoryController extends Controller
     public function update(Request $req ,$id){
     $category= Category::find($id);
     $category->Name = $req['name'];
+    $category->HSN = $req['HSN'];
+    $category->Gstrate = $req['gstrate'];
     $category->save();
     return redirect (route('admin.view_category'))->with(Session::flash('message-updated', "Category updated!"));
     }
