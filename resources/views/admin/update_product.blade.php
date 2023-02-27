@@ -27,10 +27,7 @@
         <input class="form-control" type="number" min="0" step=".01" name="price" placeholder="0.00" value="{{$product->Price_unit}}">
         </div>
     
-        <div class="col-md-6 mb-2">
-            <label class="form-label">Gst Rate</label>
-            <input class="form-control" type="number" min="0" step=".01" name="gst_rate" placeholder="0.00" value="{{$product->gstrate}}">
-        </div>
+        
     
         <div class="col-md-6 mb-2">
         <label class="form-label">Stock</label>
@@ -93,7 +90,7 @@
     
         <div class="col-md-6 mb-2">
             <label class="form-label">Ingredients</label>
-            <input type="text" class="form-control" name="infredients" value="{{$product->Ingredients}}" placeholder="Enter Product Ingredients">
+            <input type="text" class="form-control" name="ingredients" value="{{$product->Ingredients}}" placeholder="Enter Product Ingredients">
         </div> 
     
         <div class="col-md-6 mb-2">
@@ -112,6 +109,11 @@
             {{$message}}       
             @enderror
             </span>
+        </div> 
+
+        <div class="col-md-6 mb-2">
+            <label class="form-label">Trip Size</label>
+            <input type="text" class="form-control" name="tripsize"  value="{{$product->TripSize}}"  placeholder="Enter Product Trip-Size">
         </div> 
     
         <div class="col-md-12">

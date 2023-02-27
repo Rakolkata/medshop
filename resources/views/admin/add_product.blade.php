@@ -19,22 +19,12 @@
     </div>
     <div class="col-md-6 mb-2">
     <label class="form-label">Batch No.</label>
-    <input class="form-control" type="text" name="bath_no" placeholder="Enter Product Batch No.">
+    <input class="form-control" type="text" name="sku" placeholder="Enter Product Batch No.">
     </div>
 
     <div class="col-md-6 mb-2">
     <label class="form-label">MRP</label>
     <input class="form-control" type="number" min="0" step=".01"  name="mrp" placeholder="0.00">
-    </div>
-
-    <div class="col-md-6 mb-2">
-    <label class="form-label">Price/unit</label>
-    <input class="form-control" type="number" min="0" step=".01" name="price" placeholder="0.00">
-    </div>
-
-    <div class="col-md-6 mb-2">
-        <label class="form-label">Gst Rate</label>
-        <input class="form-control" type="number" min="0" step=".01" name="gst_rate" placeholder="0.00">
     </div>
 
     <div class="col-md-6 mb-2">
@@ -106,6 +96,12 @@
         @enderror
         </span>
     </div> 
+    <div class="col-md-6 mb-2">
+        <label class="form-label">Trip Size</label>
+        <input type="number" name="tripsize" class="form-control" placeholder="Enter Trip Size">
+        <span class="text-danger text-capitalize">
+        </span>
+    </div>
 
     <div class="col-md-12">
       <label for="exampleFormControlTextarea1" class="form-label">Description</label>

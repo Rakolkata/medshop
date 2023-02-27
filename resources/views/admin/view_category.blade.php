@@ -61,7 +61,7 @@
         @endforeach   
         @else
         <tr class="text-center">
-        <td colspan="3">{{"Data Not Available"}}</td>  
+        <td colspan="5">{{"Data Not Available"}}</td>  
        </tr>
         @endif
         

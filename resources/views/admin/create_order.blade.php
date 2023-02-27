@@ -109,7 +109,8 @@
      var data = JSON.stringify(output);
      let text = "";
      for (let i = 0; i < output.length; i++) {
-      text += '<li id="item'+tl+'" data-id="'+output[i].id+'" data-mrp="'+output[i].MRP+'" data-sku="'+output[i].SKU+'" data-exp="'+output[i].Exp_date+'" data-rate="'+output[i].Price_unit+'" data-gstrate="'+output[i].gstrate+'" data-stock="'+output[i].Stock+'"  style="border:1px solid;padding:2px">'+output[i].Title+'</li>';
+      text += '<li id="item'+tl+'"  data-id="'+output[i].id+'"  data-cat="'+output[i].Categories_id +'"  data-mrp="'+output[i].MRP+'" data-sku="'+output[i].SKU+'" data-exp="'+output[i].Exp_date+'" data-rate="'+output[i].Price_unit+'" data-gstrate="'+output[i].gstrate+'" data-stock="'+output[i].Stock+'"  style="border:1px solid;padding:2px">'+output[i].Title+'</li>';
+      alert(text);
       if (output[i].Title != undefined) {
         $('#title_list'+(tl)).html(text); 
       }

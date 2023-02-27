@@ -53,7 +53,9 @@
               </tr> 
               @endforeach   
               @else
+              <tr class="text-center">
                <td colspan="3">{{"Data Not Available"}}</td>   
+              </tr>
               @endif
 
             </tbody>
