@@ -25,7 +25,7 @@ class OrderController extends Controller
     public function prod_name(Request $request){
          if ($request->ajax()) {
 
-            $data = Product::where('Title','LIKE','%'.$request->name.'%')->orWhere('Generic_name','LIKE','%'.$request->name.'%')->where('Stock','>=' ,1)->get();
+            $data = Product::with('category')->where('Title','LIKE','%'.$request->name.'%')->orWhere('Generic_name','LIKE','%'.$request->name.'%')->where('Stock','>=' ,1)->get();
 
           
             $output =" ";

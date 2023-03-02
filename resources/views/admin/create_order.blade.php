@@ -34,7 +34,8 @@
                   <th scope="col">Exp. Dt</th> 
                   <th scope="col">Qty</th>
                   <th scope="col">Rate</th>
-                  <th scope="col">Subtotal</th>
+                  <th scope="col">Discount</th>
+                  <th scope="col" style="display:none">Subtotal</th>
                   <th scope="col">GST</th>
                   <th scope="col">Total (inc. GST)</th>
                   
@@ -55,7 +56,8 @@
                 <td ><input name="exp_date[]" id="exp_date1" style="width:80%;border:none"></td>
                 <td ><input name="qty[]" value="1" min="1" id="qty1" style="width:80%"></td>
                 <td ><input name="rate[]" id="rate1" style="width:70%;border:none"></td>
-                <td ><input name="subtotal[]" id="subtotal1" style="width:80%;border:none"></td>
+                <td ><input name="discount[]" id="discount1" value="0" style="width:70%;border:none"></td>
+                <td style="display:none"><input name="subtotal[]" id="subtotal1" ></td>
                 <td ><input name="gst[]"  id="gst1" style="width:80%;border:none"></td>
                 <td ><input name="total[]" id="total1" style="width:80%;border:none"></td>
                 </tr>
@@ -70,7 +72,7 @@
     <div class="row">
     <div class="col-md-6">
     <ul  style="text-align: right;list-style-type:none">
-      <li class="mt-2">SubTotal</span></li>
+      <li class="mt-2" >SubTotal</span></li>
       <li class="mt-2">Discount</li>
       <li class="mt-2">Taxable Amount</li>
       <li class="mt-2">Tax (GST)</li>
@@ -80,7 +82,7 @@
   </div>
   <div class="col-md-6">
     <ul  style="text-align: right;list-style-type:none">
-      <li class="p-1"><input type="number" name="total_subtotal" id="total_subtotal" readonly style="border:none"></li>
+      <li class="p-1"><input type="number" name="total_subtotal" id="total_subtotal" readonly style="border:none;"></li>
       <li class="p-1"><input type="number" name="total_discount" id="total_discount" readonly style="border:none"></li>
       <li class="p-1"><input type="number" name="total_taxable_amount" id="total_taxable_amount" readonly style="border:none"></li>
       <li class="p-1"><input type="number" name="total_gst"  id="total_gst" readonly style="border:none"></li>
@@ -108,9 +110,13 @@
     success:function (output) {
      var data = JSON.stringify(output);
      let text = "";
+     let data_gst="";
      for (let i = 0; i < output.length; i++) {
-      text += '<li id="item'+tl+'"  data-id="'+output[i].id+'"  data-cat="'+output[i].Categories_id +'"  data-mrp="'+output[i].MRP+'" data-sku="'+output[i].SKU+'" data-exp="'+output[i].Exp_date+'" data-rate="'+output[i].Price_unit+'" data-gstrate="'+output[i].gstrate+'" data-stock="'+output[i].Stock+'"  style="border:1px solid;padding:2px">'+output[i].Title+'</li>';
-      alert(text);
+      for (let index = 0; index < output[i].category.length; index++) {
+      data_gst = output[i].category[index].Gstrate;
+     }
+      text += '<li id="item'+tl+'"  data-id="'+output[i].id+'"  data-cat="'+output[i].Categories_id +'"  data-mrp="'+output[i].MRP+'" data-sku="'+output[i].SKU+'" data-exp="'+output[i].Exp_date+'" data-rate="'+output[i].Price_unit+'" data-gstrate="'+data_gst+'" data-stock="'+output[i].Stock+'"  style="border:1px solid;padding:2px">'+output[i].Title+'</li>';
+      
       if (output[i].Title != undefined) {
         $('#title_list'+(tl)).html(text); 
       }
@@ -139,30 +145,41 @@ $(document).on('click', '#item'+(tl), function(){
   $('#exp_date'+(tl)).val(exp_date);  
   $("#qty"+(tl)).attr("max", stock);
   $('#rate'+(tl)).val(rate);
-  $('#subtotal'+(tl)).val(qty * rate); 
+  var subtotal = qty * rate;
+  $('#subtotal'+(tl)).val(subtotal); 
+  var discount_value  = $("#discount"+(tl)).val();
+  var discount = discount_value/100 * subtotal;
   var gst = gst_rate / 100 * $('#subtotal'+(tl)).val();
   $('#gst'+(tl)).val(gst.toFixed(2)); 
-  $('#total'+(tl)).val(parseFloat($('#subtotal'+(tl)).val()) +  parseFloat($('#gst'+(tl)).val())); 
-  //Total Section At First Row
+  $('#total'+(tl)).val(parseFloat($('#subtotal'+(tl)).val())- discount); 
+
   //Total Subtotal
   var ftl = $('#table').find('tr').length;
   const total_subtotal = [];
   for (let index = 1; index <= ftl; index++) {
     total_subtotal.push(parseFloat($('#subtotal'+(index)).val()));
-    console.log("i  " + (index));
   }
   var sum_add = 0;
   total_subtotal.forEach(x_add => {
   sum_add += x_add;
   });
   $('#total_subtotal').val(sum_add); 
+
   //total Discount 
-  $('#total_discount').val(0); 
+ const total_discount = [];
+ for (let index = 1; index <= ftl; index++) {
+  total_discount.push(parseFloat($('#discount'+(index)).val())/100*parseFloat($('#subtotal'+(index)).val()));
+  }
+  var sum_discount = 0;
+  total_discount.forEach(x_total_discount => {
+    sum_discount += x_total_discount;
+  });
+  
+  $('#total_discount').val(sum_discount); 
  //Total Gst
  const total_gst = [];
  for (let index = 1; index <= ftl; index++) {
   total_gst.push(parseFloat($('#gst'+(index)).val()));
-  console.log("i  " + (index));
   }
   var sum_gst = 0;
   total_gst.forEach(x_gst => {
@@ -171,66 +188,140 @@ $(document).on('click', '#item'+(tl), function(){
   $('#total_gst').val(sum_gst.toFixed(2)); 
   //Grand Total
   var total_subtotal_val =  $('#total_subtotal').val(); 
-  var total_gst_val = $('#total_gst').val(); 
-  var grand_total = parseFloat(total_subtotal_val)+parseFloat(total_gst_val);
+  var grand_total = parseFloat(total_subtotal_val)-total_discount;
   var round_grand_total =  Math.round(grand_total);
-  var diff_round = grand_total-round_grand_total;
+  $('#total_taxable_amount').val(grand_total);
+  var diff_round =round_grand_total - grand_total;
   $('#round_off').val(diff_round.toFixed(2)); 
   $('#grand_total').val(round_grand_total.toFixed(2)); 
 });
-$(document).on('keyup', '#qty'+(tl), function(){
-var qty = $('#qty'+(tl)).val();
-var stock = $('#qty'+(tl)).attr("max");
-var qty_id =  $('#qty'+(tl)).attr("id");
-if (parseInt(qty) >= parseInt(stock)) {
-  $("#"+(qty_id)).addClass("qty_outoff_stock");
-}
-var rate = $('#rate'+(tl)).val();
-$('#subtotal'+(tl)).val(qty * rate);
-var subtotal = $('#subtotal'+(tl)).val();
-var gst = window.gstrate/100 * subtotal;
-$('#gst'+(tl)).val(gst.toFixed(2));
-$('#total'+(tl)).val(parseFloat($('#subtotal'+(tl)).val()) +  parseFloat($('#gst'+(tl)).val())); 
-//Total Section After Qty Change
-var ftl = $('#table').find('tr').length;
-const total_subtotal = [];
-for (let index = 1; index <= ftl; index++) {
-  total_subtotal.push(parseFloat($('#subtotal'+(index)).val()));
 
-}
-var sum_add = 0;
-total_subtotal.forEach(x_add => {
-sum_add += x_add;
-});
-$('#total_subtotal').val(sum_add); 
-//total Discount 
-$('#total_discount').val(0); 
-//Total Gst
+
+
+
+$(document).on('keyup', '#discount'+(tl), function(){
+  var qty = $('#qty'+(tl)).val();
+  var rate = $('#rate'+(tl)).val();
+  var discount = $('#discount'+(tl)).val();
+  var subtotal = $('#subtotal'+(tl)).val();
+  var discount_value = $('#discount'+(tl)).val()/100*subtotal; 
+  var subtotal = qty * rate - discount_value;
+
+
+var gst = window.gstrate/100 * subtotal;
+ $('#gst'+(tl)).val(gst.toFixed(2));
+ $('#total'+(tl)).val(subtotal);
+ 
+ //total Discount 
+ var ftl = $('#table').find('tr').length;
+ const total_discount = [];
+ for (let index = 1; index <= ftl; index++) {
+  total_discount.push(parseFloat($('#discount'+(index)).val())/100*parseFloat($('#subtotal'+(index)).val()));
+  }
+  var sum_discount = 0;
+  total_discount.forEach(x_total_discount => {
+    sum_discount += x_total_discount;
+  });
+  
+  $('#total_discount').val(sum_discount); 
+ //Total Gst
  const total_gst = [];
  for (let index = 1; index <= ftl; index++) {
   total_gst.push(parseFloat($('#gst'+(index)).val()));
-  console.log("i  " + (index));
   }
   var sum_gst = 0;
   total_gst.forEach(x_gst => {
     sum_gst += x_gst;
   });
   $('#total_gst').val(sum_gst.toFixed(2)); 
+    //Total Subtotal
+    var ftl = $('#table').find('tr').length;
+  const total_subtotal = [];
+  for (let index = 1; index <= ftl; index++) {
+    total_subtotal.push(parseFloat($('#subtotal'+(index)).val()));
+  }
+  var sum_add = 0;
+  total_subtotal.forEach(x_add => {
+  sum_add += x_add;
+  });
+  $('#total_subtotal').val(sum_add); 
+  //Grand Total
   var total_subtotal_val =  $('#total_subtotal').val(); 
-  var total_gst_val = $('#total_gst').val(); 
-  var grand_total = parseFloat(total_subtotal_val)+parseFloat(total_gst_val);
+  var grand_total = parseFloat(total_subtotal_val)-total_discount;
   var round_grand_total =  Math.round(grand_total);
-  var diff_round = grand_total-round_grand_total;
+  $('#total_taxable_amount').val(grand_total);
+  var diff_round =round_grand_total - grand_total;
   $('#round_off').val(diff_round.toFixed(2)); 
-  $('#grand_total').val(round_grand_total.toFixed(2)); 
+  $('#grand_total').val(round_grand_total.toFixed(2));
+ 
+});
+
+$(document).on('keyup', '#qty'+(tl), function(){
+  var qty = $('#qty'+(tl)).val();
+  var rate = $('#rate'+(tl)).val();
+  var discount = $('#discount'+(tl)).val();
+  var subtotal_value = qty*rate;
+  $('#subtotal'+(tl)).val(subtotal_value);
+
+  var discount_value = $('#discount'+(tl)).val()/100*subtotal_value; 
+  var subtotal_disc = qty * rate - discount_value;
+
+  var gst = window.gstrate/100 * subtotal_disc;
+  $('#gst'+(tl)).val(gst.toFixed(2));
+ $('#total'+(tl)).val(subtotal_disc);
+
+  //total Discount 
+  var ftl = $('#table').find('tr').length;
+  const total_discount = [];
+  for (let index = 1; index <= ftl; index++) {
+  total_discount.push(parseFloat($('#discount'+(index)).val())/100*subtotal_value);
+  }
+  var sum_discount = 0;
+  total_discount.forEach(x_total_discount => {
+    sum_discount += x_total_discount;
+  });
+  
+  $('#total_discount').val(sum_discount); 
+ //Total Gst
+ const total_gst = [];
+ for (let index = 1; index <= ftl; index++) {
+  total_gst.push(parseFloat($('#gst'+(index)).val()));
+  }
+  var sum_gst = 0;
+  total_gst.forEach(x_gst => {
+    sum_gst += x_gst;
+  });
+  $('#total_gst').val(sum_gst.toFixed(2)); 
+ 
+ 
+    //Total Subtotal
+    var ftl = $('#table').find('tr').length;
+  const total_subtotal = [];
+  for (let index = 1; index <= ftl; index++) {
+    total_subtotal.push(parseFloat($('#subtotal'+(index)).val()));
+  }
+  var sum_add = 0;
+  total_subtotal.forEach(x_add => {
+  sum_add += x_add;
+  });
+  $('#total_subtotal').val(sum_add); 
+
+  //Grand Total
+  var total_subtotal_val =  $('#total_subtotal').val(); 
+  var grand_total = parseFloat(total_subtotal_val)-total_discount;
+  var round_grand_total =  Math.round(grand_total);
+  $('#total_taxable_amount').val(grand_total);
+  var diff_round =round_grand_total - grand_total;
+  $('#round_off').val(diff_round.toFixed(2)); 
+  $('#grand_total').val(round_grand_total.toFixed(2));
+  
 });
 });
 </script>
 <script>
- 
-  $(".add-row").click(function(){
+   $(".add-row").click(function(){
     var tl = $('#table').find('tr').length + 1;
-    var markup = "<tr><td id='count" + (tl) + "'></td><td><input type='text'  name='title[]' id='name"+(tl)+"'><ul id='title_list"+(tl)+"' class='list-group' style='list-style-type:none'></ul></td><td style='display:none'><input name='id[]' id='p-id"+(tl)+"'></td><td ><input name='mrp[]' id='mrp"+(tl)+"' style='width:80%;border:none' readonly></td><td><input name='sku[]' id='sku"+(tl)+"' style='width:100%;border:none' readonly></td><td><input name='exp_date[]' id='exp_date"+(tl)+"' style='width:80%;border:none' readonly></td><td><input name='qty[]' id='qty"+(tl)+"' value='1'  min='1' style='width:80%'></td><td><input name='rate[]' id='rate"+(tl)+"' style='width:80%;border:none' readonly></td><td><input name='subtotal[]' id='subtotal"+(tl)+"' style='width:80%;border:none' readonly></td><td ><input name='gst[]' id='gst"+(tl)+"' style='width:80%;border:none' readonly></td><td><input name='total[]' id='total"+(tl)+"' style='width:80%;border:none' readonly></td></tr>";
+    var markup = "<tr><td id='count" + (tl) + "'></td><td><input type='text'  name='title[]' id='name"+(tl)+"'><ul id='title_list"+(tl)+"' class='list-group' style='list-style-type:none'></ul></td><td style='display:none'><input name='id[]' id='p-id"+(tl)+"'></td><td ><input name='mrp[]' id='mrp"+(tl)+"' style='width:80%;border:none' readonly></td><td><input name='sku[]' id='sku"+(tl)+"' style='width:100%;border:none' readonly></td><td><input name='exp_date[]' id='exp_date"+(tl)+"' style='width:80%;border:none' readonly></td><td><input name='qty[]' id='qty"+(tl)+"' value='1'  min='1' style='width:80%'></td><td><input name='rate[]' id='rate"+(tl)+"' style='width:80%;border:none' readonly></td><td style='display:none'><input name='subtotal[]' id='subtotal"+(tl)+"' style='width:80%;border:none' readonly></td><td ><input name='discount[]' id='discount"+(tl)+"' value='0' style='width:70%;border:none'></td><td ><input name='gst[]' id='gst"+(tl)+"' style='width:80%;border:none' readonly></td><td><input name='total[]' id='total"+(tl)+"' style='width:80%;border:none' readonly></td></tr>";
     $("table tbody").append(markup);
     $('#count'+  (tl)).text(tl);
     $('#name'+(tl)).on('keyup',function () {
@@ -243,20 +334,26 @@ $('#total_discount').val(0);
     success:function (output) {
      var data = JSON.stringify(output);
      let text = "";
+     let data_gst="";
      for (let i = 0; i < output.length; i++) {
-      text += '<li id="item'+tl+'" data-id="'+output[i].id+'" data-mrp="'+output[i].MRP+'" data-sku="'+output[i].SKU+'" data-exp="'+output[i].Exp_date+'" data-rate="'+output[i].Price_unit+'" data-gstrate="'+output[i].gstrate+'" data-stock="'+output[i].Stock+'" style="border:1px solid;padding:2px">'+output[i].Title+'</li>';
+      for (let index = 0; index < output[i].category.length; index++) {
+      data_gst = output[i].category[index].Gstrate;
+     }
+      text += '<li id="item'+tl+'"  data-id="'+output[i].id+'"  data-cat="'+output[i].Categories_id +'"  data-mrp="'+output[i].MRP+'" data-sku="'+output[i].SKU+'" data-exp="'+output[i].Exp_date+'" data-rate="'+output[i].Price_unit+'" data-gstrate="'+data_gst+'" data-stock="'+output[i].Stock+'"  style="border:1px solid;padding:2px">'+output[i].Title+'</li>';
+      
       if (output[i].Title != undefined) {
         $('#title_list'+(tl)).html(text); 
       }
       
     }  
-    }
+  }
    });
    });
    $(document).on('click', '#item'+(tl), function(){
-   var value = $(this).text();
-   var mrp = $(this).attr("data-mrp");
-   var sku = $(this).attr("data-sku");
+  $('#title_list'+(tl)).html("");
+  var value = $(this).text();
+  var mrp = $(this).attr("data-mrp");
+  var sku = $(this).attr("data-sku");
   var exp_date = $(this).attr("data-exp");
   var rate = $(this).attr("data-rate");
   var gst_rate =  $(this).attr("data-gstrate");
@@ -271,93 +368,191 @@ $('#total_discount').val(0);
   $('#exp_date'+(tl)).val(exp_date);  
   $("#qty"+(tl)).attr("max", stock);
   $('#rate'+(tl)).val(rate);
-  $('#subtotal'+(tl)).val(qty * rate); 
+  var subtotal = qty * rate;
+  $('#subtotal'+(tl)).val(subtotal); 
+  var discount_value  = $("#discount"+(tl)).val();
+  var discount = discount_value/100 * subtotal;
   var gst = gst_rate / 100 * $('#subtotal'+(tl)).val();
-  $('#gst'+(tl)).val(gst.toFixed(2)); 
-  $('#total'+(tl)).val(parseFloat($('#subtotal'+(tl)).val()) +  parseFloat($('#gst'+(tl)).val())); 
-  $('#title_list'+(tl)).html("");
-  //Total Section After Adding row 
- var ftl = $('#table').find('tr').length;
- const total_subtotal = [];
-for (let index = 1; index <= ftl; index++) {
-  total_subtotal.push(parseFloat($('#subtotal'+(index)).val()));
-  console.log("i  " + (index));
-}
-var sum_add = 0;
-total_subtotal.forEach(x_add => {
-sum_add += x_add;
-});
-$('#total_subtotal').val(sum_add);
-//total Discount 
-$('#total_discount').val(0); 
-//Total Gst
+  $('#gst'+(tl)).val(gst.toFixed(2));
+  $('#total'+(tl)).val(parseFloat($('#subtotal'+(tl)).val()) - discount); 
+  //Total Subtotal
+  var ftl = $('#table').find('tr').length;
+  const total_subtotal = [];
+  for (let index = 1; index <= ftl; index++) {
+    total_subtotal.push(parseFloat($('#subtotal'+(index)).val()));
+  }
+  var sum_add = 0;
+  total_subtotal.forEach(x_add => {
+  sum_add += x_add;
+  });
+  $('#total_subtotal').val(sum_add); 
+
+  //total Discount 
+ const total_discount = [];
+ for (let index = 1; index <= ftl; index++) {
+  total_discount.push(parseFloat($('#discount'+(index)).val())/100*parseFloat($('#subtotal'+(index)).val()));
+  }
+  var sum_discount = 0;
+  total_discount.forEach(x_total_discount => {
+    sum_discount += x_total_discount;
+  });
+  
+  $('#total_discount').val(sum_discount); 
+  
+ //Total Gst
  const total_gst = [];
  for (let index = 1; index <= ftl; index++) {
   total_gst.push(parseFloat($('#gst'+(index)).val()));
-  console.log("i  " + (index));
   }
   var sum_gst = 0;
   total_gst.forEach(x_gst => {
     sum_gst += x_gst;
   });
   $('#total_gst').val(sum_gst.toFixed(2)); 
+ //Total Subtotal
+ var ftl = $('#table').find('tr').length;
+  let total_subtotal_afterrow = [];
+  for (let index = 1; index <= ftl; index++) {
+    total_subtotal_afterrow.push(parseFloat($('#subtotal'+(index)).val()));
+  }
+  var sum_add = 0;
+  total_subtotal_afterrow.forEach(x_add => {
+  sum_add += x_add;
+  });
+  $('#total_subtotal').val(sum_add); 
+
+  //Grand Total
   var total_subtotal_val =  $('#total_subtotal').val(); 
-  var total_gst_val = $('#total_gst').val(); 
-  var grand_total = parseFloat(total_subtotal_val)+parseFloat(total_gst_val);
+  var grand_total = parseFloat(total_subtotal_val)- $('#total_discount').val();
+  
   var round_grand_total =  Math.round(grand_total);
-  var diff_round = grand_total-round_grand_total;
+  $('#total_taxable_amount').val(grand_total);
+  var diff_round =round_grand_total - grand_total;
   $('#round_off').val(diff_round.toFixed(2)); 
   $('#grand_total').val(round_grand_total.toFixed(2)); 
- });
+  });
 
+  $(document).on('keyup', '#discount'+(tl), function(){
+  var qty = $('#qty'+(tl)).val();
+  var rate = $('#rate'+(tl)).val();
+  var discount = $('#discount'+(tl)).val();
+  var subtotal = $('#subtotal'+(tl)).val();
+  var discount_value = $('#discount'+(tl)).val()/100*subtotal; 
+  var subtotal = qty * rate - discount_value;
+
+
+var gst = window.gstrate/100 * subtotal;
+ $('#gst'+(tl)).val(gst.toFixed(2));
+ $('#total'+(tl)).val(subtotal);
+ 
+ //total Discount 
+ var ftl = $('#table').find('tr').length;
+ const total_discount = [];
+ for (let index = 1; index <= ftl; index++) {
+  total_discount.push(parseFloat($('#discount'+(index)).val())/100*parseFloat($('#subtotal'+(index)).val()));
+  }
+  var sum_discount = 0;
+  total_discount.forEach(x_total_discount => {
+    sum_discount += x_total_discount;
+  });
+  
+  $('#total_discount').val(sum_discount); 
+ //Total Gst
+ const total_gst = [];
+ for (let index = 1; index <= ftl; index++) {
+  total_gst.push(parseFloat($('#gst'+(index)).val()));
+  }
+  var sum_gst = 0;
+  total_gst.forEach(x_gst => {
+    sum_gst += x_gst;
+  });
+  $('#total_gst').val(sum_gst.toFixed(2)); 
+    //Total Subtotal
+    var ftl = $('#table').find('tr').length;
+  const total_subtotal = [];
+  for (let index = 1; index <= ftl; index++) {
+    total_subtotal.push(parseFloat($('#subtotal'+(index)).val()));
+  }
+  var sum_add = 0;
+  total_subtotal.forEach(x_add => {
+  sum_add += x_add;
+  });
+  $('#total_subtotal').val(sum_add); 
+  //Grand Total
+  var total_subtotal_val =  $('#total_subtotal').val(); 
+  var grand_total = parseFloat(total_subtotal_val)-$('#total_discount').val();
+  var round_grand_total =  Math.round(grand_total);
+  $('#total_taxable_amount').val(grand_total);
+  var diff_round =round_grand_total - grand_total;
+  $('#round_off').val(diff_round.toFixed(2)); 
+  $('#grand_total').val(round_grand_total.toFixed(2));
+ 
+  });
   $(document).on('keyup', '#qty'+(tl), function(){
   var qty = $('#qty'+(tl)).val();
-  var stock = $('#qty'+(tl)).attr("max");
-  var qty_id =  $('#qty'+(tl)).attr("id");
-  if (parseInt(qty) >= parseInt(stock)) {
-  $("#"+(qty_id)).addClass("qty_outoff_stock");
-  }
   var rate = $('#rate'+(tl)).val();
-  $('#subtotal'+(tl)).val(qty * rate);
-  var subtotal = $('#subtotal'+(tl)).val();
-  var gst =window.gstrate/100 * subtotal;
+  var discount = $('#discount'+(tl)).val();
+  var subtotal_value = qty*rate;
+  $('#subtotal'+(tl)).val(subtotal_value);
+
+  var discount_value = $('#discount'+(tl)).val()/100*subtotal_value; 
+  var subtotal_disc = qty * rate - discount_value;
+
+  var gst = window.gstrate/100 * subtotal_disc;
   $('#gst'+(tl)).val(gst.toFixed(2));
-  $('#total'+(tl)).val(parseFloat($('#subtotal'+(tl)).val()) +  parseFloat($('#gst'+(tl)).val()));
- //Total Section After Add row qty Change
- var ftl = $('#table').find('tr').length;
- const total_subtotal = [];
-for (let index = 1; index <= ftl; index++) {
-  total_subtotal.push(parseFloat($('#subtotal'+(index)).val()));
-  console.log("i  " + (index));
-}
-var sum_add = 0;
-total_subtotal.forEach(x_add => {
-sum_add += x_add;
-});
-$('#total_subtotal').val(sum_add);
-//total Discount 
-$('#total_discount').val(0); 
-//Total Gst
+ $('#total'+(tl)).val(subtotal_disc);
+
+  //total Discount 
+  var ftl = $('#table').find('tr').length;
+  const total_discount = [];
+  for (let index = 1; index <= ftl; index++) {
+  total_discount.push(parseFloat($('#discount'+(index)).val())/100*subtotal_value);
+  }
+  var sum_discount = 0;
+  total_discount.forEach(x_total_discount => {
+    sum_discount += x_total_discount;
+  });
+  
+  $('#total_discount').val(sum_discount); 
+ //Total Gst
  const total_gst = [];
  for (let index = 1; index <= ftl; index++) {
   total_gst.push(parseFloat($('#gst'+(index)).val()));
-  console.log("i  " + (index));
   }
   var sum_gst = 0;
   total_gst.forEach(x_gst => {
     sum_gst += x_gst;
   });
   $('#total_gst').val(sum_gst.toFixed(2)); 
+ 
+ 
+    //Total Subtotal
+    var ftl = $('#table').find('tr').length;
+  const total_subtotal = [];
+  for (let index = 1; index <= ftl; index++) {
+    total_subtotal.push(parseFloat($('#subtotal'+(index)).val()));
+  }
+  var sum_add = 0;
+  total_subtotal.forEach(x_add => {
+  sum_add += x_add;
+  });
+  $('#total_subtotal').val(sum_add); 
+
+  //Grand Total
   var total_subtotal_val =  $('#total_subtotal').val(); 
-  var total_gst_val = $('#total_gst').val(); 
-  var grand_total = parseFloat(total_subtotal_val)+parseFloat(total_gst_val);
+  var grand_total = parseFloat(total_subtotal_val)-$('#total_discount').val();
   var round_grand_total =  Math.round(grand_total);
-  var diff_round = grand_total-round_grand_total;
+  $('#total_taxable_amount').val(grand_total);
+  var diff_round =round_grand_total - grand_total;
   $('#round_off').val(diff_round.toFixed(2)); 
-  $('#grand_total').val(round_grand_total.toFixed(2)); 
+  $('#grand_total').val(round_grand_total.toFixed(2));
+  
 });
-});
+  });
 </script>
+
+
+
 @push('styles')
 <style>
   ul li:hover{
