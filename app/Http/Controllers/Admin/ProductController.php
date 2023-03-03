@@ -194,7 +194,7 @@ class ProductController extends Controller
     $product->Title = $req['title'];
     $product->SKU = $req['bath_no'];
     $product->MRP = $req['mrp'];
-    $product->Price_unit = $req['price'];
+    $product->Price_unit = $product->MRP/$product->TripSize;
     $product->Stock = $req['stock'];
     $product->Exp_date = $req['exp_date'];
     $product->Categories_id = $req['category'];
@@ -205,6 +205,7 @@ class ProductController extends Controller
     $product->Ingredients = $req['ingredients'];
     $product->Schedule = $req['schedule'];
     $product->TripSize = $req['tripsize'];
+    $product->Price_unit = $product->MRP/$product->TripSize;
     $product->Description = $req['description'];
     $product->save();
     return redirect()->route('admin.view_product');
