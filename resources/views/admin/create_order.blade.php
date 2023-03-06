@@ -51,15 +51,15 @@
                   </ul>
                 </td>
                 <td style="display:none"><input name="id[]" id="p-id1" ></td>
-                <td ><input name="mrp[]" id="mrp1" style="width:80%;border:none"></td>
+                <td ><input name="mrp[]" id="mrp1" style="width:80%;border:none" readonly></td>
                 <td ><input name="sku[]" id="sku1" style="width:100%;border:none" readonly></td>
-                <td ><input name="exp_date[]" id="exp_date1" style="width:80%;border:none"></td>
+                <td ><input name="exp_date[]" id="exp_date1" style="width:80%;border:none" readonly></td>
                 <td ><input name="qty[]" value="1" min="1" id="qty1" style="width:80%"></td>
-                <td ><input name="rate[]" id="rate1" style="width:70%;border:none"></td>
+                <td ><input name="rate[]" id="rate1" style="width:70%;border:none" readonly></td>
                 <td ><input name="discount[]" id="discount1" value="0" style="width:70%;border:none"></td>
                 <td style="display:none" ><input name="subtotal[]" id="subtotal1" ></td>
-                <td ><input name="gst[]"  id="gst1" style="width:80%;border:none"></td>
-                <td ><input name="total[]" id="total1" style="width:80%;border:none"></td>
+                <td ><input name="gst[]"  id="gst1" style="width:80%;border:none" readonly></td>
+                <td ><input name="total[]" id="total1" style="width:80%;border:none" readonly></td>
                 </tr>
               </tbody>
             </table>

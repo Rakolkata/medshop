@@ -57,7 +57,13 @@ class ProductController extends Controller
         $product->Ingredients = $req['infredients'];
         $product->Schedule = $req['schedule'];
         $product->TripSize = $req['tripsize'];
-        $product->Price_unit = $product->MRP/$product->TripSize;
+        if ($product->TripSize == null) {
+            $product->Price_unit = 0;
+        } else {
+            $product->Price_unit = $product->MRP/$product->TripSize;
+        }
+        
+      
         $product->Description = $req['description'];
         $product->save();
         return redirect()->route('admin.view_product')->with('msg','Product Added!');
