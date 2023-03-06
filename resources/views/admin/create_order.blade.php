@@ -34,7 +34,7 @@
                   <th scope="col">Exp. Dt</th> 
                   <th scope="col">Qty</th>
                   <th scope="col">Rate</th>
-                  <th scope="col">Discount</th>
+                  <th scope="col">Discount (%)</th>
                   <th scope="col" style="display:none">Subtotal</th>
                   <th scope="col">GST</th>
                   <th scope="col">Total (inc. GST)</th>
@@ -72,7 +72,7 @@
     <div class="row">
     <div class="col-md-6">
     <ul  style="text-align: right;list-style-type:none">
-      <li class="mt-2" >SubTotal</span></li>
+      <li class="mt-2" style="display:none">SubTotal</span></li>
       <li class="mt-2">Discount</li>
       <li class="mt-2">Taxable Amount</li>
       <li class="mt-2">Tax (GST)</li>
@@ -82,7 +82,7 @@
   </div>
   <div class="col-md-6">
     <ul  style="text-align: right;list-style-type:none">
-      <li class="p-1" ><input type="number" name="total_subtotal" id="total_subtotal" readonly style="border:none;"></li>
+      <li class="p-1" ><input type="number" name="total_subtotal" id="total_subtotal" readonly style="border:none;display:none"></li>
       <li class="p-1"><input type="number" name="total_discount" id="total_discount" readonly style="border:none"></li>
       <li class="p-1"><input type="number" name="total_taxable_amount" id="total_taxable_amount" readonly style="border:none"></li>
       <li class="p-1"><input type="number" name="total_gst"  id="total_gst" readonly style="border:none"></li>
@@ -405,7 +405,7 @@ $(document).on('keyup', '#qty'+(tl), function(){
   total_subtotal.forEach(x_add => {
   sum_add += x_add;
   });
-  alert(sum_add);
+
   $('#total_subtotal').val(sum_add); 
 
   //Total Discount
