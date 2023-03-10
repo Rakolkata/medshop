@@ -35,7 +35,8 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <!--<img src="{{url('')}}" style="height: 100px">--> Medshop 
+                    <div>{{env('APP_NAME')}} </div>
+                    {{-- <img src="{{env('APP_NAME')}}" style="height: 100px"> --}}
                 </div>
                
             </a>
