@@ -61,10 +61,10 @@
   <div class="row text-capitalize"   id="recipet{{$loop->iteration}}" >
    
     <div class="col-md-6 p-2"  style="border-bottom: 1px solid black">
-      <h5 class="text-capitalize ">medshop medical store</h5>
+      <h5 class="text-capitalize ">{{env('APP_NAME')}}</h5>
     </div>
     <div class="col-md-6 p-2"  style="border-bottom: 1px solid black;text-align:right">
-      <h5 class="text-capitalize ">Tax Invoice</h5>
+      <h5 class="text-capitalize ">Tax Invoice :{{$order[$index]->id}}</h5>
       <address>
         Xyz , Kolkata , PIN - 00000<br>
         <a href="tel:+91 9801799297">+91 9801799297</a>
@@ -117,6 +117,12 @@
           <li>Grand Total : {{sprintf("%.2f",$order[$index]->Total_Order)}}</li>
         </ul>
       </div>
+    </div>
+    <div class="col-md-6 p-1" style="border-bottom: 1px dashed">
+      <ul style="list-style-type: none">
+        <li>thanks and regards</li>
+       
+      </ul>
     </div>
    </div>  
   @endforeach
