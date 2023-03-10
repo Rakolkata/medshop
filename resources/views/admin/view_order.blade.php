@@ -27,7 +27,7 @@
       @if (count($order)>=1)
       @foreach ($order as $index=>$value)
       <tr>
-        <th scope="row">{{$order[$index]->id}}</th>
+        <th scope="row">{{$order[$index]->orderID}}</th>
         <td>{{$order[$index]->name}}</td>
         <td>{{$order[$index]->Total_Order}}</td>
         
@@ -118,13 +118,14 @@
         </ul>
       </div>
     </div>
-    <div class="col-md-6 p-1" style="border-bottom: 1px dashed">
-      <ul style="list-style-type: none">
-        <li>thanks and regards</li>
-       
-      </ul>
-    </div>
-   </div>  
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+              <span>Thanks for making an order</span>
+          </div>
+      </div>
+    </footer>
+     </div>  
   @endforeach
 </div>
  
