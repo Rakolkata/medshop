@@ -33,7 +33,6 @@ Route::get('/home', [HomeController::class, 'registration_success'])->name('home
 
 
 
-
 Route::middleware(['auth', 'user-access:shopkeepar'])->group(function () {
   
     Route::get('/shopkeepar/home', [HomeController::class, 'index'])->name('shopkeepar.home');
