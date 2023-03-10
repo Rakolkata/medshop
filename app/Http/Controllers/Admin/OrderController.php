@@ -74,7 +74,6 @@ class OrderController extends Controller
     $order->save();
     $order_last_id = $order->id;
 
-
     $prod_name =  $req['title'];
     $prod_id =  $req['id'];
     $prod_rate = $req['rate']; 
@@ -84,6 +83,8 @@ class OrderController extends Controller
    
      foreach($prod_name as $index=>$value){
       $order_details = new Order_details;
+    //   $dt=$order_last_id.date("dmy");
+    //   $order_details->Order_id = $dt;
       $order_details->Order_id = $order_last_id;
       $order_details->Product_id = $prod_id[$index];
       $order_details->rate = $prod_rate[$index]; 	
