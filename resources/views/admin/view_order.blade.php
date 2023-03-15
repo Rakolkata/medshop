@@ -27,7 +27,7 @@
       @if (count($order)>=1)
       @foreach ($order as $index=>$value)
       <tr>
-        <th scope="row">{{$order[$index]->id}}</th>
+        <th scope="row">{{$order[$index]->orderID}}</th>
         <td>{{$order[$index]->name}}</td>
         <td>{{$order[$index]->Total_Order}}</td>
         
@@ -61,13 +61,13 @@
   <div class="row text-capitalize"   id="recipet{{$loop->iteration}}" >
    
     <div class="col-md-6 p-2"  style="border-bottom: 1px solid black">
-      <h5 class="text-capitalize ">medshop medical store</h5>
+      <h5 class="text-capitalize ">{{env('APP_NAME')}}</h5>
     </div>
     <div class="col-md-6 p-2"  style="border-bottom: 1px solid black;text-align:right">
-      <h5 class="text-capitalize ">Tax Invoice</h5>
+      <h5 class="text-capitalize ">Tax Invoice <br>{{$order[$index]->orderID}}</h5>
       <address>
-        Xyz , Kolkata , PIN - 00000<br>
-        <a href="tel:+91 9801799297">+91 9801799297</a>
+        {{$order[$index]->Address}}<br>
+        <a href="tel:{{$order[$index]->Phone}}">{{$order[$index]->Phone}}</a>
       </address>
     </div>
     
@@ -92,6 +92,8 @@
             <th scope="col">Qty</th>
             <th scope="col">Rate</th>
             <th scope="col">Gst</th>
+            <th scope="col">Order Total</th>
+            <th scope="col">Discount</th> 
             <th scope="col">Total</th>
           </tr>
         </thead>
@@ -106,6 +108,8 @@
           <td >{{$item->Qty}}</td> 
           <td >{{$item->Rate}}</td>
           <td >{{$item->Gst}}</td>
+          <td >{{$item->total_order}}</td>
+          <td >{{$item->discount}}</td>
           <td >{{$item->Total}}</td>
           
           </tr>
@@ -118,7 +122,14 @@
         </ul>
       </div>
     </div>
-   </div>  
+    <footer class="sticky-footer bg-white text-center" style="margin-top:80%;">
+      <div class="container my-auto">
+          <div class="text-center my-auto">
+              <span>Thanks for making an order</span>
+          </div>
+      </div>
+    </footer>
+  </div>  
   @endforeach
 </div>
  

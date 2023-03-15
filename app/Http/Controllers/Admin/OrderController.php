@@ -25,7 +25,7 @@ class OrderController extends Controller
     public function prod_name(Request $request){
          if ($request->ajax()) {
 
-            $data = Product::with('category')->where('Stock','>=' ,1)->where('Title','LIKE','%'.$request->name.'%')->orWhere('Generic_name','LIKE','%'.$request->name.'%')->get();
+            $data = Product::with('category')->where('Title','LIKE','%'.$request->name.'%')->where('Stock','>=' ,1)->orWhere('Generic_name','LIKE','%'.$request->name.'%')->get();
 
           
             $output =" ";
@@ -35,7 +35,7 @@ class OrderController extends Controller
 
             }else {
 
-                $output .= '<li class="list-group-item">'.'No Data Found'.'</li>';
+                $output = "<li class='list-group-item'>No Data Found</li>";
 
             }
 
@@ -71,10 +71,13 @@ class OrderController extends Controller
     $order->Total_Gst = $req['total_gst'];
     $order->Discount = $req['total_discount'];
     $order->Adjustment = $req['round_off'];
+    $order->orderID="";
     $order->save();
-    $order_last_id = $order->id;
-
-
+    $order_last_id = $order->id;    
+    $dt=substr(env('APP_NAME'),0,1).date("dmY").$order_last_id;
+    $order->orderID=$dt;
+    $order->save();
+    
     $prod_name =  $req['title'];
     $prod_id =  $req['id'];
     $prod_rate = $req['rate']; 
@@ -84,6 +87,8 @@ class OrderController extends Controller
    
      foreach($prod_name as $index=>$value){
       $order_details = new Order_details;
+    //   $dt=$order_last_id.date("dmY");
+    //   $order_details->Order_id = $dt;
       $order_details->Order_id = $order_last_id;
       $order_details->Product_id = $prod_id[$index];
       $order_details->rate = $prod_rate[$index]; 	
@@ -93,7 +98,6 @@ class OrderController extends Controller
       $order_details->save();
       $product = Product::find( $order_details->Product_id );
       $stock = $product->Stock;
-      echo $stock;
       $product->Stock =$stock-$order_details->qty;
       $product->save();
      }
@@ -105,7 +109,7 @@ class OrderController extends Controller
     public function view(){
     $order= Order::join('order__user__profiles', 'order__user__profiles.id', '=', 'orders.Profile_id')
     ->join('users','users.id','=','order__user__profiles.User_id')
-    ->select(['orders.Total_Order','users.name','orders.id','order__user__profiles.Doc_Name_RegdNo','order__user__profiles.Address'])->paginate(15);
+    ->select(['orders.Total_Order','users.name','orders.id','orders.orderID','order__user__profiles.Doc_Name_RegdNo','order__user__profiles.Address','order__user__profiles.Phone'])->paginate(15);
     $order_id=[];
     foreach ($order as $value) {
      $order_id[]=$value->id;
@@ -115,7 +119,8 @@ class OrderController extends Controller
     foreach ($order_id as $item) {
       $Order_Details[] = Order_details::where('Order_id',$item)
       ->join('products','products.id','=','order_details.Product_id')
-      ->select('products.Title as Title','products.MRP as mrp','products.SKU as Sku','products.Exp_date as Exp','order_details.qty as Qty','order_details.rate as Rate','order_details.gst as Gst','order_details.Product_price as Total')->get();
+      ->leftJoin('orders','orders.id','=','order_details.Order_id')
+      ->select('products.Title as Title','products.MRP as mrp','products.SKU as Sku','products.Exp_date as Exp','order_details.qty as Qty','order_details.rate as Rate','order_details.gst as Gst','order_details.Product_price as Total','orders.Total_Order as total_order','orders.Discount as discount')->get();
      
     }
  
