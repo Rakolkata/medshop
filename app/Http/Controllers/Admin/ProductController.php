@@ -83,7 +83,7 @@ class ProductController extends Controller
     if ($product != null) {
         $product->delete();
     }
-    return redirect()->route('admin.view_product')->with('msg-deleted','Product Deleted!');
+    return redirect()->back();
     }
 
     function importData(Request $request){
@@ -214,6 +214,6 @@ class ProductController extends Controller
     $product->Price_unit = $product->MRP/$product->TripSize;
     $product->Description = $req['description'];
     $product->save();
-    return redirect()->route('admin.view_product');
+    return redirect()->back();
     }
 }
