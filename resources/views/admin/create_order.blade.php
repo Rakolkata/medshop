@@ -1,9 +1,9 @@
 
 @extends('layouts.admin.app')
 @push('title')
-<title>Medshop | Create-Order</title>   
-@endpush  
-@section('content') 
+<title>Medshop | Create-Order</title>
+@endpush
+@section('content')
 <form action="{{route('admin.order_store')}}" method="post">
   @csrf
 <div class="customerInfo">
@@ -14,8 +14,8 @@
       <div class="ciCol"><label>Phone</label><input type="text" name="coustomer_phone" required/></div>
       <div class="ciCol"><label>Email</label><input type="email" name="coustomer_email" required/></div>
     </div>
-    
-     <div class="ciRow2">      
+
+     <div class="ciRow2">
       <div class="ciCol"><label>Address</label><textarea name="customer_address" required></textarea></div>
       <div class="ciCol"><label>Dr. Name/Reg. No.</label ><textarea name ="doc_name_regdno"></textarea></div>
     </div>
@@ -31,15 +31,15 @@
                   <th scope="col">Name</th>
                   <th scope="col" style="display:none">Id</th>
                   <th scope="col">MRP</th>
-                  <th scope="col">Batch No.</th> 
-                  <th scope="col">Exp. Dt</th> 
+                  <th scope="col">Batch No.</th>
+                  <th scope="col">Exp. Dt</th>
                   <th scope="col">Qty</th>
                   <th scope="col">Rate</th>
                   <th scope="col">Discount (%)</th>
                   <th scope="col" style="display:none">Subtotal</th>
                   <th scope="col">GST</th>
                   <th scope="col">Total (inc. GST)</th>
-                  
+
 
                 </tr>
               </thead>
@@ -103,6 +103,9 @@
   var tl = $('#table').find('tr').length;
   $('#name'+(tl)).on('keyup',function () {
     var query = $(this).val();
+    if (query.length<3){
+        return;
+    }
     $.ajax({
     url:'{{ route('admin.prod_name') }}',
     dataType: 'json',
@@ -115,22 +118,22 @@
      for (let i = 0; i < output.length; i++) {
       for (let index = 0; index < output[i].category.length; index++) {
       if ( output[i].category[index].Gstrate !=undefined) {
-        data_gst = output[i].category[index].Gstrate; 
+        data_gst = output[i].category[index].Gstrate;
       } else {
         data_gst = 0;
       }
-      
+
      }
       text += '<li id="item'+tl+'"  data-id="'+output[i].id+'"  data-cat="'+output[i].Categories_id +'"  data-mrp="'+output[i].MRP+'" data-sku="'+output[i].SKU+'" data-exp="'+output[i].Exp_date+'" data-rate="'+output[i].Price_unit+'" data-gstrate="'+data_gst+'" data-stock="'+output[i].Stock+'"  style="border:1px solid;padding:2px">'+output[i].Title+'</li>';
-      
+
       if (output[i].Title != undefined) {
-        $('#title_list'+(tl)).html(text); 
+        $('#title_list'+(tl)).html(text);
       }
-      
-    }  
+
+    }
   }
-}); 
- 
+});
+
 });
 $(document).on('click', '#item'+(tl), function(){
   $('#title_list'+(tl)).html("");
@@ -143,11 +146,11 @@ $(document).on('click', '#item'+(tl), function(){
   var stock =  $(this).attr("data-stock");
   window.stock = stock;
   if (stock == "null") {
-    $("#qty"+(tl)).attr("class", "qty_outoff_stock"); 
+    $("#qty"+(tl)).attr("class", "qty_outoff_stock");
   } else {
     $("#qty"+(tl)).attr("class", "qty_in_stock");
   }
-  
+
   var id =  $(this).attr("data-id");
   window.gstrate = gst_rate;
   var qty = $("#qty"+(tl)).val();
@@ -155,16 +158,16 @@ $(document).on('click', '#item'+(tl), function(){
   $('#p-id'+(tl)).val(id);
   $('#mrp'+(tl)).val(mrp);
   $('#sku'+(tl)).val(sku);
-  $('#exp_date'+(tl)).val(exp_date);  
+  $('#exp_date'+(tl)).val(exp_date);
   $("#qty"+(tl)).attr("max", stock);
   $('#rate'+(tl)).val(rate);
   var subtotal = qty * rate;
-  $('#subtotal'+(tl)).val(subtotal); 
+  $('#subtotal'+(tl)).val(subtotal);
   var discount_value  = $("#discount"+(tl)).val();
   var discount = discount_value/100 * subtotal;
   var gst = gst_rate / 100 * $('#subtotal'+(tl)).val();
-  $('#gst'+(tl)).val(gst.toFixed(2)); 
-  $('#total'+(tl)).val(parseFloat($('#subtotal'+(tl)).val())- discount); 
+  $('#gst'+(tl)).val(gst.toFixed(2));
+  $('#total'+(tl)).val(parseFloat($('#subtotal'+(tl)).val())- discount);
   //Total Subtotal
   var ftl = $('#table').find('tr').length;
   const total_subtotal = [];
@@ -175,7 +178,7 @@ $(document).on('click', '#item'+(tl), function(){
   total_subtotal.forEach(x_add => {
   sum_add += x_add;
   });
-  $('#total_subtotal').val(sum_add); 
+  $('#total_subtotal').val(sum_add);
   //Total Discount
   const total_discount = [];
   for (let index = 1; index <= ftl; index++) {
@@ -185,9 +188,9 @@ $(document).on('click', '#item'+(tl), function(){
   total_discount.forEach(x_discount => {
     sum_discount += x_discount;
   });
-  $('#total_discount').val(sum_discount.toFixed(2)); 
+  $('#total_discount').val(sum_discount.toFixed(2));
   var taxable_ammount= $('#total_subtotal').val()-$('#total_discount').val();
-  $('#total_taxable_amount').val(taxable_ammount.toFixed(2)); 
+  $('#total_taxable_amount').val(taxable_ammount.toFixed(2));
 //Total Gst
  const total_gst = [];
  for (let index = 1; index <= ftl; index++) {
@@ -197,12 +200,12 @@ $(document).on('click', '#item'+(tl), function(){
   total_gst.forEach(x_gst => {
     sum_gst += x_gst;
   });
-  $('#total_gst').val(sum_gst.toFixed(2)); 
+  $('#total_gst').val(sum_gst.toFixed(2));
   var round_taxable_ammount = Math.round(taxable_ammount);
   var round_ammount = taxable_ammount - round_taxable_ammount;
-  $('#round_off').val(round_ammount.toFixed(2)); 
-  $('#grand_total').val(round_taxable_ammount.toFixed(2)); 
-    
+  $('#round_off').val(round_ammount.toFixed(2));
+  $('#grand_total').val(round_taxable_ammount.toFixed(2));
+
 });
 $(document).on('keyup', '#discount'+(tl), function(){
   var qty = $('#qty'+(tl)).val();
@@ -213,13 +216,13 @@ $(document).on('keyup', '#discount'+(tl), function(){
   console.log('discount'+discount);
   var subtotal = $('#subtotal'+(tl)).val();
   console.log('subtotal'+subtotal);
-  var discount_value = $('#discount'+(tl)).val()/100*subtotal; 
+  var discount_value = $('#discount'+(tl)).val()/100*subtotal;
   console.log('discount_value'+discount_value);
   var total = qty * rate - discount_value;
   console.log('total'+total);
   var gst = window.gstrate/100 * total;
-  $('#gst'+(tl)).val(gst.toFixed(2)); 
-  $('#total'+(tl)).val(parseFloat($('#subtotal'+(tl)).val())- discount_value); 
+  $('#gst'+(tl)).val(gst.toFixed(2));
+  $('#total'+(tl)).val(parseFloat($('#subtotal'+(tl)).val())- discount_value);
     //Total Subtotal
     var ftl = $('#table').find('tr').length;
   const total_subtotal = [];
@@ -230,7 +233,7 @@ $(document).on('keyup', '#discount'+(tl), function(){
   total_subtotal.forEach(x_add => {
   sum_add += x_add;
   });
-  $('#total_subtotal').val(sum_add); 
+  $('#total_subtotal').val(sum_add);
   //Total Discount
   const total_discount = [];
   for (let index = 1; index <= ftl; index++) {
@@ -240,9 +243,9 @@ $(document).on('keyup', '#discount'+(tl), function(){
   total_discount.forEach(x_discount => {
     sum_discount += x_discount;
   });
-  $('#total_discount').val(sum_discount.toFixed(2)); 
+  $('#total_discount').val(sum_discount.toFixed(2));
   var taxable_ammount= $('#total_subtotal').val()-$('#total_discount').val();
-  $('#total_taxable_amount').val(taxable_ammount.toFixed(2)); 
+  $('#total_taxable_amount').val(taxable_ammount.toFixed(2));
 //Total Gst
  const total_gst = [];
  for (let index = 1; index <= ftl; index++) {
@@ -252,17 +255,17 @@ $(document).on('keyup', '#discount'+(tl), function(){
   total_gst.forEach(x_gst => {
     sum_gst += x_gst;
   });
-  $('#total_gst').val(sum_gst.toFixed(2)); 
+  $('#total_gst').val(sum_gst.toFixed(2));
   var round_taxable_ammount = Math.round(taxable_ammount);
   var round_ammount = round_taxable_ammount - taxable_ammount;
-  $('#round_off').val(round_ammount.toFixed(2)); 
-  $('#grand_total').val(round_taxable_ammount.toFixed(2)); 
+  $('#round_off').val(round_ammount.toFixed(2));
+  $('#grand_total').val(round_taxable_ammount.toFixed(2));
 });
 $(document).on('keyup', '#qty'+(tl), function(){
   var qty = $('#qty'+(tl)).val();
   var rate = $('#rate'+(tl)).val();
   var stock = window.stock;
- 
+
   if (stock == "null") {
     $("#qty"+(tl)).attr("class", "qty_outoff_stock");
   } else {
@@ -270,13 +273,13 @@ $(document).on('keyup', '#qty'+(tl), function(){
     $("#qty"+(tl)).attr("class", "qty_outoff_stock");
   }else{
     $("#qty"+(tl)).attr("class", "qty_in_stock");
-  } 
+  }
   }
 
   var discount = $('#discount'+(tl)).val();
   var subtotal_value = qty*rate;
   $('#subtotal'+(tl)).val(subtotal_value);
-  var discount_value = $('#discount'+(tl)).val()/100*subtotal_value; 
+  var discount_value = $('#discount'+(tl)).val()/100*subtotal_value;
   var subtotal_disc = qty * rate - discount_value;
   var gst = window.gstrate/100 * subtotal_disc;
   $('#gst'+(tl)).val(gst.toFixed(2));
@@ -291,7 +294,7 @@ $(document).on('keyup', '#qty'+(tl), function(){
   total_subtotal.forEach(x_add => {
   sum_add += x_add;
   });
-  $('#total_subtotal').val(sum_add); 
+  $('#total_subtotal').val(sum_add);
   //Total Discount
   const total_discount = [];
   for (let index = 1; index <= ftl; index++) {
@@ -301,9 +304,9 @@ $(document).on('keyup', '#qty'+(tl), function(){
   total_discount.forEach(x_discount => {
     sum_discount += x_discount;
   });
-  $('#total_discount').val(sum_discount.toFixed(2)); 
+  $('#total_discount').val(sum_discount.toFixed(2));
   var taxable_ammount= $('#total_subtotal').val()-$('#total_discount').val();
-  $('#total_taxable_amount').val(taxable_ammount.toFixed(2)); 
+  $('#total_taxable_amount').val(taxable_ammount.toFixed(2));
 //Total Gst
  const total_gst = [];
  for (let index = 1; index <= ftl; index++) {
@@ -313,11 +316,11 @@ $(document).on('keyup', '#qty'+(tl), function(){
   total_gst.forEach(x_gst => {
     sum_gst += x_gst;
   });
-  $('#total_gst').val(sum_gst.toFixed(2)); 
+  $('#total_gst').val(sum_gst.toFixed(2));
   var round_taxable_ammount = Math.round(taxable_ammount);
   var round_ammount = round_taxable_ammount - taxable_ammount;
-  $('#round_off').val(round_ammount.toFixed(2)); 
-  $('#grand_total').val(round_taxable_ammount.toFixed(2)); 
+  $('#round_off').val(round_ammount.toFixed(2));
+  $('#grand_total').val(round_taxable_ammount.toFixed(2));
 });
 });
 </script>
@@ -341,18 +344,18 @@ $(document).on('keyup', '#qty'+(tl), function(){
      for (let i = 0; i < output.length; i++) {
       for (let index = 0; index < output[i].category.length; index++) {
       if ( output[i].category[index].Gstrate !=undefined) {
-        data_gst = output[i].category[index].Gstrate; 
+        data_gst = output[i].category[index].Gstrate;
       } else {
         data_gst = 0;
       }
      }
       text += '<li id="item'+tl+'"  data-id="'+output[i].id+'"  data-cat="'+output[i].Categories_id +'"  data-mrp="'+output[i].MRP+'" data-sku="'+output[i].SKU+'" data-exp="'+output[i].Exp_date+'" data-rate="'+output[i].Price_unit+'" data-gstrate="'+data_gst+'" data-stock="'+output[i].Stock+'"  style="border:1px solid;padding:2px">'+output[i].Title+'</li>';
-      
+
       if (output[i].Title != undefined) {
-        $('#title_list'+(tl)).html(text); 
+        $('#title_list'+(tl)).html(text);
       }
-      
-    }  
+
+    }
   }
    });
    });
@@ -367,7 +370,7 @@ $(document).on('keyup', '#qty'+(tl), function(){
   var stock =  $(this).attr("data-stock");
   window.stock=stock;
   if (stock == "null") {
-    $("#qty"+(tl)).attr("class", "qty_outoff_stock"); 
+    $("#qty"+(tl)).attr("class", "qty_outoff_stock");
   } else {
     $("#qty"+(tl)).attr("class", "qty_in_stock");
   }
@@ -378,16 +381,16 @@ $(document).on('keyup', '#qty'+(tl), function(){
   $('#p-id'+(tl)).val(id);
   $('#mrp'+(tl)).val(mrp);
   $('#sku'+(tl)).val(sku);
-  $('#exp_date'+(tl)).val(exp_date);  
+  $('#exp_date'+(tl)).val(exp_date);
   $("#qty"+(tl)).attr("max", stock);
   $('#rate'+(tl)).val(rate);
   var subtotal = qty * rate;
-  $('#subtotal'+(tl)).val(subtotal); 
+  $('#subtotal'+(tl)).val(subtotal);
   var discount_value  = $("#discount"+(tl)).val();
   var discount = discount_value/100 * subtotal;
   var gst = gst_rate / 100 * $('#subtotal'+(tl)).val();
   $('#gst'+(tl)).val(gst.toFixed(2));
-  $('#total'+(tl)).val(parseFloat($('#subtotal'+(tl)).val()) - discount); 
+  $('#total'+(tl)).val(parseFloat($('#subtotal'+(tl)).val()) - discount);
   //Total Subtotal
   var ftl = $('#table').find('tr').length;
   const total_subtotal = [];
@@ -398,7 +401,7 @@ $(document).on('keyup', '#qty'+(tl), function(){
   total_subtotal.forEach(x_add => {
   sum_add += x_add;
   });
-  $('#total_subtotal').val(sum_add); 
+  $('#total_subtotal').val(sum_add);
   //Total Discount
   const total_discount = [];
   for (let index = 1; index <= ftl; index++) {
@@ -408,10 +411,10 @@ $(document).on('keyup', '#qty'+(tl), function(){
   total_discount.forEach(x_discount => {
     sum_discount += x_discount;
   });
-  $('#total_discount').val(sum_discount.toFixed(2)); 
+  $('#total_discount').val(sum_discount.toFixed(2));
   var taxable_ammount= $('#total_subtotal').val()-$('#total_discount').val();
-  $('#total_taxable_amount').val(taxable_ammount.toFixed(2)); 
- 
+  $('#total_taxable_amount').val(taxable_ammount.toFixed(2));
+
 //Total Gst
  const total_gst = [];
  for (let index = 1; index <= ftl; index++) {
@@ -421,13 +424,13 @@ $(document).on('keyup', '#qty'+(tl), function(){
   total_gst.forEach(x_gst => {
     sum_gst += x_gst;
   });
-  $('#total_gst').val(sum_gst.toFixed(2)); 
-   
+  $('#total_gst').val(sum_gst.toFixed(2));
+
   var round_taxable_ammount = Math.round(taxable_ammount);
   var round_ammount = taxable_ammount - round_taxable_ammount;
-  $('#round_off').val(round_ammount.toFixed(2)); 
-  $('#grand_total').val(round_taxable_ammount.toFixed(2)); 
-    
+  $('#round_off').val(round_ammount.toFixed(2));
+  $('#grand_total').val(round_taxable_ammount.toFixed(2));
+
   });
   $(document).on('keyup', '#discount'+(tl), function(){
   });
@@ -440,13 +443,13 @@ $(document).on('keyup', '#qty'+(tl), function(){
   console.log('discount'+discount);
   var subtotal = $('#subtotal'+(tl)).val();
   console.log('subtotal'+subtotal);
-  var discount_value = $('#discount'+(tl)).val()/100*subtotal; 
+  var discount_value = $('#discount'+(tl)).val()/100*subtotal;
   console.log('discount_value'+discount_value);
   var total = qty * rate - discount_value;
   console.log('total'+total);
   var gst = window.gstrate/100 * total;
-  $('#gst'+(tl)).val(gst.toFixed(2)); 
-  $('#total'+(tl)).val(parseFloat($('#subtotal'+(tl)).val())- discount_value); 
+  $('#gst'+(tl)).val(gst.toFixed(2));
+  $('#total'+(tl)).val(parseFloat($('#subtotal'+(tl)).val())- discount_value);
     //Total Subtotal
     var ftl = $('#table').find('tr').length;
   const total_subtotal = [];
@@ -457,7 +460,7 @@ $(document).on('keyup', '#qty'+(tl), function(){
   total_subtotal.forEach(x_add => {
   sum_add += x_add;
   });
-  $('#total_subtotal').val(sum_add); 
+  $('#total_subtotal').val(sum_add);
   //Total Discount
   const total_discount = [];
   for (let index = 1; index <= ftl; index++) {
@@ -467,9 +470,9 @@ $(document).on('keyup', '#qty'+(tl), function(){
   total_discount.forEach(x_discount => {
     sum_discount += x_discount;
   });
-  $('#total_discount').val(sum_discount.toFixed(2)); 
+  $('#total_discount').val(sum_discount.toFixed(2));
   var taxable_ammount= $('#total_subtotal').val()-$('#total_discount').val();
-  $('#total_taxable_amount').val(taxable_ammount.toFixed(2)); 
+  $('#total_taxable_amount').val(taxable_ammount.toFixed(2));
 //Total Gst
  const total_gst = [];
  for (let index = 1; index <= ftl; index++) {
@@ -479,16 +482,16 @@ $(document).on('keyup', '#qty'+(tl), function(){
   total_gst.forEach(x_gst => {
     sum_gst += x_gst;
   });
-  $('#total_gst').val(sum_gst.toFixed(2)); 
+  $('#total_gst').val(sum_gst.toFixed(2));
   var round_taxable_ammount = Math.round(taxable_ammount);
   var round_ammount = round_taxable_ammount - taxable_ammount;
-  $('#round_off').val(round_ammount.toFixed(2)); 
-  $('#grand_total').val(round_taxable_ammount.toFixed(2)); 
+  $('#round_off').val(round_ammount.toFixed(2));
+  $('#grand_total').val(round_taxable_ammount.toFixed(2));
   });
   $(document).on('keyup', '#qty'+(tl), function(){
-    
+
   });
-  
+
 $(document).on('keyup', '#qty'+(tl), function(){
   var qty = $('#qty'+(tl)).val();
   var rate = $('#rate'+(tl)).val();
@@ -500,12 +503,12 @@ $(document).on('keyup', '#qty'+(tl), function(){
     $("#qty"+(tl)).attr("class", "qty_outoff_stock");
   }else{
     $("#qty"+(tl)).attr("class", "qty_in_stock");
-  } 
+  }
   }
   var discount = $('#discount'+(tl)).val();
   var subtotal_value = qty*rate;
   $('#subtotal'+(tl)).val(subtotal_value);
-  var discount_value = $('#discount'+(tl)).val()/100*subtotal_value; 
+  var discount_value = $('#discount'+(tl)).val()/100*subtotal_value;
   var subtotal_disc = qty * rate - discount_value;
   var gst = window.gstrate/100 * subtotal_disc;
   $('#gst'+(tl)).val(gst.toFixed(2));
@@ -520,7 +523,7 @@ $(document).on('keyup', '#qty'+(tl), function(){
   total_subtotal.forEach(x_add => {
   sum_add += x_add;
   });
-  $('#total_subtotal').val(sum_add); 
+  $('#total_subtotal').val(sum_add);
   //Total Discount
   const total_discount = [];
   for (let index = 1; index <= ftl; index++) {
@@ -530,9 +533,9 @@ $(document).on('keyup', '#qty'+(tl), function(){
   total_discount.forEach(x_discount => {
     sum_discount += x_discount;
   });
-  $('#total_discount').val(sum_discount.toFixed(2)); 
+  $('#total_discount').val(sum_discount.toFixed(2));
   var taxable_ammount= $('#total_subtotal').val()-$('#total_discount').val();
-  $('#total_taxable_amount').val(taxable_ammount.toFixed(2)); 
+  $('#total_taxable_amount').val(taxable_ammount.toFixed(2));
 //Total Gst
  const total_gst = [];
  for (let index = 1; index <= ftl; index++) {
@@ -542,11 +545,11 @@ $(document).on('keyup', '#qty'+(tl), function(){
   total_gst.forEach(x_gst => {
     sum_gst += x_gst;
   });
-  $('#total_gst').val(sum_gst.toFixed(2)); 
+  $('#total_gst').val(sum_gst.toFixed(2));
   var round_taxable_ammount = Math.round(taxable_ammount);
   var round_ammount = round_taxable_ammount - taxable_ammount;
-  $('#round_off').val(round_ammount.toFixed(2)); 
-  $('#grand_total').val(round_taxable_ammount.toFixed(2)); 
+  $('#round_off').val(round_ammount.toFixed(2));
+  $('#grand_total').val(round_taxable_ammount.toFixed(2));
   });
   });
 </script>
@@ -569,7 +572,7 @@ $(document).on('keyup', '#qty'+(tl), function(){
  .ciRow3 .ciCol input{border:1px solid #ebebeb; padding:10px; width:90%;}
  .ciRow2 .ciCol label{clear:both; display:block; margin-bottom:5px;}
  .ciRow2 .ciCol textarea{border:1px solid #ebebeb; padding:10px; width:91%;}
- .customerInfo .container{background:#f7f7f7; padding:30px; border-radius:0px 0px 20px 20px; margin-bottom:10px;}   
+ .customerInfo .container{background:#f7f7f7; padding:30px; border-radius:0px 0px 20px 20px; margin-bottom:10px;}
  .qty_outoff_stock{
   background-color: red;
   color: #fff;
