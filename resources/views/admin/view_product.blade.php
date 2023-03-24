@@ -58,7 +58,6 @@
     <thead class="text-white" style="background-color: #4e73df">
       <tr>
         <th scope="col">Title</th>
-        <th scope="col">SKU</th>
         <th scope="col">MRP</th>
         <th scope="col">Box</th>
         <th scope="col">Price Per unit</th>
@@ -77,7 +76,6 @@
       @foreach ($product as $item)
       <tr>
           <td>{{$item->Title}}</td>
-          <td>{{$item->SKU}}</td>
           <td>{{$item->MRP}}</td>
           <td>{{$item->Box_No}}</td>
           <td>{{$item->Price_unit}}</td>
