@@ -30,5 +30,14 @@ class Product extends Model
     {
         return $this->hasMany(Schedule::class,'id','Schedule');
     }
+    /**
+     * Get all of the productvariant for the Product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ProductVeriant()
+    {
+        return $this->hasMany(ProductVeriant::class, 'pid', 'id');
+    }
 
 }
