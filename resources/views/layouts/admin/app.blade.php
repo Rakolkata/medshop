@@ -19,8 +19,11 @@
     <!-- Custom styles for this template-->
     <link href="{{url('css/sb-admin-2.css')}}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
     @stack('styles')
 </head>
 
@@ -254,7 +257,7 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{{url('vendor/jquery/jquery.min.js')}}"></script>
+    {{-- <script src="{{url('vendor/jquery/jquery.min.js')}}"></script> --}}
     <script src="{{url('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
     <!-- Core plugin JavaScript-->

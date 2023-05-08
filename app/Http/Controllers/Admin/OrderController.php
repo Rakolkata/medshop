@@ -24,14 +24,23 @@ class OrderController extends Controller
 
     public function prod_name(Request $request){
          if ($request->ajax()) {
+            if($request->name){
+                $search = $request->name;
+            }
+            else {
+                $search = $request->term;
+            }
+            $data = Product::with('category','ProductVeriant')
+            ->where('Title','LIKE','%'.$search.'%')->where('Stock','>=' ,1)->orWhere('Generic_name','LIKE','%'.$search.'%')->orderBy('title','asc')->take(10)->get();
 
-            $data = Product::with('category')->where('Title','LIKE','%'.$request->name.'%')->where('Stock','>=' ,1)->orWhere('Generic_name','LIKE','%'.$request->name.'%')->orderBy('title','asc')->take(10)->get();
 
-
-            $output =" ";
+            $output =[];
             if (count($data)>0) {
-
-                $output= $data;
+                //dump($data);
+                foreach($data as $d) {
+                    $output[]= ['label'=>$d->Title,'id' =>$d->id,'value'=>$d];
+                }
+               //$output =  $data;
 
             }else {
 
