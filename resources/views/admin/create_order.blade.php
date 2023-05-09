@@ -27,13 +27,13 @@
 <div class="row">
     Search
     <div class="col-md-12">
-    <input name="product" id="seachprodduct" type="text" placeholder="Seach your product"/>
+    <input name="product" id="seachprodduct" type="text" placeholder="Seach your product" style="padding:5px; margin-bottom:15px;"/>
     </div>
 </div>
 <div class="row">
   <div class="col-md-12">
       <div class="form-group">
-          <table class="table table-striped table-responsive" >
+          <table class="table table-striped " >
 
               <thead style="background-color: #4e73df;color:#fff">
 
@@ -60,7 +60,8 @@
             </table>
       </div>
   </div>
-
+  <div class="col-md-6">
+  </div>
   <div class="col-md-6">
     <div class="row">
     <div class="col-md-6">
@@ -75,7 +76,6 @@
   </div>
   <div class="col-md-6">
     <ul  style="text-align: right;list-style-type:none">
-      <li class="p-1" ><input type="number" name="total_subtotal" id="total_subtotal" readonly style="border:none;display:none"></li>
       <li class="p-1"><input type="number" name="total_discount" id="total_discount" readonly style="border:none"></li>
       <li class="p-1"><input type="number" name="total_taxable_amount" id="total_taxable_amount" readonly style="border:none"></li>
       <li class="p-1"><input type="number" name="total_gst"  id="total_gst" readonly style="border:none"></li>
@@ -94,28 +94,107 @@
 {{-- <script src="https://code.jquery.com/jquery-3.6.0.js"></script> --}}
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script>
-    $( function() {
-    function log( message ) {
-      $( "#table" ).append( message );
+  
+  function array_sum(array){
+    let sum = 0;
+
+  for (const value of Object.values(array)) {
+  sum += value;
+  }
+  return sum;
+  }
+
+  let totals = [];
+  let gstValues = [];
+  let discounts = [];
+  $( function() {
+  
+  function log( message ) {
+    $( "#table" ).append( message );
+  }
+
+  $("#seachprodduct").autocomplete({
+    source: '{{ route('admin.prod_name') }}',
+    minLength: 2,
+    select: function( event, ui ) {
+      let productV = ui.item.values.product_veriant;
+      let category = ui.item.values.category;
+      let rowId = Date.now(); // generate a unique identifier for the row
+      let newRow = $("<tr>", {"id": rowId}); // add the identifier to the new row
+      newRow.append("<td></td><td>"+ui.item.label+"</td><td>"
+          +productV[0].mrp_per_unit*productV[0].strip+"</td><td>"
+          +productV[0].batch+"</td><td>"
+          +productV[0].expdate+"</td>"
+          +"<td><input type='number' name='qty[]' value=1 min=1 /></td><td>"
+          +productV[0].mrp_per_unit+"</td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td class='gst'>"+parseInt(productV[0].mrp_per_unit) * parseInt(category[0].Gstrate)/100+"</td><td class='total'>"+productV[0].mrp_per_unit+"</td></tr>" );
+      $("#table").append(newRow);
+        totals[rowId]=productV[0].mrp_per_unit;
+        gstValues[rowId]=parseInt(productV[0].mrp_per_unit) * parseInt(category[0].Gstrate)/100;
+        discounts[rowId]=0;
+        $("#total_taxable_amount").val(array_sum(totals));
+        $("#total_gst").val(array_sum(gstValues));
+        $("#total_discount").val(array_sum(discounts));
+        $("#grand_total").val(array_sum(totals).toFixed(0));
+        $("#round_off").val(array_sum(totals)-(array_sum(totals).toFixed(0)));
+
+      $(document).on('change','#'+rowId+' .discount',function(){ // listen to changes on the discount input of the corresponding row
+        let discount = $(this).val();
+        if (discount > 10) { // limit discount to 10%
+            discount = 10;
+            $(this).val(discount); // update the value of the discount input to reflect the limit
+        }
+        $(this).val(discount); // update the value of the discount input to reflect the limit
+        let price = productV[0].mrp_per_unit;
+        let qty = $(this).closest('tr').find("input[name='qty[]']").val();
+        let subtotal = price * qty * (1 - discount / 100);
+        $(this).closest('tr').find(".total").text(subtotal); // update the total for the corresponding row
+        let gstRate = category[0].Gstrate;
+        let gstAmount = subtotal * gstRate / 100;
+        $(this).closest('tr').find(".gst").text(gstAmount);
+        // let index = totals.indexOf(rowId);
+        totals[rowId]=subtotal;
+        gstValues[rowId]=gstAmount;
+        discounts[rowId]= (price * qty)-subtotal;
+        $("#total_taxable_amount").val(array_sum(totals));
+        $("#total_gst").val(array_sum(gstValues));
+        $("#total_discount").val(array_sum(discounts));
+        $("#grand_total").val(array_sum(totals).toFixed(0));
+        $("#round_off").val(array_sum(totals)-(array_sum(totals).toFixed(0)));
+
+      });
+
+      $(document).on('change','#'+rowId+' input[name="qty[]"]',function(){ // listen to changes on the quantity input of the corresponding row
+        let qty = $(this).val();
+        let price = productV[0].mrp_per_unit;
+        let discount = $(this).closest('tr').find(".discount").val();
+        if (discount > 10) { // limit discount to 10%
+            discount = 10;
+            $(this).closest('tr').find(".discount").val(discount); // update the value of the discount input to reflect the limit
+        }
+        $(this).closest('tr').find(".discount").val(discount); // update the value of the discount input to reflect the limit
+        let subtotal = price * qty * (1 - discount / 100);
+        $(this).closest('tr').find(".total").text(subtotal); // update the total for the corresponding row
+        let gstRate = category[0].Gstrate;
+        let gstAmount = subtotal * gstRate / 100;
+        $(this).closest('tr').find(".gst").text(gstAmount);
+        // let index = totals.indexOf(rowId);
+        totals[rowId]=subtotal;
+        gstValues[rowId]=gstAmount;
+        discounts[rowId]= (price * qty)-subtotal;
+        $("#total_taxable_amount").val(array_sum(totals));
+        $("#total_gst").val(array_sum(gstValues));
+        $("#total_discount").val(array_sum(discounts));
+        $("#grand_total").val(array_sum(totals).toFixed(0));
+        $("#round_off").val(array_sum(totals)-(array_sum(totals).toFixed(0)));
+        
+      });
 
     }
+  });
+});
 
-    $( "#seachprodduct" ).autocomplete({
-      source: '{{ route('admin.prod_name') }}',
-      minLength: 2,
-      select: function( event, ui ) {
-        console.log(ui.item.value.product_veriant)
-        let productV = ui.item.value.product_veriant;
-        log( "<tr><td></td><td>"+ui.item.label+"</td><td>"
-            +productV[0].mrp_per_unit*productV[0].strip+"</td><td>"
-            +productV[0].batch+"</td><td>"
-            +productV[0].expdate+"</td>"
-            +"<td><input type='number' name='qty[]' step=1 value=1/></td><td>"
-            +productV[0].mrp_per_unit+"</td><td> <input type='number' name='discount[]' /></td></tr>" );
-        jQuery('#seachprodduct').val('a');
-      }
-    });
-  } );
+
+  
     </script>
 
 

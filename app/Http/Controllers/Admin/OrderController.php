@@ -38,7 +38,8 @@ class OrderController extends Controller
             if (count($data)>0) {
                 //dump($data);
                 foreach($data as $d) {
-                    $output[]= ['label'=>$d->Title,'id' =>$d->id,'value'=>$d];
+                    $output[]= ['label'=>$d->Title,'id' =>$d->id,'values'=>$d];
+                    
                 }
                //$output =  $data;
 
