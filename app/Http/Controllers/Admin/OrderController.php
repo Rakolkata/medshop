@@ -114,6 +114,8 @@ class OrderController extends Controller
 
      return redirect()->route('admin.order_view');
 
+    // return $prod_price;
+
 }
 
     public function view(){
