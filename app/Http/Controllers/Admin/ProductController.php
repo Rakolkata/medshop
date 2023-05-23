@@ -14,6 +14,7 @@ use  App\Models\Brand;
 use  App\Models\Med_Function;
 use  App\Models\Schedule;  
 use  App\Models\Product;
+use Carbon\Carbon;
 
 
 class ProductController extends Controller
@@ -109,7 +110,9 @@ class ProductController extends Controller
                         $Product->SKU = $sheet->getCell( 'B' . $row )->getValue();
                         $Product->MRP = $sheet->getCell( 'C' . $row )->getValue(); 
                         $Product->Stock = $sheet->getCell( 'E' . $row )->getValue();
-                        $exp_date =  \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($sheet->getCell( 'F' . $row )->getValue());
+                        // $exp_date =  \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($sheet->getCell( 'F' . $row )->getValue());
+                        $exp_date = Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($sheet->getCell('F' . $row)->getValue()));
+
                         $Product->Exp_date = $exp_date;
                         $category_find= Category::where('Name',$sheet->getCell( 'G' . $row )->getValue())->first();
                         if ($category_find != null) {
