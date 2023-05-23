@@ -10,5 +10,6 @@ class Med_Function extends Model
     use HasFactory;
     protected $table = 'med__functions';
     protected $primaryKey = 'id';
-    
+    // public $fillable = ['Name'];
+
 }
