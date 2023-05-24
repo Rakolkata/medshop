@@ -121,12 +121,12 @@
       let category = ui.item.values.category;
       let rowId = Date.now(); // generate a unique identifier for the row
       let newRow = $("<tr>", {"id": rowId}); // add the identifier to the new row
-      newRow.append("<td></td><td style='display:none'><input type='number' name='id[]' class='id' value='"+productV[0].id+"' /></td><td>"+ui.item.label+"</td><td style='display:none'><input type='text' name='title[]' class='title' value='"+ui.item.label+"' /></td><td>"
+      newRow.append("<td></td><td>"+ui.item.label+"</td><td>"
           +productV[0].mrp_per_unit*productV[0].strip+"</td><td>"
           +productV[0].batch+"</td><td>"
           +productV[0].expdate+"</td>"
           +"<td><input type='number' name='qty[]' value=1 min=1 /></td><td>"
-          +productV[0].mrp_per_unit+"</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='"+productV[0].mrp_per_unit+"' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td class='gst'>"+category[0].Gstrate+"</td><td style='display:none'><input type='number' name='gst[]' class='gst' value='"+parseInt(productV[0].mrp_per_unit) * parseInt(category[0].Gstrate)/100+"'/></td><td class='total'>"+productV[0].mrp_per_unit+"</td><td style='display:none'><input type='number' name='total[]' class='total' value='"+productV[0].mrp_per_unit+"' /></td></tr>" );
+          +productV[0].mrp_per_unit+"</td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td class='gst'>"+parseInt(productV[0].mrp_per_unit) * parseInt(category[0].Gstrate)/100+"</td><td class='total'>"+productV[0].mrp_per_unit+"</td></tr>" );
       $("#table").append(newRow);
         totals[rowId]=productV[0].mrp_per_unit;
         gstValues[rowId]=parseInt(productV[0].mrp_per_unit) * parseInt(category[0].Gstrate)/100;
@@ -148,11 +148,9 @@
         let qty = $(this).closest('tr').find("input[name='qty[]']").val();
         let subtotal = price * qty * (1 - discount / 100);
         $(this).closest('tr').find(".total").text(subtotal); // update the total for the corresponding row
-        $(this).closest('tr').find(".total").val(subtotal);
         let gstRate = category[0].Gstrate;
         let gstAmount = subtotal * gstRate / 100;
         $(this).closest('tr').find(".gst").text(gstAmount);
-        // $(this).closest('tr').find(".gst").val(gstAmount);
         // let index = totals.indexOf(rowId);
         totals[rowId]=subtotal;
         gstValues[rowId]=gstAmount;
@@ -176,11 +174,9 @@
         $(this).closest('tr').find(".discount").val(discount); // update the value of the discount input to reflect the limit
         let subtotal = price * qty * (1 - discount / 100);
         $(this).closest('tr').find(".total").text(subtotal); // update the total for the corresponding row
-        $(this).closest('tr').find(".total").val(subtotal);
         let gstRate = category[0].Gstrate;
         let gstAmount = subtotal * gstRate / 100;
         $(this).closest('tr').find(".gst").text(gstAmount);
-        $(this).closest('tr').find(".gst").val(gstAmount);
         // let index = totals.indexOf(rowId);
         totals[rowId]=subtotal;
         gstValues[rowId]=gstAmount;
