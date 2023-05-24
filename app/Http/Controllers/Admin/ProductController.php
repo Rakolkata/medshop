@@ -78,12 +78,12 @@ class ProductController extends Controller
     
     }
 
-    public function delete($id,Request $request){
+    public function delete($id){
     $product = Product::find($id);
     if ($product != null) {
         $product->delete();
     }
-    return redirect()->route('admin.view_product',['page'=>$request->get('page')])->with('msg-deleted','Product Deleted!');
+    return redirect()->route('admin.view_product')->with('msg-deleted','Product Deleted!');
     }
 
     function importData(Request $request){
@@ -195,8 +195,7 @@ class ProductController extends Controller
     }
     }
 
-    public function update($id,Request $req){  
-    $page = $req['page'];
+    public function update($id,Request $req){
     $product = Product::find($id);
     $product->Title = $req['title'];
     $product->SKU = $req['bath_no'];
@@ -212,9 +211,9 @@ class ProductController extends Controller
     $product->Ingredients = $req['ingredients'];
     $product->Schedule = $req['schedule'];
     $product->TripSize = $req['tripsize'];
-    //$product->Price_unit = $product->MRP/$product->TripSize;
+    $product->Price_unit = $product->MRP/$product->TripSize;
     $product->Description = $req['description'];
     $product->save();
-    return redirect()->route('admin.view_product',['page'=>$page])->with('msg','Product updated!');
+    return redirect()->route('admin.view_product');
     }
 }
