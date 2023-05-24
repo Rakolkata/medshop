@@ -122,7 +122,7 @@
         </ul>
       </div>
     </div>
-    <footer class="sticky-footer bg-white text-center" style="margin-top:80%;">
+    <footer class="sticky-footer bg-white text-center" style="margin-top:10%;">
       <div class="container my-auto">
           <div class="text-center my-auto">
               <span>Thanks for making an order</span>
