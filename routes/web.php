@@ -1,15 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Route; 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\FunctionController;
-use App\Http\Controllers\Admin\ScheduleController;
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ScheduleController; 
+use App\Http\Controllers\Admin\ProductController; 
+use App\Http\Controllers\Admin\OrderController; 
 use App\Http\Controllers\Admin\ReportsController;
-use App\Http\Controllers\Admin\ProductVeriantController;
 
 
 
@@ -35,13 +34,13 @@ Route::get('/home', [HomeController::class, 'registration_success'])->name('home
 
 
 Route::middleware(['auth', 'user-access:shopkeepar'])->group(function () {
-
+  
     Route::get('/shopkeepar/home', [HomeController::class, 'index'])->name('shopkeepar.home');
 });
 
 
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
-
+  
     Route::get('/admin/home', [HomeController::class, 'adminHome'])->name('admin.home');
 
     Route::get('/admin/view/category', [CategoryController::class, 'view'])->name('admin.view_category');
@@ -83,11 +82,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::post('/admin/product/excel', [ProductController::class, 'importData'])->name('admin.product_exel_import');
     Route::get('/admin/edit/product/{id}', [ProductController::class, 'edit'])->name('admin.edit_product');
     Route::post('/admin/update/product/{id}', [ProductController::class, 'update'])->name('admin.update_product');
-    Route::get('/admin/update/product/{id}/veriant', [ProductVeriantController::class, 'update'])->name('admin.update_product_veriant');
-    Route::post('/admin/update/product/{id}/save', [ProductVeriantController::class, 'save'])->name('admin.update_product_veriant_save');
 
 
-
+    
 
 
     Route::get('/admin/create/order', [OrderController::class, 'index'])->name('admin.craete_order');
@@ -115,6 +112,6 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
 
 Route::middleware(['auth', 'user-access:shopowner'])->group(function () {
-
+  
     Route::get('/shopowner/home', [HomeController::class, 'shopownerHome'])->name('shopowner.home');
 });
