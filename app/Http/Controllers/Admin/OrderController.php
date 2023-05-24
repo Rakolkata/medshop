@@ -71,13 +71,9 @@ class OrderController extends Controller
     $order->Total_Gst = $req['total_gst'];
     $order->Discount = $req['total_discount'];
     $order->Adjustment = $req['round_off'];
-    $order->orderID="";
     $order->save();
-    $order_last_id = $order->id;    
-    $dt=substr(env('APP_NAME'),0,1).date("dmY").$order_last_id;
-    $order->orderID=$dt;
-    $order->save();
-    
+    $order_last_id = $order->id;
+
     $prod_name =  $req['title'];
     $prod_id =  $req['id'];
     $prod_rate = $req['rate']; 
@@ -87,7 +83,7 @@ class OrderController extends Controller
    
      foreach($prod_name as $index=>$value){
       $order_details = new Order_details;
-    //   $dt=$order_last_id.date("dmY");
+    //   $dt=$order_last_id.date("dmy");
     //   $order_details->Order_id = $dt;
       $order_details->Order_id = $order_last_id;
       $order_details->Product_id = $prod_id[$index];
@@ -109,7 +105,7 @@ class OrderController extends Controller
     public function view(){
     $order= Order::join('order__user__profiles', 'order__user__profiles.id', '=', 'orders.Profile_id')
     ->join('users','users.id','=','order__user__profiles.User_id')
-    ->select(['orders.Total_Order','users.name','orders.id','orders.orderID','order__user__profiles.Doc_Name_RegdNo','order__user__profiles.Address'])->paginate(15);
+    ->select(['orders.Total_Order','users.name','orders.id','order__user__profiles.Doc_Name_RegdNo','order__user__profiles.Address'])->paginate(15);
     $order_id=[];
     foreach ($order as $value) {
      $order_id[]=$value->id;
