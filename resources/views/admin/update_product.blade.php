@@ -15,15 +15,15 @@
         <label class="form-label">Title</label>
         <input class="form-control" type="text" name="title" placeholder="Enter Product Title" value="{{$product->Title}}">
         </div>
-        <!-- <div class="col-md-6 mb-2">
+        <div class="col-md-6 mb-2">
         <label class="form-label">Batch No.</label>
         <input class="form-control" type="text" name="bath_no" placeholder="Enter Product Batch No." value="{{$product->SKU}}">
-        </div> -->
+        </div>
 
-        <!-- <div class="col-md-6 mb-2">
+        <div class="col-md-6 mb-2">
         <label class="form-label">MRP</label>
         <input class="form-control" type="number" min="0" step=".01"  name="mrp" placeholder="0.00" value="{{$product->MRP}}">
-        </div> -->
+        </div>
 
         <div class="col-md-6 mb-2">
         <label class="form-label">Price/unit</label>
@@ -32,15 +32,15 @@
 
 
 
-        <!-- <div class="col-md-6 mb-2">
+        <div class="col-md-6 mb-2">
         <label class="form-label">Stock</label>
         <input class="form-control" type="number" min="0" name="stock" placeholder="Enter Product Stock" value="{{$product->Stock}}">
-        </div> -->
+        </div>
 
-        <!-- <div class="col-md-6 mb-2">
+        <div class="col-md-6 mb-2">
         <label class="form-label">Exp. date</label>
         <input class="form-control" type="date"  name="exp_date"  placeholder="Enter Product Exp date" value="{{$product->Exp_date}}">
-        </div> -->
+        </div>
 
         <div class="col-md-6 mb-2">
         <label class="form-label">Category</label>
@@ -114,10 +114,10 @@
             </span>
         </div>
 
-        <!-- <div class="col-md-6 mb-2">
+        <div class="col-md-6 mb-2">
             <label class="form-label">Pack Size</label>
             <input type="text" class="form-control" name="tripsize"  value="{{$product->TripSize}}"  placeholder="Enter Product Trip-Size">
-        </div> -->
+        </div>
 
         <div class="col-md-12">
           <label for="exampleFormControlTextarea1" class="form-label">Description</label>
