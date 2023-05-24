@@ -17,11 +17,11 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{url('css/sb-admin-2.css')}}" rel="stylesheet">
+    <link href="{{url('css/sb-admin-2.min.css')}}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    @stack('styles')
+    @stack('styles') 
 </head>
 
 <body id="page-top">
@@ -30,7 +30,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
@@ -38,7 +38,7 @@
                     <div>{{env('APP_NAME')}} </div>
                     {{-- <img src="{{env('APP_NAME')}}" style="height: 100px"> --}}
                 </div>
-
+               
             </a>
 
             <!-- Divider -->
@@ -70,11 +70,11 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Product Managment:</h6>
                         <a class="collapse-item" href="{{route('admin.view_category')}}">View Categoary</a>
-                        <a class="collapse-item" href="{{route('admin.view_brand')}}">View Brand</a>
+                        <a class="collapse-item" href="{{route('admin.view_brand')}}">View Brand</a> 
                         <a class="collapse-item" href="{{route('admin.view_function')}}">View Function</a>
                         <a class="collapse-item" href="{{route('admin.view_schedule')}}">View Schedule</a>
                         <a class="collapse-item" href="{{route('admin.view_product')}}">View Product</a>
-
+                        
                     </div>
                 </div>
             </li>
@@ -88,8 +88,8 @@
                 <div id="collapseorder" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Order Managment:</h6>
-                        <a class="collapse-item" href="{{route('admin.craete_order')}}">Create Order</a>
-                        <a class="collapse-item" href="{{route('admin.order_view')}}">Order List</a>
+                        <a class="collapse-item" href="{{route('admin.craete_order')}}">Create Order</a> 
+                        <a class="collapse-item" href="{{route('admin.order_view')}}">Order List</a>                        
                     </div>
                 </div>
             </li>
@@ -103,18 +103,18 @@
                 <div id="collapsereport" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header"> Reports:</h6>
-                        <a class="collapse-item" href="{{route('admin.reports')}}">Order Reports</a>
+                        <a class="collapse-item" href="{{route('admin.reports')}}">Order Reports</a>                    
                     </div>
                 </div>
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
-
+           
 
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-
+           
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -125,7 +125,7 @@
             </div>
 
             <!-- Sidebar Message -->
-
+           
         </ul>
         <!-- End of Sidebar -->
 
@@ -143,7 +143,7 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-
+                  
                    <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -239,10 +239,10 @@
                                       document.getElementById('logout-form').submit();">
                          {{ __('Logout') }}
                      </a>
-
+                          
                         <div class="dropdown-menu " aria-labelledby="navbarDropdown">
-
-
+                            
+            
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>

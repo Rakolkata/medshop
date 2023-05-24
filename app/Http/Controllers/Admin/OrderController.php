@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use  App\Models\Product;
+use  App\Models\Product; 
 use  App\Models\Med_Function;
-use  App\Models\User;
+use  App\Models\User; 
 use  App\Models\Order;
-use  App\Http\Controllers\Auth\RegisterController;
+use  App\Http\Controllers\Auth\RegisterController; 
 use  App\Models\Order_User_Profile;
-use  App\Models\Order_details;
+use  App\Models\Order_details; 
 
 
 
@@ -18,16 +18,16 @@ class OrderController extends Controller
 {
     public function index( Request $request){
 
-        return view('admin.create_order');
+        return view('admin.create_order');   
 
     }
 
     public function prod_name(Request $request){
          if ($request->ajax()) {
 
-            $data = Product::with('category')->where('Title','LIKE','%'.$request->name.'%')->where('Stock','>=' ,1)->orWhere('Generic_name','LIKE','%'.$request->name.'%')->orderBy('title','asc')->take(10)->get();
+            $data = Product::with('category')->where('Title','LIKE','%'.$request->name.'%')->where('Stock','>=' ,1)->orWhere('Generic_name','LIKE','%'.$request->name.'%')->get();
 
-
+          
             $output =" ";
             if (count($data)>0) {
 
@@ -66,35 +66,35 @@ class OrderController extends Controller
     $last_id = $Order_User_Profile->id;
 
     $order = new Order;
-    $order->Profile_id = $last_id;
+    $order->Profile_id = $last_id;  
     $order->Total_Order = $req['grand_total'];
     $order->Total_Gst = $req['total_gst'];
     $order->Discount = $req['total_discount'];
     $order->Adjustment = $req['round_off'];
     $order->orderID="";
     $order->save();
-    $order_last_id = $order->id;
+    $order_last_id = $order->id;    
     $dt=substr(env('APP_NAME'),0,1).date("dmY").$order_last_id;
     $order->orderID=$dt;
     $order->save();
-
+    
     $prod_name =  $req['title'];
     $prod_id =  $req['id'];
-    $prod_rate = $req['rate'];
+    $prod_rate = $req['rate']; 
     $prod_qty = $req['qty'];
     $prod_gst = $req['gst'];
     $prod_price = $req['total'];
-
+   
      foreach($prod_name as $index=>$value){
       $order_details = new Order_details;
     //   $dt=$order_last_id.date("dmY");
     //   $order_details->Order_id = $dt;
       $order_details->Order_id = $order_last_id;
       $order_details->Product_id = $prod_id[$index];
-      $order_details->rate = $prod_rate[$index];
-      $order_details->qty = $prod_qty[$index];
-      $order_details->gst = $prod_gst[$index];
-      $order_details->Product_price	 = $prod_price[$index];
+      $order_details->rate = $prod_rate[$index]; 	
+      $order_details->qty = $prod_qty[$index];  
+      $order_details->gst = $prod_gst[$index]; 
+      $order_details->Product_price	 = $prod_price[$index]; 
       $order_details->save();
       $product = Product::find( $order_details->Product_id );
       $stock = $product->Stock;
@@ -103,7 +103,7 @@ class OrderController extends Controller
      }
 
      return redirect()->route('admin.order_view');
-
+   
 }
 
     public function view(){
@@ -121,11 +121,11 @@ class OrderController extends Controller
       ->join('products','products.id','=','order_details.Product_id')
       ->leftJoin('orders','orders.id','=','order_details.Order_id')
       ->select('products.Title as Title','products.MRP as mrp','products.SKU as Sku','products.Exp_date as Exp','order_details.qty as Qty','order_details.rate as Rate','order_details.gst as Gst','order_details.Product_price as Total','orders.Total_Order as total_order','orders.Discount as discount')->get();
-
+     
     }
-
-
-    return view('admin.view_order')->with(compact('order','Order_Details'));
+ 
+    
+    return view('admin.view_order')->with(compact('order','Order_Details'));     
     }
 
     public function order_details ($Order_id){
@@ -149,3 +149,4 @@ class OrderController extends Controller
 }
 
 
+   
