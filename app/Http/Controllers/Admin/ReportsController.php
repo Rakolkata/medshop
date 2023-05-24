@@ -8,14 +8,12 @@ use App\Models\Schedule;
 
 class ReportsController extends Controller
 {
-    public function index()
-    {
+    public function index(){
         $Schedule = Schedule::all();
-        return view('admin.reports')->with(compact('Schedule'));
+    return view('admin.reports')->with(compact('Schedule'));
     }
 
-    public function export(Request $request)
-    {
-        dd($request->all());
+    public function export(){
+        
     }
 }
