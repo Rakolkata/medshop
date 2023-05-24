@@ -17,8 +17,7 @@ class ProductVeriantController extends Controller
 
     }
 
-    public function save($pid,request $request) 
-    {
+    public function save($pid,request $request) {
         $pvs =[];
         $pvs = $request->all();
 
@@ -36,7 +35,7 @@ class ProductVeriantController extends Controller
                 }else{
                     $productvariant->delete();
                 }
- 
+
             }else{
                 if(isset($pvs['batch'][$i]) && $pvs['batch'][$i]!=''){
 
@@ -49,6 +48,9 @@ class ProductVeriantController extends Controller
                     $productvariant->pid = $pvs['pid'];
                     $productvariant->save();
                 }
+
+
+
             }
         }
          return redirect()->route('admin.view_product')->with('msg','Stock Updated!');
