@@ -31,9 +31,9 @@ class ProductController extends Controller
     {
         $search = $req['search'] ?? "";
         if ($search != "") {
-            $product = Product::where('Title', 'LIKE', '%' . $search . '%')->orWhere('Function', '=', $search)->paginate(25);
+            $product = Product::where('Title', 'LIKE', '%' . $search . '%')->orWhere('Function', '=', $search)->paginate(5);
         } else {
-            $product = Product::with('category', 'brand', 'function', 'schedule')->orderBy('Title', 'ASC')->paginate(25);
+            $product = Product::with('category', 'brand', 'function', 'schedule')->orderBy('Title', 'ASC')->paginate(5);
         }
         return view('admin.view_product')->with(compact('product'));
     }
@@ -44,8 +44,8 @@ class ProductController extends Controller
             'title' => 'required',
             'schedule' => 'required',
         ]);
-        $sku_find = Product::where('SKU', $req['sku'])->first();
-        if ($sku_find == null) {
+        //$sku_find = Product::where('SKU', $req['sku'])->first();
+        //if ($sku_find == null) {
             $product = new Product;
 
             $product->Title = $req['title'];
@@ -69,13 +69,15 @@ class ProductController extends Controller
             $product->Description = $req['description'];
             $product->save();
             return redirect()->route('admin.view_product')->with('msg', 'Product Added!');
-        } else {
+       // } 
+        // else {
 
-            $product = Product::find($sku_find->id);
-            $product->Stock = $sku_find->Stock +  $req['stock'];
-            $product->save();
-            return redirect()->route('admin.view_product')->with('msg', 'Stock Updated!');
-        }
+        //     $product = Product::find($sku_find->id);
+        //     $product->Stock = $sku_find->Stock +  $req['stock'];
+        //     $product->save();
+        //     return redirect()->route('admin.view_product')->with('msg', 'Stock Updated!');
+           
+        // }
     }
 
     public function delete($id, Request $request)
@@ -216,6 +218,7 @@ class ProductController extends Controller
         // $product->TripSize = $req['tripsize'];
         //$product->Price_unit = $product->MRP/$product->TripSize;
         $product->save();
-        return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
+        //return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
+        return redirect()->route('admin.view_product')->with('msg', 'Product updated!');
     }
 }

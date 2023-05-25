@@ -28,7 +28,7 @@
 </div>
 @endif
 
-<div class="card m-3 p-3 " style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;z-index:1">
+<div class="card m-3 p-3 " style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
 <div style="text-align:right">
 <a href="{{route('admin.add_category')}}" class="btn text-white p-1 m-2" style="background-color: #4e73df">Add Category</a>
 </div>
