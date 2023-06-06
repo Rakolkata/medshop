@@ -26,14 +26,70 @@ class ProductController extends Controller
         $function = Med_Function::all();
         $schedule = Schedule::all();
         return view('admin.add_product')->with(compact('category', 'brand', 'function', 'schedule'));
+//   dev
+//     }
+//     public function view(Request $req)
+//     {
+//         $search = $req['search'] ?? "";
+//         if ($search != "") {
+//             $product = Product::where('Title', 'LIKE', '%' . $search . '%')->orWhere('Function', '=', $search)->paginate(5);
+//         } else {
+//             $product = Product::with('category', 'brand', 'function', 'schedule')->orderBy('Title', 'ASC')->paginate(5);
+//         }
+//         return view('admin.view_product')->with(compact('product'));
+//     }
+
+//     public function store(Request $req)
+//     {
+//         $req->validate([
+//             'title' => 'required',
+//             'schedule' => 'required',
+//         ]);
+//         //$sku_find = Product::where('SKU', $req['sku'])->first();
+//         //if ($sku_find == null) {
+//             $product = new Product;
+
+//             $product->Title = $req['title'];
+//             // $product->MRP = $req['mrp'];
+//             $product->Categories_id = $req['category'];
+//             $product->Brand = $req['brand'];
+//             $product->Box_No = $req['box_no'];
+//             $product->Function = $req['function'];
+//             $product->Generic_name = $req['generic_name'];
+//             $product->Ingredients = $req['infredients'];
+//             $product->Schedule = $req['schedule'];
+//             // $product->SKU = $req['sku'];
+//             // $product->Stock = $req['stock'];
+//             // $product->Exp_date = $req['exp_date'];
+//             // $product->TripSize = $req['tripsize'];
+//             // if ($product->TripSize == null) {
+//             //     $product->Price_unit = 0;
+//             // } else {
+//             //     $product->Price_unit = $product->MRP / $product->TripSize;
+//             // }
+//             $product->Description = $req['description'];
+//             $product->save();
+//             return redirect()->route('admin.view_product')->with('msg', 'Product Added!');
+//        // } 
+//         // else {
+
+//         //     $product = Product::find($sku_find->id);
+//         //     $product->Stock = $sku_find->Stock +  $req['stock'];
+//         //     $product->save();
+//         //     return redirect()->route('admin.view_product')->with('msg', 'Stock Updated!');
+           
+//         // }
+//     }
+
+//   production
     }
     public function view(Request $req)
     {
         $search = $req['search'] ?? "";
         if ($search != "") {
-            $product = Product::where('Title', 'LIKE', '%' . $search . '%')->orWhere('Function', '=', $search)->paginate(5);
+            $product = Product::where('Title', 'LIKE', '%' . $search . '%')->orWhere('Function', '=', $search)->paginate(25);
         } else {
-            $product = Product::with('category', 'brand', 'function', 'schedule')->orderBy('Title', 'ASC')->paginate(5);
+            $product = Product::with('category', 'brand', 'function', 'schedule')->orderBy('Title', 'ASC')->paginate(25);
         }
         return view('admin.view_product')->with(compact('product'));
     }
@@ -44,8 +100,8 @@ class ProductController extends Controller
             'title' => 'required',
             'schedule' => 'required',
         ]);
-        //$sku_find = Product::where('SKU', $req['sku'])->first();
-        //if ($sku_find == null) {
+        $sku_find = Product::where('SKU', $req['sku'])->first();
+        if ($sku_find == null) {
             $product = new Product;
 
             $product->Title = $req['title'];
@@ -69,15 +125,13 @@ class ProductController extends Controller
             $product->Description = $req['description'];
             $product->save();
             return redirect()->route('admin.view_product')->with('msg', 'Product Added!');
-       // } 
-        // else {
+        } else {
 
-        //     $product = Product::find($sku_find->id);
-        //     $product->Stock = $sku_find->Stock +  $req['stock'];
-        //     $product->save();
-        //     return redirect()->route('admin.view_product')->with('msg', 'Stock Updated!');
-           
-        // }
+            $product = Product::find($sku_find->id);
+            $product->Stock = $sku_find->Stock +  $req['stock'];
+            $product->save();
+            return redirect()->route('admin.view_product')->with('msg', 'Stock Updated!');
+        }
     }
 
     public function delete($id, Request $request)
@@ -150,6 +204,32 @@ class ProductController extends Controller
                             $function->save();
                             $function_id = $function->id;
                         }
+//   dev
+
+//                         $Product->Function = $function_id;
+//                         $Product->Generic_name = $sheet->getCell('K' . $row)->getValue();
+//                         $Product->Ingredients = $sheet->getCell('L' . $row)->getValue();
+
+//                         $schedule_find = Schedule::where('Name', $sheet->getCell('M' . $row)->getValue())->first();
+//                         if ($schedule_find != null) {
+//                             $schedule_id = $schedule_find->id;
+//                         } else {
+//                             $schedule = new Schedule;
+//                             $schedule->Name = $sheet->getCell('M' . $row)->getValue();
+//                             $schedule->save();
+//                             $schedule_id = $schedule->id;
+//                         }
+
+//                         $Product->Schedule =  $schedule_id;
+//                         $Product->TripSize = $sheet->getCell('N' . $row)->getValue();
+//                         $Product->Price_unit = $Product->MRP / $Product->TripSize;
+//                         $Product->Description = $sheet->getCell('O' . $row)->getValue();
+//                         $Product->save();
+//                     } else {
+//                         $product = Product::find($sku_find->id);
+
+
+//   production
 
                         $Product->Function = $function_id;
                         $Product->Generic_name = $sheet->getCell('K' . $row)->getValue();
@@ -219,6 +299,8 @@ class ProductController extends Controller
         //$product->Price_unit = $product->MRP/$product->TripSize;
         $product->save();
         //return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
-        return redirect()->route('admin.view_product')->with('msg', 'Product updated!');
+//         return redirect()->route('admin.view_product')->with('msg', 'Product updated!');
+
+        return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
     }
 }
