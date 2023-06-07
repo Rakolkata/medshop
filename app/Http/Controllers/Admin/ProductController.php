@@ -293,7 +293,7 @@ class ProductController extends Controller
         // $product->SKU = $req['bath_no'];
         // $product->MRP = $req['mrp'];
         // $product->Price_unit = $req['mrp'] / $req['tripsize'];
-        // $product->Stock = $req['stock'];
+        // $product->Stock = $req['stock']; 
         // $product->Exp_date = $req['exp_date'];
         // $product->TripSize = $req['tripsize'];
         //$product->Price_unit = $product->MRP/$product->TripSize;
@@ -302,5 +302,18 @@ class ProductController extends Controller
 //         return redirect()->route('admin.view_product')->with('msg', 'Product updated!');
 
         return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->get('query');
+
+        if (strlen($query) >= 3) {
+            $results = Product::where('title', 'like', "%{$query}%")->pluck('title');
+        } else {
+            $results = [];
+        }
+
+        return response()->json($results);
     }
 }
