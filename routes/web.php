@@ -104,6 +104,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
 
 
+    Route::post('/order/search', [OrderController::class, 'serch_order'])->name('admin.order_search');
 
 
 
