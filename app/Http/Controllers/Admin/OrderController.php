@@ -36,7 +36,7 @@ class OrderController extends Controller
                 ->where('Title', 'LIKE', '%' . $search . '%')
                 ->where('Stock', '>=', 1)
                 ->orWhere('Generic_name', 'LIKE', '%' . $search . '%')
-                ->orderBy('title', 'asc')
+                ->orderBy('title', 'asc') 
                 ->take(10)
                 ->get();
             // $data = Product::with('category', 'ProductVeriant')
@@ -47,7 +47,10 @@ class OrderController extends Controller
             if (count($data) > 0) {
                 //dump($data);
                 foreach ($data as $d) {
-                    $output[] = ['label' => $d->Title, 'id' => $d->id, 'values' => $d];
+                    // $hasProductVariant = $d->relationLoaded('ProductVariant') && $d->ProductVariant->count() > 0;
+                    if (count($d->ProductVeriant) > 0) {
+                        $output[] = ['label' => $d->Title, 'id' => $d->id, 'values' => $d];
+                    }
                 }
                 //$output =  $data;
 

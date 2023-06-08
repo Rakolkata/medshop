@@ -44,7 +44,7 @@
         <input name="batch[]" value="{{$item->batch}}" type="text" />
     </div>
     <div class="col-2">
-        <input name="stock[]" value="{{$item->stock}}" type="number"/>
+        <input name="stock[]" value="{{$item->stock}}" type="number"/> 
     </div>
     <div class="col-2">
         <input name="expdate[]" value="{{$item->expdate}}" type="date" />

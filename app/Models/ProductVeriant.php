@@ -10,6 +10,7 @@ class ProductVeriant extends Model
     use HasFactory;
     protected $table = 'product_veriant';
     protected $primaryKey = 'id';
+    public $timestamps = false;
     /**
      * Get the product that ows the ProductVeriant
      *
