@@ -100,7 +100,7 @@
                 <label class="form-label">Trip Size</label>
                 <input type="number" name="tripsize" class="form-control" placeholder="Enter Trip Size">
                 <span class="text-danger text-capitalize">
-                </span>
+                </span> 
             </div> -->
 
             <div class="col-md-12">

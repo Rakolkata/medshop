@@ -77,9 +77,9 @@ class ProductController extends Controller
 //         //     $product->Stock = $sku_find->Stock +  $req['stock'];
 //         //     $product->save();
 //         //     return redirect()->route('admin.view_product')->with('msg', 'Stock Updated!');
-           
+            
 //         // }
-//     }
+//     } 
 
 //   production
     }
@@ -100,9 +100,9 @@ class ProductController extends Controller
             'title' => 'required',
             'schedule' => 'required',
         ]);
-        $sku_find = Product::where('SKU', $req['sku'])->first();
-        if ($sku_find == null) {
-            $product = new Product;
+        // $sku_find = Product::where('SKU', $req['sku'])->first();
+        // if ($sku_find == null) {
+            $product = new Product; 
 
             $product->Title = $req['title'];
             // $product->MRP = $req['mrp'];
@@ -125,13 +125,13 @@ class ProductController extends Controller
             $product->Description = $req['description'];
             $product->save();
             return redirect()->route('admin.view_product')->with('msg', 'Product Added!');
-        } else {
+        // } else {
 
-            $product = Product::find($sku_find->id);
-            $product->Stock = $sku_find->Stock +  $req['stock'];
-            $product->save();
-            return redirect()->route('admin.view_product')->with('msg', 'Stock Updated!');
-        }
+        //     $product = Product::find($sku_find->id);
+        //     $product->Stock = $sku_find->Stock +  $req['stock'];
+        //     $product->save();
+        //     return redirect()->route('admin.view_product')->with('msg', 'Stock Updated!');
+        // }
     }
 
     public function delete($id, Request $request)

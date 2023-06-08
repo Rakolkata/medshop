@@ -179,15 +179,16 @@
 </div>
 
 
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
   var searchInput = document.getElementById('search-input');
   var searchSuggestions = document.getElementById('search-suggestions');
+  // console.log(searchSuggestions);
   var minimumQueryLength = 3; // Minimum number of characters to trigger the search
 
   searchInput.addEventListener('input', function() {
     var query = searchInput.value.trim();
-
+console.log(query);
     if (query.length >= minimumQueryLength) {
       search(query);
     } else {
