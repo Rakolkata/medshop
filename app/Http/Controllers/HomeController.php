@@ -35,7 +35,7 @@ class HomeController extends Controller
             ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
             ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
             ->where('status' , '=' , 'dispatched')
-            ->get();
+            ->get(); 
 
         // $data = DB::table('orders_detail')->select('title','phone','food')->
         return view('admin.dashboard', compact('result'));

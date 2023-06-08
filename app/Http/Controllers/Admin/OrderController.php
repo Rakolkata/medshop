@@ -30,8 +30,17 @@ class OrderController extends Controller
             } else {
                 $search = $request->term;
             }
-            $data = Product::with('category', 'ProductVeriant')
-                ->where('Title', 'LIKE', '%' . $search . '%')->where('Stock', '>=', 1)->orWhere('Generic_name', 'LIKE', '%' . $search . '%')->orderBy('title', 'asc')->orderBy('Exp_date', 'asc')->take(10)->get();
+            $data = Product::with(['category', 'ProductVeriant' => function ($q) {
+                $q->orderBy('expdate', 'asc')->orderBy('stock', 'asc')->take(1);
+            }])
+                ->where('Title', 'LIKE', '%' . $search . '%')
+                ->where('Stock', '>=', 1)
+                ->orWhere('Generic_name', 'LIKE', '%' . $search . '%')
+                ->orderBy('title', 'asc')
+                ->take(10)
+                ->get();
+            // $data = Product::with('category', 'ProductVeriant')
+            //     ->where('Title', 'LIKE', '%' . $search . '%')->where('Stock', '>=', 1)->orWhere('Generic_name', 'LIKE', '%' . $search . '%')->orderBy('title', 'asc')->orderBy('Exp_date', 'asc')->take(10)->get();
 
 
             $output = [];

@@ -101,7 +101,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/reports', [ReportsController::class, 'index'])->name('admin.reports');
     Route::post('/admin/reports/export', [ReportsController::class, 'export'])->name('admin.reports_exports');
 
-
+ 
 
 
     Route::post('/order/search', [OrderController::class, 'serch_order'])->name('admin.order_search');

@@ -188,7 +188,6 @@
 
   searchInput.addEventListener('input', function() {
     var query = searchInput.value.trim();
-console.log(query);
     if (query.length >= minimumQueryLength) {
       search(query);
     } else {
@@ -199,13 +198,14 @@ console.log(query);
   function search(query) {
     var url = "{{ route('search') }}";
 
-    axios.get(url, {
+    axios.get(url, { 
         params: {
           query: query
         }
       })
       .then(function(response) {
         var results = response.data;
+        // console.log(results);
 
         updateSearchSuggestions(results);
       })

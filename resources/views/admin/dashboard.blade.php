@@ -1,7 +1,7 @@
 @extends('layouts.admin.app')
 @push('title')
 <title>Medshop | Admin-Dashboard</title>
-@endpush
+@endpush 
 @section('content')
 <div class="card m-3 p-3 " style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
     <div class="m-2">

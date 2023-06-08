@@ -118,7 +118,7 @@
       minLength: 2,
       select: function(event, ui) {
         let productV = ui.item.values.product_veriant;
-        console.log(ui.item.values,"fr3fr");
+        // console.log(ui.item.values,"fr3fr");
         let category = ui.item.values.category;
         let rowId = Date.now(); // generate a unique identifier for the row
         let newRow = $("<tr>", {
