@@ -11,8 +11,8 @@ use  App\Models\Order;
 use  App\Http\Controllers\Auth\RegisterController;
 use  App\Models\Order_User_Profile;
 use  App\Models\Order_details;
-
-
+use App\Models\ProductVeriant;
+use Illuminate\Support\Facades\Session;
 
 class OrderController extends Controller
 {
@@ -31,12 +31,12 @@ class OrderController extends Controller
                 $search = $request->term;
             }
             $data = Product::with(['category', 'ProductVeriant' => function ($q) {
-                $q->orderBy('expdate', 'asc')->orderBy('stock', 'asc')->take(1);
+                $q->where('stock', '>', 0)->orderBy('expdate', 'asc')->orderBy('stock', 'asc')->take(1);
             }])
                 ->where('Title', 'LIKE', '%' . $search . '%')
                 ->where('Stock', '>=', 1)
                 ->orWhere('Generic_name', 'LIKE', '%' . $search . '%')
-                ->orderBy('title', 'asc') 
+                ->orderBy('title', 'asc')
                 ->take(10)
                 ->get();
             // $data = Product::with('category', 'ProductVeriant')
@@ -48,9 +48,9 @@ class OrderController extends Controller
                 //dump($data);
                 foreach ($data as $d) {
                     // $hasProductVariant = $d->relationLoaded('ProductVariant') && $d->ProductVariant->count() > 0;
-                    if (count($d->ProductVeriant) > 0) {
-                        $output[] = ['label' => $d->Title, 'id' => $d->id, 'values' => $d];
-                    }
+                    // if (count($d->ProductVeriant) > 0) {
+                    $output[] = ['label' => $d->Title, 'id' => $d->id, 'values' => $d];
+                    // }
                 }
                 //$output =  $data;
 
@@ -115,6 +115,7 @@ class OrderController extends Controller
         $order->Discount = $req['total_discount'];
         $order->Adjustment = $req['round_off'];
         $order->orderID = "";
+        $order->status = 'draft';
         $order->save();
         $order_last_id = $order->id;
         $dt = substr(env('APP_NAME'), 0, 1) . date("dmY") . $order_last_id;
@@ -127,22 +128,24 @@ class OrderController extends Controller
         $prod_qty = $req['qty'];
         $prod_gst = $req['gst'];
         $prod_price = $req['total'];
+        $prod_batch = $req['batch_no'];
 
         foreach ($prod_name as $index => $value) {
             $order_details = new Order_details;
             //   $dt=$order_last_id.date("dmY");
             //   $order_details->Order_id = $dt;
             $order_details->Order_id = $order_last_id;
+            $order_details->batch_no = $prod_batch[$index];
             $order_details->Product_id = $prod_id[$index];
             $order_details->rate = $prod_rate[$index];
             $order_details->qty = $prod_qty[$index];
             $order_details->gst = $prod_gst[$index];
-            $order_details->Product_price     = $prod_price[$index];
+            $order_details->Product_price = $prod_price[$index];
             $order_details->save();
-            $product = Product::find($order_details->Product_id);
-            $stock = $product->Stock;
-            $product->Stock = $stock - $order_details->qty;
-            $product->save();
+            // $product = ProductVeriant::where('pid', '=', $order_details->Product_id);
+            // $stock = $product->Stock;
+            // $product->Stock = $stock - $order_details->qty;
+            // $product->save();
         }
 
         return redirect()->route('admin.order_view');
@@ -155,7 +158,7 @@ class OrderController extends Controller
     {
         $order = Order::join('order__user__profiles', 'order__user__profiles.id', '=', 'orders.Profile_id')
             ->join('users', 'users.id', '=', 'order__user__profiles.User_id')
-            ->select(['orders.Total_Order', 'users.name', 'orders.id', 'orders.orderID', 'order__user__profiles.Doc_Name_RegdNo', 'order__user__profiles.Address', 'order__user__profiles.Phone'])->paginate(15);
+            ->select(['orders.Total_Order', 'users.name', 'orders.id', 'orders.status', 'orders.orderID', 'order__user__profiles.Doc_Name_RegdNo', 'order__user__profiles.Address', 'order__user__profiles.Phone'])->paginate(15);
         $order_id = [];
         foreach ($order as $value) {
             $order_id[] = $value->id;
@@ -213,5 +216,34 @@ class OrderController extends Controller
 
 
         return view('admin.view_order')->with(compact('order', 'Order_Details'));
+    }
+
+    public function status_update(Request $request, $id)
+    {
+        // dd($id);
+        $order_deatil = Order_details::where('Product_id', '=', $id)->first();
+        if ($order_deatil->status == 'draft') {
+            $order_deatil->status = 'dispatched';
+        } else {
+            $order_deatil->status = 'draft';
+        }
+        $order_deatil->save();
+        $product = ProductVeriant::where('pid', '=', $order_deatil->Product_id)->where('batch', '=', $order_deatil->batch_no)->first();
+        if ($order_deatil->status == 'draft') {
+            if ($product) {
+                $stock = $product->Stock;
+                $product->Stock = $stock + $order_deatil->qty;
+                $product->save();
+            }
+        } else {
+            // $product = ProductVeriant::where('pid', '=', $order_deatil->Product_id)->where('batch', '=', $order_deatil->batch_no)->first();
+            if ($product) {
+                $stock = $product->Stock;
+                $product->Stock = $stock - $order_deatil->qty;
+                $product->save();
+            }
+        }
+
+        return redirect()->back();
     }
 }

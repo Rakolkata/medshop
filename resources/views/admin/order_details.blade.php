@@ -13,11 +13,12 @@
     <thead style="background-color: #4e73df;color:#fff">
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Product</th>
+        <th scope="col">Product</th> 
         <th scope="col">Rate</th>
         <th scope="col">Quantity</th>
-        <th scope="col">Gst</th>
+        <th scope="col">Gst</th> 
         <th scope="col">Total</th>
+        <th scope="col">Order Status</th>
       </tr>
     </thead>
     <tbody class="text-capitalize">
@@ -29,6 +30,7 @@
         <td>{{$item->qty}}</td>
         <td>{{$item->gst}}</td>
         <td>{{$item->Product_price}}</td>
+        <td><a href="{{ route('cahnge_status', $item->Product_id) }}">{{ $item->status }}</a></td>
       </tr>   
     @endforeach
     </tbody>
