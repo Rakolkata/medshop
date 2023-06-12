@@ -49,8 +49,7 @@
               <th scope="col" style="display:none">Subtotal</th>
               <th scope="col">GST</th>
               <th scope="col">Total (inc. GST)</th>
-
-
+              <th scope="col">Total (after Dis.)</th>
             </tr>
           </thead>
           <tbody id="table">
@@ -117,24 +116,30 @@
       dataType: "json",
       minLength: 2,
       select: function(event, ui) {
+        console.log(ui);
         let productV = ui.item.values.product_veriant;
-        // console.log(productV[0], "fr3fr");
+        // console.log(productV, "fr3fr");
         let category = ui.item.values.category;
+        if(category[0].Gstrate){
+          var category1 = category[0].Gstrate;
+        } else {
+          var category1 = 0;
+        }
         let rowId = Date.now(); // generate a unique identifier for the row
         let newRow = $("<tr>", {
-          "id": rowId 
+          "id": rowId
         }); // add the identifier to the new row
         if (productV.length > 0) {
           newRow.append("<td></td><td style='display:none'><input type='number' name='id[]' class='id' value='" + productV[0].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
-            productV[0].mrp_per_unit * productV[0].strip + "</td><td><input type='text' name='batch_no[]' class='id' value='" + 
+            productV[0].mrp_per_unit * productV[0].strip + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
             productV[0].batch + "' readonly/></td><td>" +
             productV[0].expdate + "</td>" +
-            "<td><input type='number' name='qty[]' value=1 min=1 /></td><td>" +
-            productV[0].mrp_per_unit + "</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='" + productV[0].mrp_per_unit + "' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td class='gst'>" + category[0].Gstrate + "</td><td><input type='number' name='gst[]' class='gst' value='" + parseInt(productV[0].mrp_per_unit) * parseInt(category[0].Gstrate) / 100 + "'></td><td class='total'>" + productV[0].mrp_per_unit + "</td><td style='display:none'><input type='number' name='total[]' class='total' value='" + productV[0].mrp_per_unit + "' /></td></tr>");
+            "<td><input type='number' id='" + productV[0].pid + "' name='qty[]' value=1 min=1 /></td><td>" +
+            productV[0].mrp_per_unit + "</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='" + productV[0].mrp_per_unit + "' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td class='gst'>" + category1 + "</td><td><input type='number' name='gst[]' class='gst' value='" + parseInt(productV[0].mrp_per_unit) * parseInt(category1) / 100 + "'></td><td><input type='number' name='total[]' class='total' value='" + productV[0].mrp_per_unit + "' ></td></tr>");
           $("#table").append(newRow);
           // $("#no_data_row").remove();
           totals[rowId] = productV[0].mrp_per_unit;
-          gstValues[rowId] = parseInt(productV[0].mrp_per_unit) * parseInt(category[0].Gstrate) / 100;
+          gstValues[rowId] = parseInt(productV[0].mrp_per_unit) * parseInt(category1) / 100;
           discounts[rowId] = 0;
           $("#total_taxable_amount").val(array_sum(totals));
           $("#total_gst").val(array_sum(gstValues));
@@ -146,6 +151,7 @@
           // $("#table").append(newRow);
           window.alert("This Product is not in Stock.");
         }
+
         $(document).on('change', '#' + rowId + ' .discount', function() { // listen to changes on the discount input of the corresponding row
           let discount = $(this).val();
           if (discount > 10) { // limit discount to 10%
@@ -158,7 +164,7 @@
           let subtotal = price * qty * (1 - discount / 100);
           $(this).closest('tr').find(".total").text(subtotal); // update the total for the corresponding row
           $(this).closest('tr').find(".total").val(subtotal);
-          let gstRate = category[0].Gstrate;
+          let gstRate = category1;
           let gstAmount = subtotal * gstRate / 100;
           $(this).closest('tr').find(".gst").text(gstAmount);
           // $(this).closest('tr').find(".gst").val(gstAmount);
@@ -186,7 +192,7 @@
           let subtotal = price * qty * (1 - discount / 100);
           $(this).closest('tr').find(".total").text(subtotal); // update the total for the corresponding row
           $(this).closest('tr').find(".total").val(subtotal);
-          let gstRate = category[0].Gstrate;
+          let gstRate = category1;
           let gstAmount = subtotal * gstRate / 100;
           $(this).closest('tr').find(".gst").text(gstAmount);
           $(this).closest('tr').find(".gst").val(gstAmount);
@@ -202,6 +208,54 @@
 
         });
 
+        $(document).on('change', '#'+ productV[0].pid , function() {
+          $(".remaining-row").remove();
+
+          let row = $(this).closest('tr'); // Get the parent row of the changed quantity input
+          // console.log(row);
+          let quantity = parseInt($(this).val());
+          let stock = productV[0].stock;
+
+          if (quantity > stock) {
+            // Calculate the remaining quantity
+            let remainingQuantity = quantity - stock;
+            parseInt($(this).val(stock));
+            var total_stock = stock;
+            $(".remaining-row").remove();
+
+            // Iterate over the product variants to add rows for each remaining quantity
+            for (let i = 1; i < productV.length; i++) {
+              let variant = productV[i];
+              let variantQuantity = variant.stock;
+              if (remainingQuantity > variantQuantity) {
+                // Create a new row for the current variant's stock
+                let newRow = $("<tr class='remaining-row'>");
+                newRow.append("<td></td><td><input type='number' name='qty[]' value='" + variantQuantity + "' /></td>");
+
+                // Append the new row to the table
+                $("#table").append(newRow);
+
+                // Update the remaining quantity for the next iteration
+                remainingQuantity -= variantQuantity;
+                total_stock += variantQuantity
+              } else {
+                // Create a new row for the remaining quantity
+                let newRow = $("<tr class='remaining-row'>");
+                newRow.append("<td></td><td><input type='number' name='qty[]' value='" + remainingQuantity + "' /></td>");
+
+                // Append the new row to the table
+                $("#table").append(newRow);
+
+                // Exit the loop as remaining quantity is zero
+                break;
+              }
+            }
+            if (quantity > total_stock) {
+              window.alert('We wre out of stock now for this product. we have only ' + total_stock + ' and you are demanding ' + quantity)
+            }
+          }
+
+        });
       }
     });
   });
@@ -289,6 +343,7 @@
   .qty_in_stock {
     background-color: #fff;
   }
+
   .text_center {
     text-align: center;
   }
