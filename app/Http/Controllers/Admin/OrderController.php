@@ -31,14 +31,14 @@ class OrderController extends Controller
                 $search = $request->term;
             }
             $data = Product::with(['category', 'ProductVeriant' => function ($q) {
-                $q->where('stock', '>', 0)->orderBy('expdate', 'asc')->orderBy('stock', 'asc')->take(1);
+                $q->where('stock', '>', 0)->orderBy('expdate', 'asc')->orderBy('stock', 'asc');
             }])
                 ->where('Title', 'LIKE', '%' . $search . '%')
-                ->where('Stock', '>=', 1)
+                // ->where('Stock', '>=', 1)
                 ->orWhere('Generic_name', 'LIKE', '%' . $search . '%')
                 ->orderBy('title', 'asc')
                 ->take(10)
-                ->get();
+                ->get(); 
             // $data = Product::with('category', 'ProductVeriant')
             //     ->where('Title', 'LIKE', '%' . $search . '%')->where('Stock', '>=', 1)->orWhere('Generic_name', 'LIKE', '%' . $search . '%')->orderBy('title', 'asc')->orderBy('Exp_date', 'asc')->take(10)->get();
 
@@ -48,9 +48,9 @@ class OrderController extends Controller
                 //dump($data);
                 foreach ($data as $d) {
                     // $hasProductVariant = $d->relationLoaded('ProductVariant') && $d->ProductVariant->count() > 0;
-                    // if (count($d->ProductVeriant) > 0) {
+                    if (count($d->ProductVeriant) > 0) {
                     $output[] = ['label' => $d->Title, 'id' => $d->id, 'values' => $d];
-                    // }
+                    }
                 }
                 //$output =  $data;
 
