@@ -109,7 +109,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
     Route::get('/admin/product/search', [ProductController::class, 'search'])->name('search');
 
-
+ 
     Route::view('/search', 'search');
 
     Route::get('/admin/order/status/{id}',[OrderController::class, 'status_update'] )->name('cahnge_status');

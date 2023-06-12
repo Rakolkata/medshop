@@ -38,7 +38,7 @@ class OrderController extends Controller
                 ->orWhere('Generic_name', 'LIKE', '%' . $search . '%')
                 ->orderBy('title', 'asc')
                 ->take(10)
-                ->get(); 
+                ->get();
             // $data = Product::with('category', 'ProductVeriant')
             //     ->where('Title', 'LIKE', '%' . $search . '%')->where('Stock', '>=', 1)->orWhere('Generic_name', 'LIKE', '%' . $search . '%')->orderBy('title', 'asc')->orderBy('Exp_date', 'asc')->take(10)->get();
 
@@ -49,7 +49,7 @@ class OrderController extends Controller
                 foreach ($data as $d) {
                     // $hasProductVariant = $d->relationLoaded('ProductVariant') && $d->ProductVariant->count() > 0;
                     if (count($d->ProductVeriant) > 0) {
-                    $output[] = ['label' => $d->Title, 'id' => $d->id, 'values' => $d];
+                        $output[] = ['label' => $d->Title, 'id' => $d->id, 'values' => $d];
                     }
                 }
                 //$output =  $data;
@@ -88,6 +88,7 @@ class OrderController extends Controller
 
     public function store(Request $req)
     {
+        // dd($req->id);
         $user_find = User::where('email', $req['coustomer_email'])->first();
         $user_id = '';
         if ($user_find == null) {
@@ -130,23 +131,20 @@ class OrderController extends Controller
         $prod_price = $req['total'];
         $prod_batch = $req['batch_no'];
 
-        foreach ($prod_name as $index => $value) {
-            $order_details = new Order_details;
-            //   $dt=$order_last_id.date("dmY");
-            //   $order_details->Order_id = $dt;
-            $order_details->Order_id = $order_last_id;
-            $order_details->batch_no = $prod_batch[$index];
-            $order_details->Product_id = $prod_id[$index];
-            $order_details->rate = $prod_rate[$index];
-            $order_details->qty = $prod_qty[$index];
-            $order_details->gst = $prod_gst[$index];
-            $order_details->Product_price = $prod_price[$index];
-            $order_details->save();
-            // $product = ProductVeriant::where('pid', '=', $order_details->Product_id);
-            // $stock = $product->Stock;
-            // $product->Stock = $stock - $order_details->qty;
-            // $product->save();
+        $insert_data2 = [];
+        for ($k = 0; $k < count($prod_id); $k++) {
+            $data1 = array(
+                'Order_id' => $order_last_id,
+                'batch_no' => $prod_batch[$k],
+                'Product_id' => $prod_id[$k],
+                'rate' => $prod_rate[$k],
+                'qty' => $prod_qty[$k],
+                'gst' => $prod_gst[$k],
+                'Product_price' => $prod_price[$k],
+            );
+            $insert_data2[] = $data1;
         }
+        Order_details::insert($insert_data2);
 
         return redirect()->route('admin.order_view');
 
@@ -222,26 +220,30 @@ class OrderController extends Controller
     {
         // dd($id);
         $order_deatil = Order_details::where('Product_id', '=', $id)->first();
+        // dd($order_deatil->toArray());
         if ($order_deatil->status == 'draft') {
             $order_deatil->status = 'dispatched';
         } else {
             $order_deatil->status = 'draft';
-        }
+        } 
         $order_deatil->save();
         $product = ProductVeriant::where('pid', '=', $order_deatil->Product_id)->where('batch', '=', $order_deatil->batch_no)->first();
+        // dd($product->toArray());
         if ($order_deatil->status == 'draft') {
-            if ($product) {
-                $stock = $product->Stock;
-                $product->Stock = $stock + $order_deatil->qty;
+            // if ($product) {
+                $stock = $product->stock;
+                // dd($stock);
+                $product->stock = $stock + $order_deatil->qty;
                 $product->save();
-            }
+            // }
         } else {
             // $product = ProductVeriant::where('pid', '=', $order_deatil->Product_id)->where('batch', '=', $order_deatil->batch_no)->first();
-            if ($product) {
-                $stock = $product->Stock;
-                $product->Stock = $stock - $order_deatil->qty;
+            // if ($product) {
+                $stock = $product->stock;
+                // dd($stock);
+                $product->stock = $stock - $order_deatil->qty;
                 $product->save();
-            }
+            // }
         }
 
         return redirect()->back();
