@@ -125,7 +125,7 @@
         } else {
           var category1 = 0;
         }
-        var grand_total_value = 0;
+        // var grand_total_value = 0;
 
         let rowId = Date.now(); // generate a unique identifier for the row
         let newRow = $("<tr>", {
@@ -143,17 +143,17 @@
           totals[rowId] = productV[0].mrp_per_unit;
           gstValues[rowId] = parseInt(productV[0].mrp_per_unit) * parseInt(category1) / 100;
           discounts[rowId] = 0;
-          var grand_total = array_sum(totals);
-          if (grand_total) {
-            grand_total_value = grand_total;
-          } else {
-            grand_total_value = 00;
-          }
+          // var grand_total = array_sum(totals);
+          // if (grand_total) {
+          //   grand_total_value = grand_total;
+          // } else {
+          //   grand_total_value = 00;
+          // }
           $("#total_taxable_amount").val(array_sum(totals));
           $("#total_gst").val(array_sum(gstValues));
           $("#total_discount").val(array_sum(discounts));
           $("#round_off").val(array_sum(totals) - (array_sum(totals).toFixed(0)));
-          $("#grand_total").val(grand_total_value.toFixed(0));
+          $("#grand_total").val(parseInt(array_sum(totals)).toFixed(0));
         } else {
           // newRow.append("<td id='no_data_row' colspan=12 class='text_center'>This Product is not in stock.</td>");
           // $("#table").append(newRow);
@@ -184,7 +184,7 @@
           $("#total_gst").val(array_sum(gstValues));
           $("#total_discount").val(array_sum(discounts));
           $("#round_off").val(array_sum(totals) - (array_sum(totals).toFixed(0)));
-          $("#grand_total").val(grand_total_value.toFixed(0));
+          $("#grand_total").val(parseInt(array_sum(totals)).toFixed(0));
 
         });
 
@@ -212,12 +212,12 @@
           $("#total_gst").val(array_sum(gstValues));
           $("#total_discount").val(array_sum(discounts));
           $("#round_off").val(array_sum(totals) - (array_sum(totals).toFixed(0)));
-          $("#grand_total").val(grand_total_value.toFixed(0));
+          $("#grand_total").val(parseInt(array_sum(totals)).toFixed(0));
 
         });
 
         $(document).on('change', '#' + productV[0].pid, function() {
-          $(".remaining-row " + productV[0].pid + "").remove();
+          $(".remaining-row" + productV[0].pid + "").remove();
 
           let row = $(this).closest('tr'); // Get the parent row of the changed quantity input
           // console.log(row);
@@ -229,19 +229,40 @@
             let remainingQuantity = quantity - stock;
             parseInt($(this).val(stock));
             var total_stock = stock;
-            $(".remaining-row " + productV[0].pid + "").remove();
+            // $(".remaining-row").remove();
 
             // Iterate over the product variants to add rows for each remaining quantity
             for (let i = 1; i < productV.length; i++) {
               let variant = productV[i];
-              console.log('remaining-row ' + productV[0].pid);
-              console.log(".remaining-row " + productV[0].pid + "", "javascript")
-              var classe = 'remaining-row ' + productV[0].pid;
+              // console.log("remaining-row" + productV[0].pid + "");
+              // console.log(".remaining-row " + productV[0].pid + "", "javascript")
               let variantQuantity = variant.stock;
               if (remainingQuantity > variantQuantity) {
                 // Create a new row for the current variant's stock
-                let newRow = $("<tr class=''remaining-row '" + productV[0].pid + "'>");
-                newRow.append("<td></td><td><input type='number' name='qty[]' value='" + variantQuantity + "' /></td>");
+                let newRow = $("<tr>").addClass("remaining-row" + productV[0].pid);
+                newRow.append("<td></td><td style='display:none'><input type='number' name='id[]' class='id' value='" + productV[i].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
+                  productV[i].mrp_per_unit * productV[i].strip + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
+                  productV[i].batch + "' readonly/></td><td>" +
+                  productV[i].expdate + "</td>" +
+                  "<td><input type='number' name='qty[]' value='" + remainingQuantity + "' readonly/></td><td>" +
+                  productV[i].mrp_per_unit + "</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='" + productV[i].mrp_per_unit + "' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td class='gst'>" + category1 + "</td><td><input type='number' name='gst[]' class='gst' value='" + parseInt(productV[i].mrp_per_unit) * parseInt(category1) / 100 + "'></td><td><input type='number' name='total[]' class='total' value='" + productV[i].mrp_per_unit + "' ></td></tr>");
+                $("#table").append(newRow);
+                // $("#no_data_row").remove();
+                totals[rowId] = productV[i].mrp_per_unit;
+                gstValues[rowId] = parseInt(productV[i].mrp_per_unit) * parseInt(category1) / 100;
+                discounts[rowId] = 0;
+                var grand_total = array_sum(totals);
+                if (grand_total) {
+                  grand_total_value = grand_total;
+                } else {
+                  grand_total_value = 00;
+                }
+                $("#total_taxable_amount").val(array_sum(totals));
+                $("#total_gst").val(array_sum(gstValues));
+                $("#total_discount").val(array_sum(discounts));
+                $("#round_off").val(array_sum(totals) - (array_sum(totals).toFixed(0)));
+                $("#grand_total").val(grand_total_value.toFixed(0));
+                // newRow.append("<td></td><td><input type='number' name='qty[]' value='" + variantQuantity + "' readonly/></td>");
 
                 // Append the new row to the table
                 $("#table").append(newRow);
@@ -251,9 +272,30 @@
                 total_stock += variantQuantity
               } else {
                 // Create a new row for the remaining quantity
-                let newRow = $("<tr class=" + classe + ">");
-
-                newRow.append("<td></td><td><input type='number' name='qty[]' value='" + remainingQuantity + "' /></td>");
+                let newRow = $("<tr>").addClass("remaining-row" + productV[0].pid);
+                newRow.append("<td></td><td style='display:none'><input type='number' name='id[]' class='id' value='" + productV[i].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
+                  productV[i].mrp_per_unit * productV[i].strip + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
+                  productV[i].batch + "' readonly/></td><td>" +
+                  productV[i].expdate + "</td>" +
+                  "<td><input type='number' name='qty[]' value='" + remainingQuantity + "' readonly/></td><td>" +
+                  productV[i].mrp_per_unit + "</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='" + productV[i].mrp_per_unit + "' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td class='gst'>" + category1 + "</td><td><input type='number' name='gst[]' class='gst' value='" + parseInt(productV[i].mrp_per_unit) * parseInt(category1) / 100 + "'></td><td><input type='number' name='total[]' class='total' value='" + productV[i].mrp_per_unit + "' ></td></tr>");
+                $("#table").append(newRow);
+                // $("#no_data_row").remove();
+                totals[rowId] = productV[i].mrp_per_unit;
+                gstValues[rowId] = parseInt(productV[i].mrp_per_unit) * parseInt(category1) / 100;
+                discounts[rowId] = 0;
+                var grand_total = array_sum(totals);
+                if (grand_total) {
+                  grand_total_value = grand_total;
+                } else {
+                  grand_total_value = 00;
+                }
+                $("#total_taxable_amount").val(array_sum(totals));
+                $("#total_gst").val(array_sum(gstValues));
+                $("#total_discount").val(array_sum(discounts));
+                $("#round_off").val(array_sum(totals) - (array_sum(totals).toFixed(0)));
+                $("#grand_total").val(grand_total_value.toFixed(0));
+                // newRow.append("<td></td><td><input type='number' name='qty[]' value='" + remainingQuantity + "' readonly/></td>");
 
                 // Append the new row to the table
                 $("#table").append(newRow);
