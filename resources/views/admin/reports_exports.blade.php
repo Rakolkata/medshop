@@ -6,6 +6,41 @@
 <div class="card m-1 p-1" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;z-index:1">
     <h5 class="p-2"><span style="border-bottom:1px solid #4e73df">Reports :</span></h5>
     <div class="container">
+        <form action="{{route('admin.reports_exports')}}" method="post">
+            @csrf
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="" class="form-label">Select Schedule</label>
+                    <select class="form-control form-select-lg" name="schedule" id="">
+                        <option  selected value="null"> -- select an option -- </option>
+                        @foreach ($sched as $item)
+                        <option value="{{$item->id}}">{{$item->Name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mt-2">
+                    <label class="form-label">Expairy Date</label>
+                    <input type="date" name="exp_date" class="form-control">
+                </div>
+                <div class="col-md-6 mt-2">
+                    <label class="form-label">Monthly - Daily sales</label>
+                    <select name="day_month"  class="form-control form-select-lg">
+                        <option value=null>--select option --</option>
+                        <option value="1">Daily</option>
+                        <option value="2">Monthly</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn text-white mt-1" style="background-color: #4e73df">Submit</button>
+        </form>
+    </div>
+</div>
+
+<div class="card m-1 p-1" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;z-index:1">
+    <h5 class="p-2"><span style="border-bottom:1px solid #4e73df">Reports  Data:</span></h5>
+    <div class="container">
      <!-- schedule -->
     @if($schedule != 'false')
          <?php
@@ -18,6 +53,8 @@
         <tr>
             <th>Title</th>
             <th>Exp_Date</th>
+            <th>Stock</th>
+            <th>Batch</th>
         </tr>
      </thead>
      <tbody class="text-capitalize" id="order">
@@ -25,6 +62,8 @@
         <tr>
             <td>{{$sch->Title}}</td>
             <td>{{$sch->Exp_date}}</td>
+            <td>{{$sch->stock}}</td>
+            <td>{{$sch->batch}}</td>
         </tr>
         @endforeach
         </tbody>
@@ -41,6 +80,8 @@
         <tr>
             <th>Title</th>
             <th>Exp_Date</th>
+            <th>Stock</th>
+            <th>Batch</th>
         </tr>
      </thead>
      <tbody class="text-capitalize" id="order">
@@ -48,6 +89,8 @@
         <tr>
             <td>{{$exp->Title}}</td>
             <td>{{$exp->Exp_date}}</td>
+            <td>{{$exp->stock}}</td>
+            <td>{{$exp->batch}}</td>
         </tr>
         @endforeach
         </tbody>
