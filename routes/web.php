@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\ProductVeriantController;
+// use PhpOffice\PhpSpreadsheet\Spreadsheet;
+// use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 
 
@@ -100,7 +102,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
     Route::get('/admin/reports', [ReportsController::class, 'index'])->name('admin.reports');
     Route::post('/admin/reports/export', [ReportsController::class, 'export'])->name('admin.reports_exports');
-
+    Route::post('/admin/reports/export/excel', [ReportsController::class, 'report'])->name('admin.reports_exports_excel');
  
 
 

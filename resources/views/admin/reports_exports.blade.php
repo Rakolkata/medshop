@@ -1,3 +1,4 @@
+
 @extends('layouts.admin.app')
 @push('title')
 <title>Medshop |Reports</title>
@@ -33,7 +34,7 @@
                     </select>
                 </div>
             </div>
-            <button class="btn text-white mt-1" style="background-color: #4e73df">Submit</button>
+            <button class="btn text-white mt-1" style="background-color: #4e73df">Filter</button>
         </form>
     </div>
 </div>
@@ -43,10 +44,12 @@
     <div class="container">
      <!-- schedule -->
     @if($schedule != 'false')
-         <?php
-        //    excel_exprot($schedule,'schedule')
-           ?>
-        <h6>Schedule Report</h6>
+         
+        <h6>Product Report</h6><form action="{{route('admin.reports_exports_excel')}}" method="post">
+        @csrf
+        <input type="hidden" name="data" value="{{ $schedule }}">
+        <input type="hidden" name="report_type" value="schedule">
+        <button class="btn text-white mt-1" style="background-color: #4e73df">Download Report</button></form>
         <br>
         <table class="table table-striped table-responsive-sm">
     <thead style="background-color: #4e73df;color:#fff">
@@ -73,7 +76,11 @@
       @endif
     <!-- exp -->
     @if($exp != 'false')
-        <h6>Exp_Date Report</h6>
+        <h6>Exp_Date Report</h6><form action="{{route('admin.reports_exports_excel')}}" method="post">
+        @csrf
+        <input type="hidden" name="data" value="{{ $exp }}">
+        <input type="hidden" name="report_type" value="exp">
+        <button class="btn text-white mt-1" style="background-color: #4e73df">Download Report</button></form>
         <br>
         <table class="table table-striped table-responsive-sm">
     <thead style="background-color: #4e73df;color:#fff">
@@ -101,7 +108,11 @@
 
       <!-- dm -->
     @if($dm != 'false')
-        <h6>Daily - Monthly Order Report</h6>
+        <h6>Daily - Monthly Order Report</h6><form action="{{route('admin.reports_exports_excel')}}" method="post">
+        @csrf
+        <input type="hidden" name="data" value="{{ $dm }}">
+        <input type="hidden" name="report_type" value="dm">
+        <button class="btn text-white mt-1" style="background-color: #4e73df">Download Report</button></form>
         <br>
         <table class="table table-striped table-responsive-sm">
     <thead style="background-color: #4e73df;color:#fff">
@@ -136,13 +147,3 @@
 @endsection
 
 
-<?php 
-// require 'vendor/autoload.php';
-
-// use PhpOffice\PhpSpreadsheet\Spreadsheet;
-// use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
-// function excel_exprot($data, $report_type){
-
-// }
-?>

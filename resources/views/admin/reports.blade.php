@@ -33,7 +33,7 @@
                     </select>
                 </div>
             </div>
-            <button class="btn text-white mt-1" style="background-color: #4e73df">Submit</button>
+            <button class="btn text-white mt-1" style="background-color: #4e73df">Filter</button>
         </form>
     </div>
 </div>
