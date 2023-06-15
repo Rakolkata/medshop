@@ -182,7 +182,7 @@
           $("#total_gst").val(array_sum(gstValues));
           $("#total_discount").val(array_sum(discounts).toFixed(2));
           $("#round_off").val(array_sum(totals) - (array_sum(totals).toFixed(2)));
-          $("#grand_total").val(parseInt(array_sum(totals)).toFixed(0));
+          $("#grand_total").val(array_sum(totals).toFixed(0));
         } else {
           // newRow.append("<td id='no_data_row' colspan=12 class='text_center'>This Product is not in stock.</td>");
           // $("#table").append(newRow);
@@ -213,7 +213,7 @@
           $("#total_gst").val(array_sum(gstValues));
           $("#total_discount").val(array_sum(discounts).toFixed(2));
           $("#round_off").val(array_sum(totals) - (array_sum(totals).toFixed(2)));
-          $("#grand_total").val(parseInt(array_sum(totals)).toFixed(0));
+          $("#grand_total").val(array_sum(totals).toFixed(0));
 
         });
 

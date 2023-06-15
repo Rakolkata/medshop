@@ -116,6 +116,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
     Route::get('/admin/order/status/{id}',[OrderController::class, 'status_update'] )->name('cahnge_status');
 
+    Route::get('/admin/order/cancle/{id}',[OrderController::class, 'cancle_order'])->name('order_cancle'); 
+
 });
 
 

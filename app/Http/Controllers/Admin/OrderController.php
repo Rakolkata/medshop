@@ -173,10 +173,11 @@ class OrderController extends Controller
 
         return view('admin.view_order')->with(compact('order', 'Order_Details'));
     }
-
+ 
     public function order_details($Order_id)
     {
         $order_details = Order_details::where('Order_id', $Order_id)
+            ->where('status', '!=', 'cancled') 
             ->with('products')
             ->get();
         return View('admin.order_details')->with(compact('order_details'));
@@ -245,6 +246,17 @@ class OrderController extends Controller
                 $product->save();
             // }
         }
+
+        return redirect()->back();
+    }
+
+    public function cancle_order(Request $request, $id)
+    {
+        // dd($id);
+        $order_details = Order_details::where('Product_id', $id)->first();
+
+        $order_details->status = 'cancled';
+        $order_details->save();
 
         return redirect()->back();
     }
