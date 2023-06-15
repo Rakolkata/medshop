@@ -122,8 +122,37 @@
         let category = ui.item.values.category;
         if (category[0].Gstrate) {
           var category1 = category[0].Gstrate;
+          // console.log(category1);
         } else {
           var category1 = 0;
+        }
+
+        var mrp_default = 0;
+        if (productV[0].mrp_per_unit) {
+          mrp_default = productV[0].mrp_per_unit;
+        } else {
+          mrp_default = 0;
+        }
+
+        var default_strip = 0;
+        if (productV[0].strip) {
+          default_strip = productV[0].strip;
+        } else {
+          default_strip = 0;
+        }
+
+        var default_batch = 'Null';
+        if (productV[0].batch) {
+          default_batch = productV[0].batch;
+        } else {
+          default_batch = 'Null';
+        }
+
+        var default_expdate = 0000 - 00 - 00;
+        if (productV[0].expdate) {
+          default_expdate = productV[0].expdate;
+        } else {
+          default_expdate = 0000 - 00 - 00;
         }
         // var grand_total_value = 0;
 
@@ -133,15 +162,15 @@
         }); // add the identifier to the new row
         if (productV.length > 0) {
           newRow.append("<td></td><td style='display:none'><input type='number' name='id[]' class='id' value='" + productV[0].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
-            productV[0].mrp_per_unit * productV[0].strip + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
-            productV[0].batch + "' readonly/></td><td>" +
-            productV[0].expdate + "</td>" +
+            mrp_default * default_strip + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
+            default_batch + "' readonly/></td><td>" +
+            default_expdate + "</td>" +
             "<td><input type='number' id='" + productV[0].pid + "' name='qty[]' value=1 min=1 /></td><td>" +
-            productV[0].mrp_per_unit + "</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='" + productV[0].mrp_per_unit + "' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td class='gst'>" + category1 + "</td><td><input type='number' name='gst[]' class='gst' value='" + parseInt(productV[0].mrp_per_unit) * parseInt(category1) / 100 + "'></td><td><input type='number' name='total[]' class='total' value='" + productV[0].mrp_per_unit + "' ></td></tr>");
+            mrp_default + "</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='" + mrp_default + "' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td class='gst'>" + category1 + "</td><td><input type='number' name='gst[]' class='gst' value='" + parseInt(mrp_default) * parseInt(category1) / 100 + "'></td><td><input type='number' name='total[]' class='total' value='" + mrp_default + "' ></td></tr>");
           $("#table").append(newRow);
           // $("#no_data_row").remove();
-          totals[rowId] = productV[0].mrp_per_unit;
-          gstValues[rowId] = parseInt(productV[0].mrp_per_unit) * parseInt(category1) / 100;
+          totals[rowId] = mrp_default;
+          gstValues[rowId] = parseInt(mrp_default) * parseInt(category1) / 100;
           discounts[rowId] = 0;
           // var grand_total = array_sum(totals);
           // if (grand_total) {
@@ -151,8 +180,8 @@
           // }
           $("#total_taxable_amount").val(array_sum(totals));
           $("#total_gst").val(array_sum(gstValues));
-          $("#total_discount").val(array_sum(discounts));
-          $("#round_off").val(array_sum(totals) - (array_sum(totals).toFixed(0)));
+          $("#total_discount").val(array_sum(discounts).toFixed(2));
+          $("#round_off").val(array_sum(totals) - (array_sum(totals).toFixed(2)));
           $("#grand_total").val(parseInt(array_sum(totals)).toFixed(0));
         } else {
           // newRow.append("<td id='no_data_row' colspan=12 class='text_center'>This Product is not in stock.</td>");
@@ -167,7 +196,7 @@
             $(this).val(discount); // update the value of the discount input to reflect the limit
           }
           $(this).val(discount); // update the value of the discount input to reflect the limit
-          let price = productV[0].mrp_per_unit;
+          let price = mrp_default;
           let qty = $(this).closest('tr').find("input[name='qty[]']").val();
           let subtotal = price * qty * (1 - discount / 100);
           $(this).closest('tr').find(".total").text(subtotal); // update the total for the corresponding row
@@ -182,15 +211,15 @@
           discounts[rowId] = (price * qty) - subtotal;
           $("#total_taxable_amount").val(array_sum(totals));
           $("#total_gst").val(array_sum(gstValues));
-          $("#total_discount").val(array_sum(discounts));
-          $("#round_off").val(array_sum(totals) - (array_sum(totals).toFixed(0)));
+          $("#total_discount").val(array_sum(discounts).toFixed(2));
+          $("#round_off").val(array_sum(totals) - (array_sum(totals).toFixed(2)));
           $("#grand_total").val(parseInt(array_sum(totals)).toFixed(0));
 
         });
 
         $(document).on('change', '#' + rowId + ' input[name="qty[]"]', function() { // listen to changes on the quantity input of the corresponding row
           let qty = $(this).val();
-          let price = productV[0].mrp_per_unit;
+          let price = mrp_default;
           let discount = $(this).closest('tr').find(".discount").val();
           if (discount > 10) { // limit discount to 10%
             discount = 10;
@@ -210,9 +239,9 @@
           discounts[rowId] = (price * qty) - subtotal;
           $("#total_taxable_amount").val(array_sum(totals));
           $("#total_gst").val(array_sum(gstValues));
-          $("#total_discount").val(array_sum(discounts));
-          $("#round_off").val(array_sum(totals) - (array_sum(totals).toFixed(0)));
-          $("#grand_total").val(parseInt(array_sum(totals)).toFixed(0));
+          $("#total_discount").val(array_sum(discounts).toFixed(2));
+          $("#round_off").val(array_sum(totals) - (array_sum(totals).toFixed(2)));
+          $("#grand_total").val(array_sum(totals).toFixed(2));
 
         });
 
