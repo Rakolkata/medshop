@@ -56,7 +56,7 @@ class OrderController extends Controller
 
             } else {
 
-                $output = "<li class='list-group-item'>No Data Found</li>";
+                $output = [];
             }
 
             // $output = [];
@@ -226,7 +226,7 @@ class OrderController extends Controller
             $order_deatil->status = 'dispatched';
         } else {
             $order_deatil->status = 'draft';
-        } 
+        }
         $order_deatil->save();
         $product = ProductVeriant::where('pid', '=', $order_deatil->Product_id)->where('batch', '=', $order_deatil->batch_no)->first();
         // dd($product->toArray());
