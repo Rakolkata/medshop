@@ -247,7 +247,7 @@ class OrderController extends Controller
             // }
         }
 
-        return redirect()->route('admin.prod_details');
+        return redirect()->back();
     }
 
     public function cancle_order(Request $request, $id)
@@ -261,6 +261,6 @@ class OrderController extends Controller
         $stock = ProductVeriant::where('pid', '=', $id)->where('batch', '=', $order_details->batch_no)->first();
         $stock->stock = $stock->stock + $order_details->qty;
         $stock->save();
-        return redirect()->route('admin.prod_details');
+        return redirect()->back();
     }
 }
