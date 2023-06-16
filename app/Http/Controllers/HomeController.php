@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use  App\Models\ProductVeriant;
 
 class HomeController extends Controller
 {
@@ -30,16 +32,53 @@ class HomeController extends Controller
 
     public function adminHome()
     {
+        $m = date('m');
+        $date = date('Y-m-d');
+        $beforeday = Carbon::parse($date)->addDays(10)->toDateString();
         $result = DB::table('orders')
             ->select(DB::raw('YEAR(created_at) AS year, MONTH(created_at) AS month, SUM(Total_Order) AS monthly_sale'))
             ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
             ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
-            ->where('status' , '=' , 'dispatched')
+            ->where('status' , '=' , 'dispatched')->where(DB::raw('MONTH(created_at)'),'=',$m)
             ->get(); 
 
-        // $data = DB::table('orders_detail')->select('title','phone','food')->
-        return view('admin.dashboard', compact('result'));
-    }
+            $result2 = DB::table(DB::raw('(SELECT 1 AS month UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12) AS months'))
+    ->leftJoin('orders', function ($join) {
+        $join->on(DB::raw('MONTH(orders.created_at)'), '=', 'months.month')
+            ->where('orders.status', '=', 'dispatched')
+            ->whereRaw('YEAR(orders.created_at) = ?', [date('Y')]);
+    })
+    ->select(DB::raw('COALESCE(SUM(orders.Total_Order), 0) AS monthly_sale'))
+    ->groupBy('months.month')
+    ->orderBy('months.month')
+    ->pluck('monthly_sale');
+
+
+
+
+
+
+    //   echo $result2;
+        
+
+// Iterate over the result and add the previous month sales to each row
+
+//last 5 days 
+
+$exp = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid')
+    ->whereBetween('product_veriant.expdate', [$date, $beforeday])
+    ->get(['product_veriant.*', 'products.Title as product_name']);
+
+
+
+$qty = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid')
+->whereBetween('product_veriant.stock', [0, 5])
+->get(['product_veriant.*', 'products.Title as product_name']);
+
+ // $data = DB::table('orders_detail')->select('title','phone','food')->
+ return view('admin.dashboard', compact('result'))->withmtm($result2)->withexp($exp)->withqty($qty);
+        
+}
 
     public function shopownerHome()
     {
