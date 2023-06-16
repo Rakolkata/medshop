@@ -166,7 +166,7 @@
             default_batch + "' readonly/></td><td>" +
             default_expdate + "</td>" +
             "<td><input type='number' id='" + productV[0].pid + "' name='qty[]' value=1 min=1 /></td><td>" +
-            mrp_default + "</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='" + mrp_default + "' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td>" + category1 + "</td><td><input type='number' name='gst[]' class='gst' value='" + (parseInt(mrp_default) * parseInt(category1) / 100).toFixed(2) + "' readonly ></td><td><input type='number' name='total[]' class='total' value='" + mrp_default.toFixed(2) + "' ></td></tr>");
+            mrp_default + "</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='" + mrp_default + "' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td>" + category1 + "</td><td><input type='number' name='gst[]' class='gst' value='" + (parseInt(mrp_default) * parseInt(category1) / 100).toFixed(2) + "' readonly ></td><td><input type='number' name='total[]' class='total' value='" + mrp_default + "' ></td></tr>");
           $("#table").append(newRow);
           // $("#no_data_row").remove();
           totals[rowId] = mrp_default;
@@ -339,8 +339,12 @@
           }
 
         });
+
+        
       }
     });
+
+
   });
 </script>
 

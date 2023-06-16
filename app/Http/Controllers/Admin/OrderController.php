@@ -56,7 +56,7 @@ class OrderController extends Controller
 
             } else {
 
-                $output = "<li class='list-group-item'>No Data Found</li>";
+                $output = [];
             }
 
             // $output = [];
@@ -226,7 +226,7 @@ class OrderController extends Controller
             $order_deatil->status = 'dispatched';
         } else {
             $order_deatil->status = 'draft';
-        } 
+        }
         $order_deatil->save();
         $product = ProductVeriant::where('pid', '=', $order_deatil->Product_id)->where('batch', '=', $order_deatil->batch_no)->first();
         // dd($product->toArray());
@@ -247,7 +247,7 @@ class OrderController extends Controller
             // }
         }
 
-        return redirect()->route('admin.prod_details');
+        return redirect()->route('admin.order_view');
     }
 
     public function cancle_order(Request $request, $id)
@@ -261,6 +261,8 @@ class OrderController extends Controller
         $stock = ProductVeriant::where('pid', '=', $id)->where('batch', '=', $order_details->batch_no)->first();
         $stock->stock = $stock->stock + $order_details->qty;
         $stock->save();
-        return redirect()->route('admin.prod_details');
+
+        return redirect()->back();
+        // return redirect()->route('admin.order_view');
     }
 }
