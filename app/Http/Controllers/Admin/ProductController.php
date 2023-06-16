@@ -303,7 +303,7 @@ class ProductController extends Controller
 
         return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
     }
-
+    
     public function search(Request $request)
     {
         $query = $request->get('query');

@@ -166,7 +166,7 @@
             default_batch + "' readonly/></td><td>" +
             default_expdate + "</td>" +
             "<td><input type='number' id='" + productV[0].pid + "' name='qty[]' value=1 min=1 /></td><td>" +
-            mrp_default + "</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='" + mrp_default + "' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td class='gst'>" + category1 + "</td><td><input type='number' name='gst[]' class='gst' value='" + parseInt(mrp_default) * parseInt(category1) / 100 + "'></td><td><input type='number' name='total[]' class='total' value='" + mrp_default + "' ></td></tr>");
+            mrp_default + "</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='" + mrp_default + "' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td>" + category1 + "</td><td><input type='number' name='gst[]' class='gst' value='" + (parseInt(mrp_default) * parseInt(category1) / 100).toFixed(2) + "' readonly ></td><td><input type='number' name='total[]' class='total' value='" + mrp_default.toFixed(2) + "' ></td></tr>");
           $("#table").append(newRow);
           // $("#no_data_row").remove();
           totals[rowId] = mrp_default;
@@ -178,11 +178,11 @@
           // } else {
           //   grand_total_value = 00;
           // }
-          $("#total_taxable_amount").val(array_sum(totals));
-          $("#total_gst").val(array_sum(gstValues));
-          $("#total_discount").val(array_sum(discounts));
+          $("#total_taxable_amount").val(array_sum(totals).toFixed(2));
+          $("#total_gst").val(array_sum(gstValues).toFixed(2));
+          $("#total_discount").val(array_sum(discounts).toFixed(2));
           $("#round_off").val(array_sum(totals) - (array_sum(totals)));
-          $("#grand_total").val(array_sum(totals));
+          $("#grand_total").val(array_sum(totals).toFixed(2));
         } else {
           // newRow.append("<td id='no_data_row' colspan=12 class='text_center'>This Product is not in stock.</td>");
           // $("#table").append(newRow);
@@ -209,11 +209,11 @@
           totals[rowId] = subtotal;
           gstValues[rowId] = gstAmount;
           discounts[rowId] = (price * qty) - subtotal;
-          $("#total_taxable_amount").val(array_sum(totals));
-          $("#total_gst").val(array_sum(gstValues));
-          $("#total_discount").val(array_sum(discounts));
+          $("#total_taxable_amount").val(array_sum(totals).toFixed(2));
+          $("#total_gst").val(array_sum(gstValues).toFixed(2));
+          $("#total_discount").val(array_sum(discounts).toFixed(2));
           $("#round_off").val(array_sum(totals) - (array_sum(totals)));
-          $("#grand_total").val(array_sum(totals));
+          $("#grand_total").val(array_sum(totals).toFixed(2));
 
         });
 
@@ -237,11 +237,11 @@
           totals[rowId] = subtotal;
           gstValues[rowId] = gstAmount;
           discounts[rowId] = (price * qty) - subtotal;
-          $("#total_taxable_amount").val(array_sum(totals));
-          $("#total_gst").val(array_sum(gstValues));
-          $("#total_discount").val(array_sum(discounts));
+          $("#total_taxable_amount").val(array_sum(totals).toFixed(2));
+          $("#total_gst").val(array_sum(gstValues).toFixed(2));
+          $("#total_discount").val(array_sum(discounts).toFixed(2));
           $("#round_off").val(array_sum(totals) - (array_sum(totals)));
-          $("#grand_total").val(array_sum(totals));
+          $("#grand_total").val(array_sum(totals).toFixed(2));
 
         });
 
