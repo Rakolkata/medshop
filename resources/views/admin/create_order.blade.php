@@ -122,9 +122,10 @@
         let category = ui.item.values.category;
         if (category[0].Gstrate) {
           var category1 = category[0].Gstrate;
-          // console.log(category1);
+          console.log(category1);
         } else {
           var category1 = 0;
+          console.log(category1);
         }
 
         var mrp_default = 0;
@@ -166,7 +167,7 @@
             default_batch + "' readonly/></td><td>" +
             default_expdate + "</td>" +
             "<td><input type='number' id='" + productV[0].pid + "' name='qty[]' value=1 min=1 /></td><td>" +
-            mrp_default + "</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='" + mrp_default + "' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td>" + category1 + "</td><td><input type='number' name='gst[]' class='gst' value='" + (parseInt(mrp_default) * parseInt(category1) / 100).toFixed(2) + "' readonly ></td><td><input type='number' name='total[]' class='total' value='" + mrp_default + "' ></td></tr>");
+            mrp_default + "</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='" + mrp_default + "' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td>" + category1 + "</td><td><input type='number' name='gst[]' class='gst' value='" + parseInt(mrp_default) * parseInt(category1) / 100 + "' readonly ></td><td><input type='number' name='total[]' class='total' value='" + mrp_default + "' ></td></tr>");
           $("#table").append(newRow);
           // $("#no_data_row").remove();
           totals[rowId] = mrp_default;
@@ -263,6 +264,42 @@
             // Iterate over the product variants to add rows for each remaining quantity
             for (let i = 1; i < productV.length; i++) {
               let variant = productV[i];
+              // let category = ui.item.values.category;
+              // if (category[0].Gstrate) {
+              //   var category1 = category[0].Gstrate;
+              //   console.log(category1);
+              // } else {
+              //   var category1 = 0;
+              //   console.log(category1);
+              // }
+
+              var mrp_default_copy = 0;
+              if (productV[i].mrp_per_unit) {
+                mrp_default_copy = productV[i].mrp_per_unit;
+              } else {
+                mrp_default_copy = 0;
+              }
+
+              var default_strip_copy = 0;
+              if (productV[i].strip) {
+                default_strip_copy = productV[i].strip;
+              } else {
+                default_strip_copy = 0;
+              }
+
+              var default_batch_copy = 'Null';
+              if (productV[i].batch) {
+                default_batch_copy = productV[i].batch;
+              } else {
+                default_batch_copy = 'Null';
+              }
+
+              var default_expdate_copy = 0000 - 00 - 00;
+              if (productV[i].expdate) {
+                default_expdate_copy = productV[i].expdate;
+              } else {
+                default_expdate_copy = 0000 - 00 - 00;
+              }
               // console.log("remaining-row" + productV[0].pid + "");
               // console.log(".remaining-row " + productV[0].pid + "", "javascript")
               let variantQuantity = variant.stock;
@@ -270,27 +307,27 @@
                 // Create a new row for the current variant's stock
                 let newRow = $("<tr>").addClass("remaining-row" + productV[0].pid);
                 newRow.append("<td></td><td style='display:none'><input type='number' name='id[]' class='id' value='" + productV[i].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
-                  productV[i].mrp_per_unit * productV[i].strip + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
-                  productV[i].batch + "' readonly/></td><td>" +
-                  productV[i].expdate + "</td>" +
-                  "<td><input type='number' name='qty[]' value='" + remainingQuantity + "' readonly/></td><td>" +
-                  productV[i].mrp_per_unit + "</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='" + productV[i].mrp_per_unit + "' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td class='gst'>" + category1 + "</td><td><input type='number' name='gst[]' class='gst' value='" + parseInt(productV[i].mrp_per_unit) * parseInt(category1) / 100 + "'></td><td><input type='number' name='total[]' class='total' value='" + productV[i].mrp_per_unit + "' ></td></tr>");
+                  mrp_default_copy * default_strip_copy + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
+                  default_batch_copy + "' readonly/></td><td>" +
+                  default_expdate_copy + "</td>" +
+                  "<td><input type='number' name='qty[]' value='" + variantQuantity + "' readonly/></td><td>" +
+                  mrp_default_copy + "</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='" + mrp_default_copy + "' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td>" + category1 + "</td><td><input type='number' name='gst[]' class='gst' value='" + parseInt(mrp_default_copy) * parseInt(category1) / 100 + "' readonly></td><td><input type='number' name='total[]' class='total' value='" + mrp_default_copy + "' ></td></tr>");
                 $("#table").append(newRow);
                 // $("#no_data_row").remove();
-                totals[rowId] = productV[i].mrp_per_unit;
-                gstValues[rowId] = parseInt(productV[i].mrp_per_unit) * parseInt(category1) / 100;
+                totals[rowId] = mrp_default_copy;
+                gstValues[rowId] = parseInt(mrp_default_copy) * parseInt(category1) / 100;
                 discounts[rowId] = 0;
-                var grand_total = array_sum(totals);
-                if (grand_total) {
-                  grand_total_value = grand_total;
-                } else {
-                  grand_total_value = 00;
-                }
-                $("#total_taxable_amount").val(array_sum(totals));
-                $("#total_gst").val(array_sum(gstValues));
-                $("#total_discount").val(array_sum(discounts));
+                // var grand_total = array_sum(totals);
+                // if (grand_total) {
+                //   grand_total_value = grand_total;
+                // } else {
+                //   grand_total_value = 00;
+                // }
+                $("#total_taxable_amount").val(array_sum(totals).toFixed(2));
+                $("#total_gst").val(array_sum(gstValues).toFixed(2));
+                $("#total_discount").val(array_sum(discounts).toFixed(2));
                 $("#round_off").val(array_sum(totals) - (array_sum(totals)));
-                $("#grand_total").val(grand_total_value);
+                $("#grand_total").val(array_sum(totals).toFixed(2));
                 // newRow.append("<td></td><td><input type='number' name='qty[]' value='" + variantQuantity + "' readonly/></td>");
 
                 // Append the new row to the table
@@ -303,15 +340,15 @@
                 // Create a new row for the remaining quantity
                 let newRow = $("<tr>").addClass("remaining-row" + productV[0].pid);
                 newRow.append("<td></td><td style='display:none'><input type='number' name='id[]' class='id' value='" + productV[i].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
-                  productV[i].mrp_per_unit * productV[i].strip + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
-                  productV[i].batch + "' readonly/></td><td>" +
-                  productV[i].expdate + "</td>" +
+                  mrp_default_copy * default_strip_copy + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
+                  default_batch_copy + "' readonly/></td><td>" +
+                  default_expdate_copy + "</td>" +
                   "<td><input type='number' name='qty[]' value='" + remainingQuantity + "' readonly/></td><td>" +
-                  productV[i].mrp_per_unit + "</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='" + productV[i].mrp_per_unit + "' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td class='gst'>" + category1 + "</td><td><input type='number' name='gst[]' class='gst' value='" + parseInt(productV[i].mrp_per_unit) * parseInt(category1) / 100 + "'></td><td><input type='number' name='total[]' class='total' value='" + productV[i].mrp_per_unit + "' ></td></tr>");
+                  mrp_default_copy + "</td><td style='display:none'><input type='number' name='rate[]' class='rate' value='" + mrp_default_copy + "' /></td><td> <input type='number' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td class='gst'>" + category1 + "</td><td><input type='number' name='gst[]' class='gst' value='" + parseInt(mrp_default_copy) * parseInt(category1) / 100 + "'></td><td><input type='number' name='total[]' class='total' value='" + mrp_default_copy + "' ></td></tr>");
                 $("#table").append(newRow);
                 // $("#no_data_row").remove();
-                totals[rowId] = productV[i].mrp_per_unit;
-                gstValues[rowId] = parseInt(productV[i].mrp_per_unit) * parseInt(category1) / 100;
+                totals[rowId] = mrp_default_copy;
+                gstValues[rowId] = parseInt(mrp_default_copy) * parseInt(category1) / 100;
                 discounts[rowId] = 0;
                 var grand_total = array_sum(totals);
                 if (grand_total) {
@@ -340,7 +377,7 @@
 
         });
 
-        
+
       }
     });
 
