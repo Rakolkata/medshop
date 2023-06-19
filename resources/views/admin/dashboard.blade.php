@@ -11,7 +11,7 @@
         <div class="card m-4 border_card" style="width: 25rem; height: 18rem">
             <div class="card-body">
                 <h5 class="card-title">Monthly Sale</h5>
-                <h6 class="card-subtitle mb-2 text-muted">{{ $result[0]->monthly_sale }}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">{{ !empty($result[0]->monthly_sale) ? $result[0]->monthly_sale : 0 }}</h6>
 
                 <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
                 <!-- <a href="#" class="card-link">Card link</a> -->
@@ -105,7 +105,7 @@
             height: '330rem'
         },
         title: {
-            text: 'Month To Month Comparer'
+            text: 'Month To Month Compare'
         },
         xAxis: {
             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',

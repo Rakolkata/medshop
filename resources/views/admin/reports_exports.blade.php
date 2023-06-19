@@ -45,7 +45,7 @@
      <!-- schedule -->
     @if($schedule != 'false')
          
-        <h6>Product Report</h6><form action="{{route('admin.reports_exports_excel')}}" method="post">
+        <h6>Order Report</h6><form action="{{route('admin.reports_exports_excel')}}" method="post">
         @csrf
         <input type="hidden" name="data" value="{{ $schedule }}">
         <input type="hidden" name="report_type" value="schedule">
@@ -58,15 +58,17 @@
             <th>Exp_Date</th>
             <th>Stock</th>
             <th>Batch</th>
+            <th>Invoice No</th>
         </tr>
      </thead>
      <tbody class="text-capitalize" id="order">
         @foreach ($schedule as $sch)
         <tr>
             <td>{{$sch->Title}}</td>
-            <td>{{$sch->Exp_date}}</td>
+            <td>{{$sch->expdate}}</td>
             <td>{{$sch->stock}}</td>
             <td>{{$sch->batch}}</td>
+            <td>{{$sch->orderID}}</td>
         </tr>
         @endforeach
         </tbody>
@@ -76,7 +78,7 @@
       @endif
     <!-- exp -->
     @if($exp != 'false')
-        <h6>Exp_Date Report</h6><form action="{{route('admin.reports_exports_excel')}}" method="post">
+        <h6>Order Report</h6><form action="{{route('admin.reports_exports_excel')}}" method="post">
         @csrf
         <input type="hidden" name="data" value="{{ $exp }}">
         <input type="hidden" name="report_type" value="exp">
@@ -89,15 +91,17 @@
             <th>Exp_Date</th>
             <th>Stock</th>
             <th>Batch</th>
+            <th>Invoice No</th>
         </tr>
      </thead>
      <tbody class="text-capitalize" id="order">
         @foreach ($exp as $exp)
         <tr>
             <td>{{$exp->Title}}</td>
-            <td>{{$exp->Exp_date}}</td>
+            <td>{{$exp->expdate}}</td>
             <td>{{$exp->stock}}</td>
             <td>{{$exp->batch}}</td>
+            <td>{{$exp->orderID}}</td>
         </tr>
         @endforeach
         </tbody>
@@ -108,7 +112,7 @@
 
       <!-- dm -->
     @if($dm != 'false')
-        <h6>Daily - Monthly Order Report</h6><form action="{{route('admin.reports_exports_excel')}}" method="post">
+        <h6> Order Report</h6><form action="{{route('admin.reports_exports_excel')}}" method="post">
         @csrf
         <input type="hidden" name="data" value="{{ $dm }}">
         <input type="hidden" name="report_type" value="dm">
@@ -116,22 +120,22 @@
         <br>
         <table class="table table-striped table-responsive-sm">
     <thead style="background-color: #4e73df;color:#fff">
-        <tr>
-            <th>ID</th>
-            <th>Customer Name</th>
-            <th>Order Value</th>
-            <th>Total GST</th>
-            <th>Discount</th>
+    <tr>
+            <th>Title</th>
+            <th>Exp_Date</th>
+            <th>Stock</th>
+            <th>Batch</th>
+            <th>Invoice No</th>
         </tr>
      </thead>
      <tbody class="text-capitalize" id="order">
         @foreach ($dm as $dm)
         <tr>
-            <td>{{$dm->id}}</td>
-            <td>{{$dm->cname}}</td>
-            <td>{{$dm->Total_Order}}</td>
-            <td>{{$dm->Total_Gst}}</td>
-            <td>{{$dm->Discount}}</td>
+            <td>{{$dm->Title}}</td>
+            <td>{{$dm->expdate}}</td>
+            <td>{{$dm->stock}}</td>
+            <td>{{$dm->batch}}</td>
+            <td>{{$dm->orderID}}</td>
         </tr>
 
         @endforeach
