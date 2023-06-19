@@ -179,11 +179,11 @@
           // } else {
           //   grand_total_value = 00;
           // }
-          $("#total_taxable_amount").val(array_sum(totals).toFixed(2));
-          $("#total_gst").val(array_sum(gstValues).toFixed(2));
-          $("#total_discount").val(array_sum(discounts).toFixed(2));
+          $("#total_taxable_amount").val(array_sum(totals) );
+          $("#total_gst").val(array_sum(gstValues) );
+          $("#total_discount").val(array_sum(discounts) );
           $("#round_off").val(array_sum(totals) - (array_sum(totals)));
-          $("#grand_total").val(array_sum(totals).toFixed(2));
+          $("#grand_total").val(array_sum(totals) );
         } else {
           // newRow.append("<td id='no_data_row' colspan=12 class='text_center'>This Product is not in stock.</td>");
           // $("#table").append(newRow);
@@ -210,11 +210,11 @@
           totals[rowId] = subtotal;
           gstValues[rowId] = gstAmount;
           discounts[rowId] = (price * qty) - subtotal;
-          $("#total_taxable_amount").val(array_sum(totals).toFixed(2));
-          $("#total_gst").val(array_sum(gstValues).toFixed(2));
-          $("#total_discount").val(array_sum(discounts).toFixed(2));
+          $("#total_taxable_amount").val(array_sum(totals) );
+          $("#total_gst").val(array_sum(gstValues) );
+          $("#total_discount").val(array_sum(discounts) );
           $("#round_off").val(array_sum(totals) - (array_sum(totals)));
-          $("#grand_total").val(array_sum(totals).toFixed(2));
+          $("#grand_total").val(array_sum(totals) );
 
         });
 
@@ -238,11 +238,11 @@
           totals[rowId] = subtotal;
           gstValues[rowId] = gstAmount;
           discounts[rowId] = (price * qty) - subtotal;
-          $("#total_taxable_amount").val(array_sum(totals).toFixed(2));
-          $("#total_gst").val(array_sum(gstValues).toFixed(2));
-          $("#total_discount").val(array_sum(discounts).toFixed(2));
+          $("#total_taxable_amount").val(array_sum(totals) );
+          $("#total_gst").val(array_sum(gstValues) );
+          $("#total_discount").val(array_sum(discounts) );
           $("#round_off").val(array_sum(totals) - (array_sum(totals)));
-          $("#grand_total").val(array_sum(totals).toFixed(2));
+          $("#grand_total").val(array_sum(totals) );
 
         });
 
@@ -323,11 +323,11 @@
                 // } else {
                 //   grand_total_value = 00;
                 // }
-                $("#total_taxable_amount").val(array_sum(totals).toFixed(2));
-                $("#total_gst").val(array_sum(gstValues).toFixed(2));
-                $("#total_discount").val(array_sum(discounts).toFixed(2));
+                $("#total_taxable_amount").val(array_sum(totals) );
+                $("#total_gst").val(array_sum(gstValues) );
+                $("#total_discount").val(array_sum(discounts) );
                 $("#round_off").val(array_sum(totals) - (array_sum(totals)));
-                $("#grand_total").val(array_sum(totals).toFixed(2));
+                $("#grand_total").val(array_sum(totals) );
                 // newRow.append("<td></td><td><input type='number' name='qty[]' value='" + variantQuantity + "' readonly/></td>");
 
                 // Append the new row to the table
