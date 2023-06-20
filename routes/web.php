@@ -104,7 +104,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::post('/admin/reports/export', [ReportsController::class, 'export'])->name('admin.reports_exports');
     Route::post('/admin/reports/export/excel', [ReportsController::class, 'report'])->name('admin.reports_exports_excel');
  
-
+ 
 
     Route::post('/order/search', [OrderController::class, 'serch_order'])->name('admin.order_search');
 
@@ -117,6 +117,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/order/status/{id}',[OrderController::class, 'status_update'] )->name('cahnge_status');
 
     Route::get('/admin/order/cancle/{id}',[OrderController::class, 'cancle_order'])->name('order_cancle'); 
+    Route::get('/admin/order/complete-cancle/{id}',[OrderController::class, 'cancle_complete_order'])->name('complete_order_cancle'); 
 
 });
 

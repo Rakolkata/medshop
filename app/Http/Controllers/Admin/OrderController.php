@@ -13,6 +13,7 @@ use  App\Models\Order_User_Profile;
 use  App\Models\Order_details;
 use App\Models\ProductVeriant;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -156,7 +157,13 @@ class OrderController extends Controller
     {
         $order = Order::join('order__user__profiles', 'order__user__profiles.id', '=', 'orders.Profile_id')
             ->join('users', 'users.id', '=', 'order__user__profiles.User_id')
-            ->select(['orders.Total_Order', 'users.name', 'orders.id', 'orders.status', 'orders.orderID', 'order__user__profiles.Doc_Name_RegdNo', 'order__user__profiles.Address', 'order__user__profiles.Phone'])->paginate(15);
+            ->join('order_details', 'order_details.Order_id', '=', 'orders.id')
+            ->select(['orders.Total_Order', 'users.name', 'orders.id', 'orders.status', 'orders.orderID', 'order__user__profiles.Doc_Name_RegdNo', 'order__user__profiles.Address', 'order__user__profiles.Phone'])
+            ->where('orders.status', '!=', 'cancled')
+            // ->whereIn('order_details.status', ['draft', 'dispatched'])
+            // ->groupBy('orders.id')
+            // ->havingRaw('COUNT(order_details.id) > 1')
+            ->paginate(15);
         $order_id = [];
         foreach ($order as $value) {
             $order_id[] = $value->id;
@@ -173,11 +180,11 @@ class OrderController extends Controller
 
         return view('admin.view_order')->with(compact('order', 'Order_Details'));
     }
- 
+
     public function order_details($Order_id)
     {
         $order_details = Order_details::where('Order_id', $Order_id)
-            ->where('status', '!=', 'cancled') 
+            ->where('status', '!=', 'cancled')
             ->with('products')
             ->get();
         return View('admin.order_details')->with(compact('order_details'));
@@ -232,22 +239,22 @@ class OrderController extends Controller
         // dd($product->toArray());
         if ($order_deatil->status == 'draft') {
             // if ($product) {
-                $stock = $product->stock;
-                // dd($stock);
-                $product->stock = $stock + $order_deatil->qty;
-                $product->save();
+            $stock = $product->stock;
+            // dd($stock);
+            $product->stock = $stock + $order_deatil->qty;
+            $product->save();
             // }
         } else {
             // $product = ProductVeriant::where('pid', '=', $order_deatil->Product_id)->where('batch', '=', $order_deatil->batch_no)->first();
             // if ($product) {
-                $stock = $product->stock;
-                // dd($stock);
-                $product->stock = $stock - $order_deatil->qty;
-                $product->save();
+            $stock = $product->stock;
+            // dd($stock);
+            $product->stock = $stock - $order_deatil->qty;
+            $product->save();
             // }
         }
 
-        return redirect()->route('admin.order_view');
+        return redirect()->back();
     }
 
     public function cancle_order(Request $request, $id)
@@ -264,5 +271,31 @@ class OrderController extends Controller
 
         return redirect()->back();
         // return redirect()->route('admin.order_view');
+    }
+
+    public function cancle_complete_order(Request $request, $id)
+    {
+        // dd($id);
+        $order = Order::where('id', '=', $id)->first();
+        // dd($order->toArray());
+        $order->status = 'cancled';
+        $order->save();
+
+        Order_details::where('Order_id', '=', $id)->update(['status' => 'cancled']);
+        $products = Order_details::where('Order_id', '=', $id)->where('status', '=', 'dispatched')->get();
+
+        $pro_id = $products->pluck('Product_id')->toArray();
+        $pro_btach = $products->pluck('batch_no')->toArray();
+        // dd(gettype($pro_btach));
+        // dd($pro_id);
+        $pro_variants = ProductVeriant::whereIn('pid', $pro_id)->whereIn('batch', $pro_btach)->get();
+        // dd($pro_ver);
+        foreach ($pro_variants as $variant) {
+            $product = $products->firstWhere('Product_id', $variant->pid)->qty;
+            $variant->stock += $product;
+            $variant->save();
+        }
+
+        return redirect()->back();
     }
 }
