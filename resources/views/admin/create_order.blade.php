@@ -120,6 +120,7 @@
         let productV = ui.item.values.product_veriant;
         // console.log(productV, "fr3fr");
         let category = ui.item.values.category;
+        var category1 = 0;
         if (category[0].Gstrate) {
           var category1 = category[0].Gstrate;
           console.log(category1);

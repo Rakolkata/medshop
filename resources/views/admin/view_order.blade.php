@@ -49,7 +49,7 @@
         <td>
           @foreach ($Order_Details[$index] as $item)
           {{$item->Title}},
-          @endforeach
+          @endforeach 
         </td>
         <td>
           <a href="{{route('admin.order_delete',['id'=>$order[$index]->id])}}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 20px"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->

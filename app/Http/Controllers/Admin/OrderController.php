@@ -296,6 +296,6 @@ class OrderController extends Controller
             $variant->save();
         }
 
-        return redirect()->back();
+        return redirect()->back(); 
     }
 }
