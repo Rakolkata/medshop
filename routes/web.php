@@ -103,6 +103,11 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/reports', [ReportsController::class, 'index'])->name('admin.reports');
     Route::post('/admin/reports/export', [ReportsController::class, 'export'])->name('admin.reports_exports');
     Route::post('/admin/reports/export/excel', [ReportsController::class, 'report'])->name('admin.reports_exports_excel');
+    Route::post('/admin/reports/upcoming_exp_product', [HomeController::class, 'upexp'])->name('admin.report_recentexpairy');
+    Route::get('/admin/reports/upcoming_exp_product', [HomeController::class, 'upexp'])->name('admin.report_recentexpairy');
+    Route::get('/admin/reports/less_stock_product', [HomeController::class, 'lessstock'])->name('admin.report_lessstock');
+    Route::post('/admin/reports/less_stock_product', [HomeController::class, 'lessstock'])->name('admin.report_lessstock');
+    
  
  
 

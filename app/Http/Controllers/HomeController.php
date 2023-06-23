@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use  App\Models\ProductVeriant;
+use App\Models\Schedule;
 
 class HomeController extends Controller
 {
@@ -90,4 +91,79 @@ $qty = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid
 
         return view('registration_completed');
     }
+
+    public function upexp(Request $request){
+        $Schedule = Schedule::all();
+        $m = date('m');
+        $date = date('Y-m-d');
+        $beforeday = Carbon::parse($date)->addDays(10)->toDateString();
+        $requestData = $request->all();
+        $schedule = isset($requestData['schedule']) ? $requestData['schedule'] : 'null';
+        $exp_date = isset($requestData['exp_date']) ? $requestData['exp_date'] : null;
+
+        
+
+        if($schedule == 'null' && $exp_date == null){
+            $exp = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid')
+            ->whereBetween('product_veriant.expdate', [$date, $beforeday])
+            ->get(['product_veriant.*', 'products.Title as product_name']);
+            return view('admin.reports_recentexpairy')->withexp($exp)->withSched($Schedule);
+        }elseif($schedule != 'null' && $exp_date == null){
+            $exp = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid')
+            ->whereBetween('product_veriant.expdate', [$date, $beforeday])
+            ->where('products.Schedule', '=', $schedule)
+            ->get(['product_veriant.*', 'products.Title as product_name']);
+            return view('admin.reports_recentexpairy')->withexp($exp)->withSched($Schedule);
+        }elseif ($schedule == 'null' && $exp_date != null) {
+            $exp = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid')
+            ->whereBetween('product_veriant.expdate', [$date, $beforeday])
+            ->where('product_veriant.expdate', '=', $exp_date)
+            ->get(['product_veriant.*', 'products.Title as product_name']);
+            return view('admin.reports_recentexpairy')->withexp($exp)->withSched($Schedule);
+        }else{
+            $exp = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid')
+            ->whereBetween('product_veriant.expdate', [$date, $beforeday])
+            ->where('product_veriant.expdate', '=', $exp_date)
+            ->where('products.Schedule', '=', $schedule)
+            ->get(['product_veriant.*', 'products.Title as product_name']);
+            return view('admin.reports_recentexpairy')->withexp($exp)->withSched($Schedule);
+        }
+    }
+    public function lessstock(Request $request){
+        $Schedule = Schedule::all();
+        $requestData = $request->all();
+        $schedule = isset($requestData['schedule']) ? $requestData['schedule'] : 'null';
+        $exp_date = isset($requestData['exp_date']) ? $requestData['exp_date'] : null;
+        
+        if($schedule == 'null' && $exp_date == null){
+            $qty = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid')
+            ->whereBetween('product_veriant.stock', [0, 5])
+            ->get(['product_veriant.*', 'products.Title as product_name']);
+
+            return view('admin.reports_lessstock')->withqty($qty)->withSched($Schedule);
+        }elseif($schedule != 'null' && $exp_date == null){
+            $qty = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid')
+            ->whereBetween('product_veriant.stock', [0, 5])
+            ->where('products.Schedule', '=', $schedule)
+            ->get(['product_veriant.*', 'products.Title as product_name']);
+
+            return view('admin.reports_lessstock')->withqty($qty)->withSched($Schedule);
+        }elseif($schedule == 'null' && $exp_date != null){
+            $qty = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid')
+            ->whereBetween('product_veriant.stock', [0, 5])
+            ->where('product_veriant.expdate', '=', $exp_date)
+            ->get(['product_veriant.*', 'products.Title as product_name']);
+
+            return view('admin.reports_lessstock')->withqty($qty)->withSched($Schedule);
+        }else{
+            $qty = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid')
+            ->whereBetween('product_veriant.stock', [0, 5])
+            ->where('product_veriant.expdate', '=', $exp_date)
+            ->where('products.Schedule', '=', $schedule)
+            ->get(['product_veriant.*', 'products.Title as product_name']);
+
+            return view('admin.reports_lessstock')->withqty($qty)->withSched($Schedule);
+        }
+    }
 }
+

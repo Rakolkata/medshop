@@ -40,14 +40,26 @@
                         <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Stock</td>
                         <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Batch No</td>
                     </tr>
-                    @foreach($exp as $item)
+                    @foreach($exp as $index => $item)
                     <tr style="border: 1px solid black;">
                         <td style="border: 1px solid black; padding: 5px;">{{ $item->product_name }}</td>
                         <td style="border: 1px solid black; padding: 5px;">{{ $item->expdate }}</td>
                         <td style="border: 1px solid black; padding: 5px;">{{ $item->stock }}</td>
                         <td style="border: 1px solid black; padding: 5px;">{{ $item->batch }}</td>
                     </tr>
+                    @if($index === 4 && count($exp) > 5)
+                        @break
+                    @endif
                     @endforeach
+
+                    @if(count($exp) > 5)
+                        <tr>
+                            <td colspan="4" style="text-align: center;">
+                                <a href="/admin/reports/upcoming_exp_product" class="btn btn-primary">View More</a>
+                            </td>
+                        </tr>
+                    @endif                                                      
+
                 </table>
 
                 </div>
@@ -66,14 +78,26 @@
                         <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Stock</td>
                         <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Batch No</td>
                     </tr>
-                    @foreach($qty as $item)
-                    <tr style="border: 1px solid black;">
-                        <td style="border: 1px solid black; padding: 5px;">{{ $item->product_name }}</td>
-                        <td style="border: 1px solid black; padding: 5px;">{{ $item->expdate }}</td>
-                        <td style="border: 1px solid black; padding: 5px;">{{ $item->stock }}</td>
-                        <td style="border: 1px solid black; padding: 5px;">{{ $item->batch }}</td>
-                    </tr>
+                    @foreach($qty as $index => $item)
+                        <tr style="border: 1px solid black;">
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->product_name }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->expdate }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->stock }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->batch }}</td>
+                        </tr>
+                        @if($index === 4 && count($qty) > 5)
+                            @break
+                        @endif
                     @endforeach
+
+                    @if(count($qty) > 5)
+                        <tr>
+                            <td colspan="4" style="text-align: center;">
+                                <a href="/admin/view/product" class="btn btn-primary">View More</a>
+                            </td>
+                        </tr>
+                    @endif
+
                 </table>
 
                 </div>
