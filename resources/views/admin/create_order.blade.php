@@ -116,13 +116,20 @@
       dataType: "json",
       minLength: 2,
       select: function(event, ui) {
-        console.log(ui);
+        console.log(event, "event");
+        console.log(ui, "ui");
         let productV = ui.item.values.product_veriant;
         // console.log(productV, "fr3fr");
         let category = ui.item.values.category;
         var category1 = 0;
         if (category[0].Gstrate) {
           var category1 = category[0].Gstrate;
+          console.log(category1);
+        } else if(category[0].Gstrate == null) {
+          var category1 = 0;
+          console.log(category1);
+        } else if(category[0].Gstrate == NULL) {
+          var category1 = 0;
           console.log(category1);
         } else {
           var category1 = 0;
@@ -132,6 +139,10 @@
         var mrp_default = 0;
         if (productV[0].mrp_per_unit) {
           mrp_default = productV[0].mrp_per_unit;
+        } else if(productV[0].mrp_per_unit == null){
+          mrp_default = 0;
+        } else if(productV[0].mrp_per_unit == NULL){
+          mrp_default = 0;
         } else {
           mrp_default = 0;
         }
@@ -139,6 +150,10 @@
         var default_strip = 0;
         if (productV[0].strip) {
           default_strip = productV[0].strip;
+        } else if(productV[0].strip == null) {
+          default_strip = 0;
+        } else if(productV[0].strip == NULL){
+          default_strip = 0;
         } else {
           default_strip = 0;
         }
@@ -146,6 +161,8 @@
         var default_batch = 'Null';
         if (productV[0].batch) {
           default_batch = productV[0].batch;
+        } else if(productV[0].batch == ''){
+          default_batch = 'Null';
         } else {
           default_batch = 'Null';
         }
