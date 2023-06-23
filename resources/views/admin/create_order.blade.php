@@ -116,44 +116,75 @@
       dataType: "json",
       minLength: 2,
       select: function(event, ui) {
-        console.log(ui);
+        console.log(event, "event");
+        console.log(ui, "ui");
         let productV = ui.item.values.product_veriant;
         // console.log(productV, "fr3fr");
         let category = ui.item.values.category;
         var category1 = 0;
-        if (category[0].Gstrate) {
-          var category1 = category[0].Gstrate;
-          console.log(category1);
+        if (category.length > 0) {
+          if (category[0].Gstrate) {
+            var category1 = category[0].Gstrate;
+            console.log(typeof category1);
+          } else if (category[0].Gstrate == null) {
+            var category1 = 0;
+            console.log(typeof category1);
+          } else if (category[0].Gstrate == 'NULL') {
+            var category1 = 0;
+            console.log(typeof category1);
+          } else if (category[0].Gstrate == '') {
+            var category1 = 0;
+            console.log(typeof category1);
+          } else {
+            var category1 = 0;
+            console.log(typeof category1);
+          }
         } else {
           var category1 = 0;
-          console.log(category1);
         }
 
         var mrp_default = 0;
-        if (productV[0].mrp_per_unit) {
-          mrp_default = productV[0].mrp_per_unit;
+        var default_strip = 0;
+        var default_batch = 'Null';
+        var default_expdate = 0000 - 00 - 00;
+        if (productV.length > 0) {
+          if (productV[0].mrp_per_unit) {
+            mrp_default = productV[0].mrp_per_unit;
+          } else if (productV[0].mrp_per_unit == null) {
+            mrp_default = 0;
+          } else if (productV[0].mrp_per_unit == 'NULL') {
+            mrp_default = 0;
+          } else {
+            mrp_default = 0;
+          }
+
+          if (productV[0].strip) {
+            default_strip = productV[0].strip;
+          } else if (productV[0].strip == null) {
+            default_strip = 0;
+          } else if (productV[0].strip == 'NULL') {
+            default_strip = 0;
+          } else {
+            default_strip = 0;
+          }
+
+          if (productV[0].batch) {
+            default_batch = productV[0].batch;
+          } else if (productV[0].batch == '') {
+            default_batch = 'Null';
+          } else {
+            default_batch = 'Null';
+          }
+
+          if (productV[0].expdate) {
+            default_expdate = productV[0].expdate;
+          } else {
+            default_expdate = 0000 - 00 - 00;
+          }
         } else {
           mrp_default = 0;
-        }
-
-        var default_strip = 0;
-        if (productV[0].strip) {
-          default_strip = productV[0].strip;
-        } else {
           default_strip = 0;
-        }
-
-        var default_batch = 'Null';
-        if (productV[0].batch) {
-          default_batch = productV[0].batch;
-        } else {
           default_batch = 'Null';
-        }
-
-        var default_expdate = 0000 - 00 - 00;
-        if (productV[0].expdate) {
-          default_expdate = productV[0].expdate;
-        } else {
           default_expdate = 0000 - 00 - 00;
         }
         // var grand_total_value = 0;
@@ -180,11 +211,11 @@
           // } else {
           //   grand_total_value = 00;
           // }
-          $("#total_taxable_amount").val(array_sum(totals) );
-          $("#total_gst").val(array_sum(gstValues) );
-          $("#total_discount").val(array_sum(discounts) );
+          $("#total_taxable_amount").val(array_sum(totals));
+          $("#total_gst").val(array_sum(gstValues));
+          $("#total_discount").val(array_sum(discounts));
           $("#round_off").val(array_sum(totals) - (array_sum(totals)));
-          $("#grand_total").val(array_sum(totals) );
+          $("#grand_total").val(array_sum(totals));
         } else {
           // newRow.append("<td id='no_data_row' colspan=12 class='text_center'>This Product is not in stock.</td>");
           // $("#table").append(newRow);
@@ -211,11 +242,11 @@
           totals[rowId] = subtotal;
           gstValues[rowId] = gstAmount;
           discounts[rowId] = (price * qty) - subtotal;
-          $("#total_taxable_amount").val(array_sum(totals) );
-          $("#total_gst").val(array_sum(gstValues) );
-          $("#total_discount").val(array_sum(discounts) );
+          $("#total_taxable_amount").val(array_sum(totals));
+          $("#total_gst").val(array_sum(gstValues));
+          $("#total_discount").val(array_sum(discounts));
           $("#round_off").val(array_sum(totals) - (array_sum(totals)));
-          $("#grand_total").val(array_sum(totals) );
+          $("#grand_total").val(array_sum(totals));
 
         });
 
@@ -239,11 +270,11 @@
           totals[rowId] = subtotal;
           gstValues[rowId] = gstAmount;
           discounts[rowId] = (price * qty) - subtotal;
-          $("#total_taxable_amount").val(array_sum(totals) );
-          $("#total_gst").val(array_sum(gstValues) );
-          $("#total_discount").val(array_sum(discounts) );
+          $("#total_taxable_amount").val(array_sum(totals));
+          $("#total_gst").val(array_sum(gstValues));
+          $("#total_discount").val(array_sum(discounts));
           $("#round_off").val(array_sum(totals) - (array_sum(totals)));
-          $("#grand_total").val(array_sum(totals) );
+          $("#grand_total").val(array_sum(totals));
 
         });
 
@@ -324,11 +355,11 @@
                 // } else {
                 //   grand_total_value = 00;
                 // }
-                $("#total_taxable_amount").val(array_sum(totals) );
-                $("#total_gst").val(array_sum(gstValues) );
-                $("#total_discount").val(array_sum(discounts) );
+                $("#total_taxable_amount").val(array_sum(totals));
+                $("#total_gst").val(array_sum(gstValues));
+                $("#total_discount").val(array_sum(discounts));
                 $("#round_off").val(array_sum(totals) - (array_sum(totals)));
-                $("#grand_total").val(array_sum(totals) );
+                $("#grand_total").val(array_sum(totals));
                 // newRow.append("<td></td><td><input type='number' name='qty[]' value='" + variantQuantity + "' readonly/></td>");
 
                 // Append the new row to the table
