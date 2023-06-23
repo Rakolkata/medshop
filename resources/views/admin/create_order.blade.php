@@ -131,6 +131,9 @@
         } else if(category[0].Gstrate == NULL) {
           var category1 = 0;
           console.log(category1);
+        } else if(category[0].Gstrate == ''){
+          var category1 = 0;
+          console.log(category1);
         } else {
           var category1 = 0;
           console.log(category1);
