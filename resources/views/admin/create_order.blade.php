@@ -122,21 +122,26 @@
         // console.log(productV, "fr3fr");
         let category = ui.item.values.category;
         var category1 = 0;
-        if (category[0].Gstrate) {
-          var category1 = category[0].Gstrate;
-          console.log(category1);
-        } else if(category[0].Gstrate == null) {
-          var category1 = 0;
-          console.log(category1);
-        } else if(category[0].Gstrate == NULL) {
-          var category1 = 0;
-          console.log(category1);
-        } else if(category[0].Gstrate == ''){
-          var category1 = 0;
-          console.log(category1);
+        if(category.length > 0)
+        {
+          if (category[0].Gstrate) {
+            var category1 = category[0].Gstrate;
+            console.log(typeof category1);
+          } else if(category[0].Gstrate == null) {
+            var category1 = 0;
+            console.log(typeof category1);
+          } else if(category[0].Gstrate == NULL) {
+            var category1 = 0;
+            console.log(typeof category1);
+          } else if(category[0].Gstrate == ''){
+            var category1 = 0;
+            console.log(typeof category1);
+          } else {
+            var category1 = 0;
+            console.log(typeof category1);
+          }
         } else {
-          var category1 = 0;
-          console.log(category1);
+          var category1 = 0; 
         }
 
         var mrp_default = 0;
