@@ -42,10 +42,10 @@
                     </tr>
                     @foreach($exp as $index => $item)
                     <tr style="border: 1px solid black;">
-                        <td style="border: 1px solid black; padding: 5px;">{{ $item->product_name }}</td>
-                        <td style="border: 1px solid black; padding: 5px;">{{ $item->expdate }}</td>
-                        <td style="border: 1px solid black; padding: 5px;">{{ $item->stock }}</td>
-                        <td style="border: 1px solid black; padding: 5px;">{{ $item->batch }}</td>
+                        <td style="border: 1px solid black; padding: 1px; font-size:11px">{{ $item->product_name }}</td>
+                        <td style="border: 1px solid black; padding: 1px; font-size:11px">{{ $item->expdate }}</td>
+                        <td style="border: 1px solid black; padding: 1px; font-size:11px">{{ $item->stock }}</td>
+                        <td style="border: 1px solid black; padding: 1px; font-size:11px">{{ $item->batch }}</td>
                     </tr>
                     @if($index === 4 && count($exp) > 5)
                         @break
@@ -80,10 +80,10 @@
                     </tr>
                     @foreach($qty as $index => $item)
                         <tr style="border: 1px solid black;">
-                            <td style="border: 1px solid black; padding: 5px;">{{ $item->product_name }}</td>
-                            <td style="border: 1px solid black; padding: 5px;">{{ $item->expdate }}</td>
-                            <td style="border: 1px solid black; padding: 5px;">{{ $item->stock }}</td>
-                            <td style="border: 1px solid black; padding: 5px;">{{ $item->batch }}</td>
+                            <td style="border: 1px solid black; padding: 5px; font-size:11px">{{ $item->product_name }}</td>
+                            <td style="border: 1px solid black; padding: 5px; font-size:11px">{{ $item->expdate }}</td>
+                            <td style="border: 1px solid black; padding: 5px; font-size:11px">{{ $item->stock }}</td>
+                            <td style="border: 1px solid black; padding: 5px; font-size:11px">{{ $item->batch }}</td>
                         </tr>
                         @if($index === 4 && count($qty) > 5)
                             @break
