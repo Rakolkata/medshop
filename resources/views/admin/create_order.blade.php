@@ -237,10 +237,14 @@ grandTotal = Math.round(grandTotal * 100) / 100;
           let price = mrp_default;
           let qty = $(this).closest('tr').find("input[name='qty[]']").val();
           let subtotal = price * qty * (1 - discount / 100);
+          subtotal = parseFloat(subtotal).toFixed(2)
+          subtotal = Math.round(subtotal  * 100) / 100
           $(this).closest('tr').find(".total").text(subtotal); // update the total for the corresponding row
           $(this).closest('tr').find(".total").val(subtotal);
           let gstRate = category1;
           let gstAmount = subtotal * gstRate / 100;
+          gstAmount =  parseFloat(gstAmount).toFixed(2)
+          gstAmount = Math.round(gstAmount  * 100) / 100
           $(this).closest('tr').find(".gst").text(gstAmount);
           // $(this).closest('tr').find(".gst").val(gstAmount);
           // let index = totals.indexOf(rowId);
@@ -249,11 +253,14 @@ grandTotal = Math.round(grandTotal * 100) / 100;
           discounts[rowId] = (price * qty) - subtotal;
           let grandTotal = array_sum(totals)
           grandTotal = parseFloat(grandTotal).toFixed(2);
+          grandTotal = Math.round(grandTotal * 100) / 100;
 
-grandTotal = Math.round(grandTotal * 100) / 100;
+          let Discounts= array_sum(discounts)
+          Discounts = parseFloat(Discounts).toFixed(2);
+          Discounts = Math.round(Discounts * 100) / 100;
           $("#total_taxable_amount").val(grandTotal);
           $("#total_gst").val(array_sum(gstValues));
-          $("#total_discount").val(array_sum(discounts));
+          $("#total_discount").val(Discounts);
           $("#round_off").val(grandTotal - (grandTotal));
           $("#grand_total").val(grandTotal);
 
