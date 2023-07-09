@@ -108,7 +108,7 @@
                         <h6 class="collapse-header"> Reports:</h6>
                         <a class="collapse-item" href="{{route('admin.reports')}}">Order Reports</a>
                         <a class="collapse-item" href="{{route('admin.report_recentexpairy')}}">Exp Product Reports</a>
-                        <a class="collapse-item" href="{{route('admin.report_lessstock')}}">Less stock Product Reports</a>
+                        <a class="collapse-item" href="{{route('admin.report_lessstock')}}"> Product Reports</a>
                     </div>
                 </div>
             </li>

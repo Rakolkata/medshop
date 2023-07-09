@@ -137,7 +137,7 @@ $qty = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid
         
         if($schedule == 'null' && $exp_date == null){
             $qty = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid')
-            ->whereBetween('product_veriant.stock', [0, 5])
+            // ->whereBetween('product_veriant.stock', [0, 5])
             ->get(['product_veriant.*', 'products.Title as product_name']);
 
             return view('admin.reports_lessstock')->withqty($qty)->withSched($Schedule);

@@ -34,7 +34,7 @@
     <h5 class="p-2"><span style="border-bottom:1px solid #60b5ba">Reports:</span></h5>
     <div class="container">
     
-    <h5 class="card-title">Less Stock Products(5)</h5>
+    <h5 class="card-title">Product Report</h5>
                 <div>
                 <table style="border-collapse: collapse; width: 100%;">
                     <tr style="border: 1px solid black;">
