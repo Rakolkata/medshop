@@ -15,6 +15,7 @@ use  App\Models\Med_Function;
 use  App\Models\Schedule;
 use  App\Models\Product;
 use Carbon\Carbon;
+use  App\Models\ProductVeriant;
 
  
 class ProductController extends Controller
@@ -92,6 +93,7 @@ class ProductController extends Controller
             $product = Product::with('category', 'brand', 'function', 'schedule')->orderBy('Title', 'ASC')->paginate(25);
         }
         return view('admin.view_product')->with(compact('product'));
+      
     }
 
     public function store(Request $req)
@@ -280,6 +282,7 @@ class ProductController extends Controller
     public function update($id, Request $req)
     {
         $page = $req['page'];
+        // dd($req->all());
         $product = Product::find($id);
         $product->Title = $req['title'];
         $product->Categories_id = $req['category'];
@@ -298,18 +301,52 @@ class ProductController extends Controller
         // $product->TripSize = $req['tripsize'];
         //$product->Price_unit = $product->MRP/$product->TripSize;
         $product->save();
-        //return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
-//         return redirect()->route('admin.view_product')->with('msg', 'Product updated!');
+        // //return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
+        // //return redirect()->route('admin.view_product')->with('msg', 'Product updated!');
 
-        return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
+        //  //return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
+
+        foreach($req['batch'] as $i=>$pv ) {
+            if(isset($req['vid'][$i])){
+                $productvariant = ProductVeriant::find($req['vid'][$i]);
+                if($req['batch'][$i]){
+
+                    $productvariant->batch = $req['batch'][$i];
+                    $productvariant->stock	 = $req['stock'][$i];
+                    $productvariant->expdate = $req['expdate'][$i];
+                    $productvariant->mrp_per_unit = $req['mrp'][$i];
+                    $productvariant->strip = $req['strip'][$i];
+                    $productvariant->save();
+                }else{
+                    $productvariant->delete();
+                }
+ 
+            }else{
+                if(isset($req['batch'][$i]) && $req['batch'][$i]!=''){
+
+                    $productvariant = new ProductVeriant;
+                    $productvariant->batch = $req['batch'][$i];
+                    $productvariant->stock	 = $req['stock'][$i];
+                    $productvariant->expdate = $req['expdate'][$i];
+                    $productvariant->mrp_per_unit = $req['mrp'][$i];
+                    $productvariant->strip = $req['strip'][$i];
+                    $productvariant->pid = $req['pid'];
+                    $productvariant->save();
+                }
+            }
+            return redirect()->route('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
+
     }
+}
     
     public function search(Request $request)
     {
         $query = $request->get('query');
 
         if (strlen($query) >= 3) {
-            $results = Product::where('title', 'like', "%{$query}%")->pluck('title');
+            $results = Product::where('title', 'like', "%{$query}%")->with('category', 'brand', 'function', 'schedule')->get();
+           
+            
         } else {
             $results = [];
         }
