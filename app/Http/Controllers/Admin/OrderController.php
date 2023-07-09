@@ -49,8 +49,12 @@ class OrderController extends Controller
                 //dump($data);
                 foreach ($data as $d) {
                     // $hasProductVariant = $d->relationLoaded('ProductVariant') && $d->ProductVariant->count() > 0;
+                    $totalStock = 0;
                     if (count($d->ProductVeriant) > 0) {
-                        $output[] = ['label' => $d->Title, 'id' => $d->id, 'values' => $d];
+                        foreach ($d->ProductVeriant as $variant) {
+                              $output[] = ['label' => $d->Title ."   ".$variant->stock, 'id' => $d->id,'value'=>$d->Title, 'values' => $d];
+                        }
+                        // $output[] = ['label' => $d->Title ."   ".$totalStock, 'id' => $d->id,'value'=>$d->Title, 'values' => $d];
                     }
                 }
                 //$output =  $data;

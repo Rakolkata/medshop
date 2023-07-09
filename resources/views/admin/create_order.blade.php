@@ -195,7 +195,7 @@
           "id": rowId
         }); // add the identifier to the new row
         if (productV.length > 0) {
-          newRow.append("<td></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[0].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
+          newRow.append("<td></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[0].pid + "' /></td><td>" + ui.item.value + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
             mrp_default * default_strip + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
             default_batch + "' readonly/></td><td>" +
             default_expdate + "</td>" +
