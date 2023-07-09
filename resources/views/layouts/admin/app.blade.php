@@ -37,10 +37,10 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
-                <div class="sidebar-brand-icon rotate-n-15">
+                <!-- <div class="sidebar-brand-icon rotate-n-15">
                     <div>{{env('APP_NAME')}} </div>
                     {{-- <img src="{{env('APP_NAME')}}" style="height: 100px"> --}}
-                </div>
+                </div> -->
 
             </a>
 
@@ -142,7 +142,12 @@
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
+                <div class="navbar-brand mx-auto">
+                <div class="sidebar-brand-icon" style="color:#60b5ba; margin-left:320px">
+                    <div><b>{{env('APP_NAME')}}</b> </div>
+                    {{-- <img src="{{env('APP_NAME')}}" style="height: 100px"> --}}
+                </div>
+                </div>
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
@@ -151,9 +156,9 @@
 
                    <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
+                    
                         <div class="topbar-divider d-none d-sm-block"></div>
-
+                            
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
