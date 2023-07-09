@@ -5,7 +5,7 @@
 @section('content')
 <div class="card m-3 p-3 " style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
     <div class="m-2">
-        <h5><span style="border-bottom:1px solid #4e73df">Dashboard</span></h5>
+        <h5><span style="border-bottom:1px solid #60b5ba">Dashboard</span></h5>
     </div>
     <div class="row text_center">
         <div class="card m-4 border_card" style="width: 25rem; height: 18rem">
@@ -143,7 +143,8 @@
         },
         series: [{
             name: 'Monthly Sales',
-            data: {{ json_encode($mtm) }}
+            data: {{ json_encode($mtm) }},
+            color: '#60b5ba'
         }],
         
     });

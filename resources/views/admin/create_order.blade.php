@@ -34,7 +34,7 @@
       <div class="form-group">
         <table class="table table-striped ">
 
-          <thead style="background-color: #4e73df;color:#fff">
+          <thead style="background-color: #60b5ba;color:#fff">
 
             <tr>
               <th scope="col">#</th>
@@ -85,7 +85,7 @@
     </div>
   </div>
   <div style="text-align:right">
-    <button class="btn text-white" style="background: #4e73df">Save Order</button>
+    <button class="btn text-white" style="background: #60b5ba">Save Order</button>
   </div>
 </form>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -467,7 +467,7 @@ grandTotal = Math.round(grandTotal * 100) / 100;
 <style>
   ul li:hover {
     cursor: copy;
-    background-color: #4e73df;
+    background-color: #60b5ba;
     color: #fff;
   }
 

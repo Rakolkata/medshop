@@ -46,18 +46,18 @@
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
       Import Excel
     </button>
-    <a href="{{route('admin.add_product')}}" class="btn text-white p-1 m-2" style="background-color: #4e73df">Add Product</a>
+    <a href="{{route('admin.add_product')}}" class="btn text-white p-1 m-2" style="background-color: #60b5ba">Add Product</a>
   </div>
   <div class="mb-2">
-    <h5><span style="border-bottom:1px solid #4e73df">Manage Your Product</span></h5>
+    <h5><span style="border-bottom:1px solid #60b5ba">Manage Your Product</span></h5>
   </div>
   <div class="col-md-6">
 
     <form action="" method="get">
-      <div class="input-group flex-nowrap mb-3 p-2" style="background-color: #4e73df">
+      <div class="input-group flex-nowrap mb-3 p-2" style="background-color: #60b5ba">
         <input type="text" class="form-control" id="search-input" name="search" placeholder="Title, Genericname, Ingerediant, Function" aria-describedby="basic-addon1">
         <button style="border:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width:20px;"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-            <path fill="#4e73df" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+            <path fill="#60b5ba" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
           </svg></button>
         <a class="btn  text-white" href="{{route('admin.view_product')}}">Reset</a>
       </div>
@@ -66,7 +66,7 @@
   </div>
 
   <table class="table table-striped text-capitalize table-responsive-sm" style="width:100%">
-    <thead class="text-white" style="background-color: #4e73df">
+    <thead class="text-white" style="background-color: #60b5ba">
       <tr>
         <th scope="col">Title</th>
         <th scope="col">MRP</th>
@@ -125,7 +125,7 @@
 
         <td>
           <a href="{{route('admin.update_product_veriant',['id'=>$item->id,'page'=>$product->currentpage()])}}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="height: 20px"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-              <path fill="#4e73df" d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V285.7l-86.8 86.8c-10.3 10.3-17.5 23.1-21 37.2l-18.7 74.9c-2.3 9.2-1.8 18.8 1.3 27.5H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128zM549.8 235.7l14.4 14.4c15.6 15.6 15.6 40.9 0 56.6l-29.4 29.4-71-71 29.4-29.4c15.6-15.6 40.9-15.6 56.6 0zM311.9 417L441.1 287.8l71 71L382.9 487.9c-4.1 4.1-9.2 7-14.9 8.4l-60.1 15c-5.5 1.4-11.2-.2-15.2-4.2s-5.6-9.7-4.2-15.2l15-60.1c1.4-5.6 4.3-10.8 8.4-14.9z" />
+              <path fill="#60b5ba" d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V285.7l-86.8 86.8c-10.3 10.3-17.5 23.1-21 37.2l-18.7 74.9c-2.3 9.2-1.8 18.8 1.3 27.5H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128zM549.8 235.7l14.4 14.4c15.6 15.6 15.6 40.9 0 56.6l-29.4 29.4-71-71 29.4-29.4c15.6-15.6 40.9-15.6 56.6 0zM311.9 417L441.1 287.8l71 71L382.9 487.9c-4.1 4.1-9.2 7-14.9 8.4l-60.1 15c-5.5 1.4-11.2-.2-15.2-4.2s-5.6-9.7-4.2-15.2l15-60.1c1.4-5.6 4.3-10.8 8.4-14.9z" />
             </svg>Edit stock</a>
         </td>
         <td>
@@ -167,7 +167,7 @@
             </div>
           </div>
           <div style="text-align: right">
-            <button class="btn text-white" style="background: #4e73df">Submit</button>
+            <button class="btn text-white" style="background: #60b5ba">Submit</button>
           </div>
         </form>
       </div>

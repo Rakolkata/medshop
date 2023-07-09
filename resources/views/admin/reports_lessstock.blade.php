@@ -4,7 +4,7 @@
 @endpush
 @section('content')
 <div class="card m-1 p-1" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;z-index:1">
-    <h5 class="p-2"><span style="border-bottom:1px solid #4e73df">Reports :</span></h5>
+    <h5 class="p-2"><span style="border-bottom:1px solid #60b5ba">Reports :</span></h5>
     <div class="container">
         <form action="{{route('admin.report_lessstock')}}" method="post">
             @csrf
@@ -26,12 +26,12 @@
                 </div>
                 
             </div>
-            <button class="btn text-white mt-1" style="background-color: #4e73df">Filter</button>
+            <button class="btn text-white mt-1" style="background-color: #60b5ba">Filter</button>
         </form>
     </div>
 </div>
 <div class="card m-1 p-1" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;z-index:1">
-    <h5 class="p-2"><span style="border-bottom:1px solid #4e73df">Reports:</span></h5>
+    <h5 class="p-2"><span style="border-bottom:1px solid #60b5ba">Reports:</span></h5>
     <div class="container">
     
     <h5 class="card-title">Less Stock Products(5)</h5>

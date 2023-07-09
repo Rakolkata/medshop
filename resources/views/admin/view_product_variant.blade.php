@@ -5,7 +5,7 @@
 @endpush
 @section('content')
 <div class="card m-3 p-3 " style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
-<h6 class="p-2"><span style="border-bottom: 1px solid #4e73df">Update Product of {{ $product->Title}}</span></h6>
+<h6 class="p-2"><span style="border-bottom: 1px solid #60b5ba">Update Product of {{ $product->Title}}</span></h6>
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -58,7 +58,7 @@
     </div>
     @endforeach
 </div>
-    <button class="btn mt-2 text-white" style="background-color: #4e73df">Submit</button>
+    <button class="btn mt-2 text-white" style="background-color: #60b5ba">Submit</button>
     <button onclick="return addrow()" >Add new</button>
 
 </form>

@@ -5,12 +5,12 @@
 @section('content')
 <div class="card m-1 p-1" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
   <div style="text-align: right">
-    <a href="{{route('admin.order_view')}}" class="btn text-white" style="background-color: #4e73df">Back</a>
+    <a href="{{route('admin.order_view')}}" class="btn text-white" style="background-color: #60b5ba">Back</a>
   </div>
-  <h6 class="p-2"><span style="border-bottom:1px solid #4e73df">Order Details</span></h6>
+  <h6 class="p-2"><span style="border-bottom:1px solid #60b5ba">Order Details</span></h6>
 
   <table class="table table-striped table-responsive-sm">
-    <thead style="background-color: #4e73df;color:#fff">
+    <thead style="background-color: #60b5ba;color:#fff">
       <tr>
         <th scope="col">#</th>
         <th scope="col">Product</th>

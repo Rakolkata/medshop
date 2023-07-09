@@ -4,7 +4,7 @@
 @endpush
 @section('content')
 <div class="card m-3 p-3 " style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
-<h6 class="p-2"><span style="border-bottom: 1px solid #4e73df">Update Product</span></h6>
+<h6 class="p-2"><span style="border-bottom: 1px solid #60b5ba">Update Product</span></h6>
 
 <form action="{{route('admin.update_product',['id'=>$product->id])}}" method="post">
 
@@ -124,7 +124,7 @@
           <textarea class="form-control" name="description"  rows="3">{{$product->Description}}</textarea>
         </div>
         <input type="hidden" name="page" value={{Request::get('page')}} />
-        <button class="btn mt-2 text-white" style="background-color: #4e73df">Submit</button>
+        <button class="btn mt-2 text-white" style="background-color: #60b5ba">Submit</button>
         </div>
 </form>
 </div>
