@@ -50,6 +50,7 @@
               <th scope="col">GST</th>
               <th scope="col">Total (inc. GST)</th>
               <th scope="col">Total (after Dis.)</th>
+              <th scope="col">Delete Row</th>
             </tr>
           </thead>
           <tbody id="table">
@@ -89,6 +90,7 @@
   </div>
 </form>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script>
@@ -200,7 +202,7 @@
             default_batch + "' readonly/></td><td>" +
             default_expdate + "</td>" +
             "<td><input type='number' step='any' id='" + productV[0].pid + "' name='qty[]' value=1 min=1 /></td><td>" +
-            mrp_default + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + mrp_default + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td>" + category1 + "</td><td><input type='number' step='any' name='gst[]' class='gst' value='" + parseInt(mrp_default) * parseInt(category1) / 100 + "' readonly ></td><td><input type='number' step='any' name='total[]' class='total' value='" + mrp_default + "' ></td></tr>");
+            mrp_default + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + mrp_default + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td>" + category1 + "</td><td><input type='number' step='any' name='gst[]' class='gst' value='" + parseInt(mrp_default) * parseInt(category1) / 100 + "' readonly ></td><td><input type='number' step='any' name='total[]' class='total' value='" + mrp_default + "' ></td><td><i class='bi bi-trash3-fill' id='delete" + rowId + "' style='cursor: pointer; color: red;'></i></td></tr>");
           $("#table").append(newRow);
           // $("#no_data_row").remove();
           totals[rowId] = mrp_default;
@@ -264,6 +266,10 @@ grandTotal = Math.round(grandTotal * 100) / 100;
           $("#round_off").val(grandTotal - (grandTotal));
           $("#grand_total").val(grandTotal);
 
+        });
+
+        $(document).on('click', '#delete' + rowId, function() {
+          $('#table #' + rowId).remove();
         });
 
         $(document).on('change', '#' + rowId + ' input[name="qty[]"]', function() { // listen to changes on the quantity input of the corresponding row
