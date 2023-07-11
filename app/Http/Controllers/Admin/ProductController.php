@@ -334,9 +334,8 @@ class ProductController extends Controller
                     $productvariant->save();
                 }
             }
-            return redirect()->route('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
-
     }
+    return redirect()->route('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
 }
     
     public function search(Request $request)
