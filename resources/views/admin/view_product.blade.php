@@ -143,7 +143,7 @@
       @endif
     </tbody>
   </table>
-  <div class="d-flex">
+  <div class="d-flex" id="pagination">
     {!! $product->links('pagination::bootstrap-5')!!}
   </div>
 </div>
@@ -264,7 +264,7 @@
         var tripSize = document.createElement('td');
         tripSize.textContent = item.TripSize;
         row.appendChild(tripSize);
-
+       
 
         var id = item.id;
         var currentPage = "{{ $product->currentpage() }}";
@@ -301,6 +301,11 @@
 
         // Append the row to the table body
         tableBody.appendChild(row);
+
+        var paginationDiv = document.getElementById('pagination');
+        paginationDiv.parentNode.removeChild(paginationDiv);
+
+
       });
     } else {
       // If no results, display a message in a table row
