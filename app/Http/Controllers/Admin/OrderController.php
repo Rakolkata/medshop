@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use  App\Models\Product;
 use  App\Models\Med_Function;
 use  App\Models\User;
 use  App\Models\Order;
+use Dompdf\Dompdf;
 use  App\Http\Controllers\Auth\RegisterController;
 use  App\Models\Order_User_Profile;
 use  App\Models\Order_details;
@@ -151,10 +152,42 @@ class OrderController extends Controller
         }
         Order_details::insert($insert_data2);
 
-        return redirect()->route('admin.order_view');
+        $dompdf = new Dompdf();
+
+    // Get the HTML content from your view or any other source
+    $html = view('admin.order_invoice')->render();
+
+    // Load the HTML content into the PDF
+    $dompdf->loadHtml($html);
+
+    // (Optional) Set any PDF options
+    $dompdf->setPaper('A4', 'portrait');
+
+    // Render the PDF
+    $dompdf->render();
+
+    // Get the generated PDF output
+    $pdfOutput = $dompdf->output();
+
+    // Generate a unique filename for the PDF
+    $filename = 'receipt_' .$dt. '.pdf';
+
+    // Set the response headers to force download the PDF
+    $headers = [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+    ];
+
+    // Return the PDF as a response with the headers
+    return Response::make($pdfOutput, 200, $headers)
+        ->header('Cache-Control', 'private, max-age=0, must-revalidate')
+        ->header('Pragma', 'public')
+        ->header('Expires', '0');
+
+   return redirect()->route('admin.order_view');
 
         // return $prod_price;
-
+    //   echo  $dt;
     }
 
     public function view()

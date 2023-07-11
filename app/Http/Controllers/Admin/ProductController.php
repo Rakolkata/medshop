@@ -343,7 +343,7 @@ class ProductController extends Controller
         $query = $request->get('query');
 
         if (strlen($query) >= 3) {
-            $results = Product::where('title', 'like', "%{$query}%")->with('category', 'brand', 'function', 'schedule')->get();
+            $results = Product::where('title', 'like', "{$query}%")->with('category', 'brand', 'function', 'schedule')->get();
            
             
         } else {
