@@ -16,9 +16,9 @@ class ProductVeriant extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function products(): HasMany
+    public function products()
     {
-        return $this->hasMany(products::class, 'id', 'pid');
+        return $this->belongsTo(Product::class, 'pid', 'id');
     }
 
 }

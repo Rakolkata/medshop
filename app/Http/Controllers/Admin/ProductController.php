@@ -88,9 +88,18 @@ class ProductController extends Controller
     {
         $search = $req['search'] ?? "";
         if ($search != "") {
-            $product = Product::where('Title', 'LIKE', '%' . $search . '%')->orWhere('Function', '=', $search)->paginate(25);
+            $product = Product::select('*')
+            ->with('category', 'brand', 'function', 'schedule', 'ProductVeriant')
+            ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
+            ->where('products.Title', 'like', "{$search}%")
+            ->paginate(25);
+
+           
+           
+
         } else {
-            $product = Product::with('category', 'brand', 'function', 'schedule')->orderBy('Title', 'ASC')->paginate(25);
+            $product = Product::select('*')->with('category', 'brand', 'function', 'schedule','ProductVeriant')->join('product_veriant', 'products.id', '=', 'product_veriant.pid')->orderBy('products.Title', 'ASC')->paginate(25);
+            
         }
         return view('admin.view_product')->with(compact('product'));
       
@@ -379,8 +388,13 @@ class ProductController extends Controller
         $query = $request->get('query');
 
         if (strlen($query) >= 3) {
-            $results = Product::where('title', 'like', "{$query}%")->with('category', 'brand', 'function', 'schedule')->get();
-           
+            $results = Product::select('*')
+    ->with('category', 'brand', 'function', 'schedule', 'ProductVeriant')
+    ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
+    ->where('products.Title', 'like', "{$query}%")
+    ->get();
+
+        
             
         } else {
             $results = [];

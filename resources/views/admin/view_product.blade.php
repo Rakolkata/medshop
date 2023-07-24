@@ -56,7 +56,7 @@
     <form action="" method="get">
       <div class="input-group flex-nowrap mb-3 p-2" style="background-color: #60b5ba">
         <input type="text" class="form-control" id="search-input" name="search" placeholder="Title, Genericname, Ingerediant, Function" aria-describedby="basic-addon1">
-        <button style="border:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width:20px;"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+        <button style="border:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width:20px;">! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc.
             <path fill="#60b5ba" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
           </svg></button>
         <a class="btn  text-white" href="{{route('admin.view_product')}}">Reset</a>
@@ -87,11 +87,39 @@
       @foreach ($product as $item)
       <tr>
         <td>{{$item->Title}}</td>
-        <td>{{$item->MRP}}</td>
+        <td>
+        @if (count($item->ProductVeriant->pluck('mrp_per_unit')) >= 1)
+        {{$item->ProductVeriant->pluck('mrp_per_unit')[0]}}
+        @else
+        0
+        @endif
+        </td>
         <td>{{$item->Box_No}}</td>
-        <td>{{$item->Price_unit}}</td>
-        <td>{{$item->Stock}}</td>
-        <td>{{$item->Exp_date}}</td>
+        <td>
+        @if (count($item->ProductVeriant->pluck('mrp_per_unit')) >= 1)
+        {{$item->ProductVeriant->pluck('mrp_per_unit')[0]}}
+        @else
+        0
+        @endif
+        </td>
+        <td>
+          @php
+              $totalStock = $item->ProductVeriant->sum('stock'); // Assuming the relationship name is 'ProductVeriant'. Adjust if needed.
+          @endphp
+
+          @if ($totalStock > 0)
+              {{ $totalStock }}
+          @else
+              0
+          @endif
+      </td>
+        <td>
+        @if (count($item->ProductVeriant->pluck('expdate')) >= 1)
+        {{$item->ProductVeriant->pluck('expdate')[0]}}
+        @else
+        0000-00-00
+        @endif
+        </td>
         <td>
           @if (count($item->category->pluck('Name'))>=1)
           {{$item->category->pluck('Name')[0]}}
@@ -214,7 +242,19 @@
     tableBody.innerHTML = '';
 
     if (results.length > 0) {
+      
       results.forEach(function(item) {
+        console.log(item.id)
+
+//testing purpos
+        var row = document.createElement('tr');
+        
+        var idCell = document.createElement('td');
+        idCell.textContent = item.id;
+        row.appendChild(idCell);
+
+//end testing
+
         var row = document.createElement('tr');
         
         var titleCell = document.createElement('td');
@@ -222,7 +262,8 @@
         row.appendChild(titleCell);
 
         var mrpCell = document.createElement('td');
-        mrpCell.textContent = item.MRP;
+        mrpCell.textContent = item.product_veriant && item.product_veriant.length > 0 ? item.product_veriant[0].mrp_per_unit : "0";
+
         row.appendChild(mrpCell);
 
         var boxNoCell = document.createElement('td');
@@ -230,15 +271,15 @@
         row.appendChild(boxNoCell);
 
         var priceUnitCell = document.createElement('td');
-        priceUnitCell.textContent = item.Price_unit;
+        priceUnitCell.textContent = item.product_veriant && item.product_veriant.length > 0 ? item.product_veriant[0].mrp_per_unit : "0";
         row.appendChild(priceUnitCell);
 
         var stockCell = document.createElement('td');
-        stockCell.textContent = item.Stock;
+        stockCell.textContent = item.product_veriant ? item.product_veriant.reduce((acc, variant) => acc + variant.stock, 0) : 0;
         row.appendChild(stockCell);
 
         var expDateCell = document.createElement('td');
-        expDateCell.textContent = item.Exp_date ? item.Exp_date : '';
+        expDateCell.textContent = item.product_veriant && item.product_veriant.length > 0 ? item.product_veriant[0].expdate : "0000-00-00";
         row.appendChild(expDateCell);
 
 
@@ -302,8 +343,13 @@
         // Append the row to the table body
         tableBody.appendChild(row);
 
-        var paginationDiv = document.getElementById('pagination');
+            if (results.length < 50) {
+      // Remove the pagination element
+      var paginationDiv = document.getElementById('pagination');
+      if (paginationDiv) {
         paginationDiv.parentNode.removeChild(paginationDiv);
+      }
+        }
 
 
       });
