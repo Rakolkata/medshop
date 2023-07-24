@@ -137,7 +137,13 @@ class ProductController extends Controller
     }
 
     public function delete($id, Request $request)
-    {
+    {   $productVerients = ProductVeriant::where('pid', $id)->get();
+        foreach ($productVerients as $productVerient) {
+            if($productVerient->count() > 0)
+            $productVerient->delete();
+        }
+        
+        // Step 2: Delete the Product model with the given $id
         $product = Product::find($id);
         if ($product != null) {
             $product->delete();
