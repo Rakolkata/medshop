@@ -126,14 +126,44 @@ class ProductController extends Controller
             // }
             $product->Description = $req['description'];
             $product->save();
-            return redirect()->route('admin.view_product')->with('msg', 'Product Added!');
-        // } else {
 
-        //     $product = Product::find($sku_find->id);
-        //     $product->Stock = $sku_find->Stock +  $req['stock'];
-        //     $product->save();
-        //     return redirect()->route('admin.view_product')->with('msg', 'Stock Updated!');
-        // }
+            $newProductId = $product->id; //wroking on
+
+            foreach($req['batch'] as $i=>$pv ) {
+                if(isset($req['vid'][$i])){
+                    $productvariant = ProductVeriant::find($req['vid'][$i]);
+                    if($req['batch'][$i]){
+    
+                        $productvariant->batch = $req['batch'][$i];
+                        $productvariant->stock	 = $req['stock'][$i];
+                        $productvariant->expdate = $req['expdate'][$i];
+                        $productvariant->mrp_per_unit = $req['mrp'][$i];
+                        $productvariant->strip = $req['strip'][$i];
+                        $productvariant->save();
+                    }else{
+                        $productvariant->delete();
+                    }
+     
+                }else{
+                    if(isset($req['batch'][$i]) && $req['batch'][$i]!=''){
+    
+                        $productvariant = new ProductVeriant;
+                        $productvariant->batch = $req['batch'][$i];
+                        $productvariant->stock	 = $req['stock'][$i];
+                        $productvariant->expdate = $req['expdate'][$i];
+                        $productvariant->mrp_per_unit = $req['mrp'][$i];
+                        $productvariant->strip = $req['strip'][$i];
+                        $productvariant->pid = $newProductId;
+                        $productvariant->save();
+                    }
+                }
+        }
+
+
+
+
+        return redirect()->route('admin.view_product')->with('msg', 'Product Added!');
+       
     }
 
     public function delete($id, Request $request)

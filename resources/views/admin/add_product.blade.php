@@ -108,9 +108,74 @@
                 <textarea class="form-control" name="description" rows="3"></textarea>
             </div>
 
-            <button class="btn mt-2 text-white" style="background-color: #60b5ba">Submit</button>
+            <!-- <button class="btn mt-2 text-white" style="background-color: #60b5ba">Submit</button> -->
         </div>
+        <div class="container vupdate" style="margin-top:40px" >
+    <div class="row">
+
+    <div class="col-2">
+        batch
+    </div>
+    <div class="col-2">
+        stock
+    </div>
+    <div class="col-2">
+        expdate
+    </div>
+    <div class="col-2">
+        MRP per unit
+    </div>
+    <div class="col-2">
+        strip
+    </div>
+    </div>
+   
+    <div class="row">
+        <input name="vid[]"  type="hidden" />
+    <div class="col-2">
+        <input name="batch[]"  type="text" />
+    </div>
+    <div class="col-2">
+        <input name="stock[]"  type="number"/> 
+    </div>
+    <div class="col-2">
+        <input name="expdate[]"  type="date" />
+    </div>
+    <div class="col-2">
+        <input name="mrp[]"  type="number" step="0.1"/>
+    </div>
+    <div class="col-2">
+        <input name="strip[]"   type="number"/>
+    </div>
+    </div>
+   
+</div>
+    <button class="btn mt-2 text-white" style="background-color: #60b5ba">Submit</button>
+    <button onclick="return addrow()" >Add new</button>
     </form>
 
 </div>
 @endsection
+<script>
+function addrow(){
+    let html= '<div class="row">'
+        +'<div class="col-2">'
+            +'<input name="batch[]" value=" " type="text" />'
+        +'</div>'
+        +'<div class="col-2">'
+            +'<input name="stock[]" value=" " type="number"/>'
+        +'</div>'
+        +'<div class="col-2">'
+            +'<input name="expdate[]" value=" " type="date" />'
+        +'</div>'
+        +'<div class="col-2">'
+            +'<input name="mrp[]" value="  " type="number" step=".1"/>'
+        +'</div>'
+        +'<div class="col-2">'
+            +'<input name="strip[]" value=" "  type="number"/>'
+        +'</div>'
+        +'</div>';
+    jQuery('.vupdate').append(html);
+    return false;
+}
+</script>
