@@ -138,21 +138,21 @@ $qty = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid
         if($schedule == 'null' && $exp_date == null){
             $qty = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid')
             // ->whereBetween('product_veriant.stock', [0, 5])
-            ->get(['product_veriant.*', 'products.Title as product_name']);
+            ->paginate(10,['product_veriant.*', 'products.Title as product_name']);
 
             return view('admin.reports_lessstock')->withqty($qty)->withSched($Schedule);
         }elseif($schedule != 'null' && $exp_date == null){
             $qty = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid')
             ->whereBetween('product_veriant.stock', [0, 5])
             ->where('products.Schedule', '=', $schedule)
-            ->get(['product_veriant.*', 'products.Title as product_name']);
+            ->paginate(10,['product_veriant.*', 'products.Title as product_name']);
 
             return view('admin.reports_lessstock')->withqty($qty)->withSched($Schedule);
         }elseif($schedule == 'null' && $exp_date != null){
             $qty = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid')
             ->whereBetween('product_veriant.stock', [0, 5])
             ->where('product_veriant.expdate', '=', $exp_date)
-            ->get(['product_veriant.*', 'products.Title as product_name']);
+            ->paginate(10,['product_veriant.*', 'products.Title as product_name']);
 
             return view('admin.reports_lessstock')->withqty($qty)->withSched($Schedule);
         }else{
@@ -160,7 +160,7 @@ $qty = ProductVeriant::join('products', 'products.id', '=', 'product_veriant.pid
             ->whereBetween('product_veriant.stock', [0, 5])
             ->where('product_veriant.expdate', '=', $exp_date)
             ->where('products.Schedule', '=', $schedule)
-            ->get(['product_veriant.*', 'products.Title as product_name']);
+            ->paginate(10,['product_veriant.*', 'products.Title as product_name']);
 
             return view('admin.reports_lessstock')->withqty($qty)->withSched($Schedule);
         }

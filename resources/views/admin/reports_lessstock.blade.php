@@ -58,6 +58,10 @@
                     
 
                 </table>
+                </div>
+                <div class="d-flex" id="pagination">
+    {!! $qty->links('pagination::bootstrap-5')!!}
+ 
 
                 </div>
                 
