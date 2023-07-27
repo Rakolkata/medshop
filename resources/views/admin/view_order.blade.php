@@ -1,3 +1,4 @@
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 @extends('layouts.admin.app')
 @push('title')
 <title>Medshop |Order-List</title>

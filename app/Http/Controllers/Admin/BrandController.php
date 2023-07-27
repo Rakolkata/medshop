@@ -54,4 +54,29 @@ class BrandController extends Controller
         $brand->save();
         return redirect()->route('admin.view_brand')->with('brand_updated', 'Brand Updated!');
     }
+    public function brand_data(Request $request)
+    {
+        if ($request->name) {
+            $search = $request->name;
+        } else {
+            $search = $request->term;
+        } 
+        $data = Brand::where('Name', 'LIKE', $search . '%')
+
+        ->orderBy('name', 'asc')
+                ->take(10)
+            ->get();
+
+            $output = [];
+            if (count($data) > 0) {
+                //dump($data);
+                foreach ($data as $d) {
+                    $output[] = ['label' => $d->Name, 'id' => $d->id,'value'=>$d->Name, 'values' => $d];
+                }
+
+        }
+
+        return response()->json($output);
+    }
+    
 }

@@ -88,6 +88,7 @@ class ProductController extends Controller
     {
         $search = $req['search'] ?? "";
         if ($search != "") {
+
             $product = Product::select('*')
             ->with('category', 'brand', 'function', 'schedule', 'ProductVeriant')
             ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
@@ -112,15 +113,49 @@ class ProductController extends Controller
             'schedule' => 'required',
         ]);
         // $sku_find = Product::where('SKU', $req['sku'])->first();
-        // if ($sku_find == null) {
+        // if ($sku_find == null) {// we have to work here
+
+               if( $req['brand_id'] == null){
+                $brand_name=$req['brand'];
+                $existing_brand = Brand::where('Name', $brand_name)->first();
+                if ($existing_brand) {
+                    $brand_id = $existing_brand->id;
+                } else {
+                    $brand = new Brand();
+                    $brand->Name = $brand_name;
+                    $brand->save();
+                    $brand_id = intval($brand->id);
+                }
+               }else{
+               $brand_id=intval($req['brand_id']);
+               }
+                if( $req['function_id'] == null){
+                    $function_name=$req['function'];
+                    $existing_function = Med_Function::where('Name', $function_name)->first();
+
+                    if ($existing_function) {
+                        $function_id = $existing_function->id;
+                    } else {
+                        $function = new Med_Function();
+                        $function->Name = $function_name;
+                        $function->save();
+                        $function_id = intval($function->id);
+                    }
+
+                   
+                
+                   }else{
+                   $function_id=intval($req['function_id']);
+                   }
+
             $product = new Product; 
 
             $product->Title = $req['title'];
             // $product->MRP = $req['mrp'];
             $product->Categories_id = $req['category'];
-            $product->Brand = $req['brand'];
+            $product->Brand = $brand_id;
             $product->Box_No = $req['box_no'];
-            $product->Function = $req['function'];
+            $product->Function = $function_id;
             $product->Generic_name = $req['generic_name'];
             $product->Ingredients = $req['infredients'];
             $product->Schedule = $req['schedule'];
@@ -136,7 +171,7 @@ class ProductController extends Controller
             $product->Description = $req['description'];
             $product->save();
 
-            $newProductId = $product->id; //wroking on
+            $newProductId = $product->id; 
 
             foreach($req['batch'] as $i=>$pv ) {
                 if(isset($req['vid'][$i])){
@@ -166,6 +201,8 @@ class ProductController extends Controller
                         $productvariant->save();
                     }
                 }
+
+        
         }
 
 

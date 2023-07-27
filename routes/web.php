@@ -52,6 +52,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/delete/category/{id}', [CategoryController::class, 'delete'])->name('admin.delete_category');
     Route::get('/admin/edit/category/{id}', [CategoryController::class, 'edit'])->name('admin.edit_category');
     Route::post('/admin/update/category/{id}', [CategoryController::class, 'update'])->name('admin.update_category');
+    // Route::get('/admin/category/data', [CategoryController::class, 'cat_data'])->name('admin.cat_data');
 
     Route::get('/admin/view/brand', [BrandController::class, 'view'])->name('admin.view_brand');
     Route::get('/admin/add/brand', [BrandController::class, 'index'])->name('admin.add_brand');
@@ -59,6 +60,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/delete/brand/{id}', [BrandController::class, 'delete'])->name('admin.delete_brand');
     Route::get('/admin/edit/brand/{id}', [BrandController::class, 'edit'])->name('admin.edit_brand');
     Route::post('/admin/update/brand/{id}', [BrandController::class, 'update'])->name('admin.update_brand');
+    Route::get('/admin/brand/data', [BrandController::class, 'brand_data'])->name('admin.brand_data');
 
 
     Route::get('/admin/view/function', [FunctionController::class, 'view'])->name('admin.view_function');
@@ -67,7 +69,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/delete/function/{id}', [FunctionController::class, 'delete'])->name('admin.delete_function');
     Route::get('/admin/edit/function/{id}', [FunctionController::class, 'edit'])->name('admin.edit_function');
     Route::post('/admin/update/function/{id}', [FunctionController::class, 'update'])->name('admin.update_function');
-
+    Route::get('/admin/function/data', [FunctionController::class, 'function_data'])->name('admin.function_data');
+    
 
     Route::get('/admin/view/schedule', [ScheduleController::class, 'view'])->name('admin.view_schedule');
     Route::get('/admin/add/schedule', [ScheduleController::class, 'index'])->name('admin.add_schedule');

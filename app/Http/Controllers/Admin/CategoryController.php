@@ -64,4 +64,5 @@ class CategoryController extends Controller
         $category->save();
         return redirect(route('admin.view_category'))->with(Session::flash('message-updated', "Category updated!"));
     }
+    
 }

@@ -45,16 +45,20 @@
                     <option value="{{$item->Categories_id}}">{{$item->Name}}</option>
                     @endforeach
                 </select>
+                
+
             </div>
 
             <div class="col-md-6 mb-2">
                 <label class="form-label">Company(brand)</label>
-                <select class="form-control" name="brand" aria-label="Default select example">
+                <!-- <select class="form-control" name="brand" aria-label="Default select example">
                     <option disabled selected value> -- select an option -- </option>
                     @foreach ($brand as $item)
                     <option value="{{$item->id}}">{{$item->Name}}</option>
                     @endforeach
-                </select>
+                </select> -->
+                <input  class="form-control" type="text" name="brand" placeholder="Enter or search Product brand" id="brand">
+                <input hidden type="number" id="brand_id" name="brand_id">
             </div>
 
             <div class="col-md-6 mb-2">
@@ -64,12 +68,14 @@
 
             <div class="col-md-6 mb-2">
                 <label class="form-label">Function</label>
-                <select class="form-control" name="function" aria-label="Default select example">
+                <!-- <select class="form-control" name="function" aria-label="Default select example">
                     <option disabled selected value> -- select an option -- </option>
                     @foreach ($function as $item)
                     <option value="{{$item->id}}">{{$item->Name}}</option>
                     @endforeach
-                </select>
+                </select> -->
+                <input  class="form-control" type="text" name="function" placeholder="Enter or search Product function" id="function">
+                <input hidden type="number" id="function_id" name="function_id">
             </div>
 
             <div class="col-md-6 mb-2">
@@ -156,6 +162,11 @@
 
 </div>
 @endsection
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+
 <script>
 function addrow(){
     let html= '<div class="row">'
@@ -178,4 +189,34 @@ function addrow(){
     jQuery('.vupdate').append(html);
     return false;
 }
+</script>
+<script>
+     $(function() {
+    
+
+        jQuery("#brand").autocomplete({
+      source: "{{ route('admin.brand_data') }}",
+      dataType: "json",
+      minLength: 2,
+      select: function(event, ui) {
+        $("#brand_id").val(ui.item.id);
+      }
+     });
+});
+ 
+</script>
+<script>
+     $(function() {
+    
+
+        jQuery("#function").autocomplete({
+      source: "{{ route('admin.function_data') }}",
+      dataType: "json",
+      minLength: 2,
+      select: function(event, ui) {
+        $("#function_id").val(ui.item.id);
+      }
+     });
+});
+ 
 </script>
