@@ -1,3 +1,4 @@
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
 @extends('layouts.admin.app')
 @push('title')
 <title>Medshop | Update-Product</title>
@@ -52,12 +53,15 @@
                 'bg-purple-600 text-white' => $product->Categories_id == $item->Categories_id
                 ])>{{$item->Name}}</option>
             @endforeach
-          </select>
+
+
+        </select>
+                
         </div>
 
         <div class="col-md-6 mb-2">
             <label class="form-label">Company(brand)</label>
-            <select class="form-control" name="brand" aria-label="Default select example">
+            <!-- <select class="form-control" name="brand" aria-label="Default select example">
                 <option disabled selected value> -- select an option -- </option>
                 @foreach ($brand as $item)
                 <option value="{{$item->id}}" @selected($product->Brand == $item->id)
@@ -65,7 +69,9 @@
                     'bg-purple-600 text-white' => $product->Brand == $item->id
                     ])>{{$item->Name}}</option>
                 @endforeach
-            </select>
+            </select> -->
+            <input  class="form-control" type="text" name="brand" placeholder="Enter or search Product brand" id="brand" value="{{$item->Name}}">
+                <input hidden type="number" id="brand_id" name="brand_id" value="{{$item->id}}">
         </div>
 
         <div class="col-md-6 mb-2">
@@ -75,7 +81,7 @@
 
         <div class="col-md-6 mb-2">
             <label class="form-label">Function</label>
-            <select class="form-control" name="function" aria-label="Default select example">
+            <!-- <select class="form-control" name="function" aria-label="Default select example">
                 <option disabled selected value> -- select an option -- </option>
                 @foreach ($function as $item)
                 <option value="{{$item->id}}" @selected($product->Function == $item->id)
@@ -83,7 +89,9 @@
                     'bg-purple-600 text-white' => $product->Function == $item->id
                     ])>{{$item->Name}}</option>
                 @endforeach
-            </select>
+            </select> -->
+            <input  class="form-control" type="text" name="function" placeholder="Enter or search Product function" id="function" value="{{$item->Name}}">
+                <input hidden type="number" id="function_id" name="function_id" value="{{$item->id}}">
         </div>
 
         <div class="col-md-6 mb-2">
@@ -145,6 +153,9 @@
     <div class="col-2">
         strip
     </div>
+    <div class="col-2">
+        rate
+    </div>
     </div>
     <input name="pid" value="{{$product->id}}" type="hidden" />
     @foreach ($product->ProductVeriant as $item)
@@ -165,6 +176,9 @@
     <div class="col-2">
         <input name="strip[]" value="{{$item->strip}}"  type="number"/>
     </div>
+    <div class="col-2">
+        <input name="rate[]" value="{{$item->rate}}"  type="number"/>
+    </div>
     </div>
     @endforeach
 </div>
@@ -173,13 +187,16 @@
 </form>
 </div>
 @endsection
-
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
 
 <script>
 function addrow(){
     let html= '<div class="row">'
         +'<div class="col-2">'
-            +'<input name="batch[]" value=" " type="text" />'
+            +'<input name="batch[]" value=" " type="text" requi/>'
         +'</div>'
         +'<div class="col-2">'
             +'<input name="stock[]" value=" " type="number"/>'
@@ -193,8 +210,49 @@ function addrow(){
         +'<div class="col-2">'
             +'<input name="strip[]" value=" "  type="number"/>'
         +'</div>'
+        +'<div class="col-2">'
+            +'<input name="rate[]" value=" "  type="number"/>'
+        +'</div>'
         +'</div>';
     jQuery('.vupdate').append(html);
     return false;
 }
+</script>
+<script>
+     $(function() {
+        jQuery("#brand").on('keydown', function(event) {
+            if (event.keyCode === 8) {
+                $("#brand_id").val(null);
+            }
+        });
+
+        jQuery("#brand").autocomplete({
+      source: "{{ route('admin.brand_data') }}",
+      dataType: "json",
+      minLength: 2,
+      select: function(event, ui) {
+        $("#brand_id").val(ui.item.id);
+      }
+     });
+});
+ 
+</script>
+<script>
+     $(function() {
+        jQuery("#function").on('keydown', function(event) {
+            if (event.keyCode === 8) {
+                $("#function_id").val(null);
+            }
+        });
+        
+        jQuery("#function").autocomplete({
+      source: "{{ route('admin.function_data') }}",
+      dataType: "json",
+      minLength: 2,
+      select: function(event, ui) {
+        $("#function_id").val(ui.item.id);
+      }
+     });
+});
+ 
 </script>

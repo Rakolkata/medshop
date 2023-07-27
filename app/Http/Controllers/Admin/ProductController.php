@@ -91,7 +91,6 @@ class ProductController extends Controller
 
             $product = Product::select('*')
             ->with('category', 'brand', 'function', 'schedule', 'ProductVeriant')
-            ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
             ->where('products.Title', 'like', "{$search}%")
             ->paginate(25);
 
@@ -99,15 +98,18 @@ class ProductController extends Controller
            
 
         } else {
-            $product = Product::select('*')->with('category', 'brand', 'function', 'schedule','ProductVeriant')->join('product_veriant', 'products.id', '=', 'product_veriant.pid')->orderBy('products.Title', 'ASC')->paginate(25);
+
+            $product = Product::select('*')->with('category', 'brand', 'function', 'schedule','ProductVeriant')->paginate(25);
             
         }
+        // print_r($product);
         return view('admin.view_product')->with(compact('product'));
       
     }
 
     public function store(Request $req)
     {
+        // dd($req->all());
         $req->validate([
             'title' => 'required',
             'schedule' => 'required',
@@ -183,6 +185,7 @@ class ProductController extends Controller
                         $productvariant->expdate = $req['expdate'][$i];
                         $productvariant->mrp_per_unit = $req['mrp'][$i];
                         $productvariant->strip = $req['strip'][$i];
+                        $productvariant->rate = $req['rate'][$i];
                         $productvariant->save();
                     }else{
                         $productvariant->delete();
@@ -197,6 +200,7 @@ class ProductController extends Controller
                         $productvariant->expdate = $req['expdate'][$i];
                         $productvariant->mrp_per_unit = $req['mrp'][$i];
                         $productvariant->strip = $req['strip'][$i];
+                        $productvariant->rate = $req['rate'][$i];
                         $productvariant->pid = $newProductId;
                         $productvariant->save();
                     }
@@ -358,66 +362,104 @@ class ProductController extends Controller
         $schedule = Schedule::all();
         if ($product != null) {
             return view('admin.update_product')->with(compact('product', 'category', 'brand', 'function', 'schedule'));
+        }else{
+            echo"product not found";
         }
+        
+      
     }
 
     public function update($id, Request $req)
     {
-        $page = $req['page'];
-        // dd($req->all());
-        $product = Product::find($id);
-        $product->Title = $req['title'];
-        $product->Categories_id = $req['category'];
-        $product->Brand = $req['brand'];
-        $product->Box_No = $req['box_no'];
-        $product->Function = $req['function'];
-        $product->Generic_name = $req['generic_name'];
-        $product->Ingredients = $req['ingredients'];
-        $product->Schedule = $req['schedule'];
-        $product->Description = $req['description'];
-        // $product->SKU = $req['bath_no'];
-        // $product->MRP = $req['mrp'];
-        // $product->Price_unit = $req['mrp'] / $req['tripsize'];
-        // $product->Stock = $req['stock']; 
-        // $product->Exp_date = $req['exp_date'];
-        // $product->TripSize = $req['tripsize'];
-        //$product->Price_unit = $product->MRP/$product->TripSize;
-        $product->save();
-        // //return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
-        // //return redirect()->route('admin.view_product')->with('msg', 'Product updated!');
+        dd($req->all());
+    //     $page = $req['page'];
+    //     if( $req['brand_id'] == null){
+    //         $brand_name=$req['brand'];
+    //         $existing_brand = Brand::where('Name', $brand_name)->first();
+    //         if ($existing_brand) {
+    //             $brand_id = $existing_brand->id;
+    //         } else {
+    //             $brand = new Brand();
+    //             $brand->Name = $brand_name;
+    //             $brand->save();
+    //             $brand_id = intval($brand->id);
+    //         }
+    //        }else{
+    //        $brand_id=intval($req['brand_id']);
+    //        }
+    //         if( $req['function_id'] == null){
+    //             $function_name=$req['function'];
+    //             $existing_function = Med_Function::where('Name', $function_name)->first();
 
-        //  //return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
+    //             if ($existing_function) {
+    //                 $function_id = $existing_function->id;
+    //             } else {
+    //                 $function = new Med_Function();
+    //                 $function->Name = $function_name;
+    //                 $function->save();
+    //                 $function_id = intval($function->id);
+    //             }
 
-        foreach($req['batch'] as $i=>$pv ) {
-            if(isset($req['vid'][$i])){
-                $productvariant = ProductVeriant::find($req['vid'][$i]);
-                if($req['batch'][$i]){
+               
+            
+    //            }else{
+    //            $function_id=intval($req['function_id']);
+    //            }
+    //     $product = Product::find($id);
+    //     $product->Title = $req['title'];
+    //     $product->Categories_id = $req['category'];
+    //     $product->Brand = $brand_id;
+    //     $product->Box_No = $req['box_no'];
+    //     $product->Function = $function_id;
+    //     $product->Generic_name = $req['generic_name'];
+    //     $product->Ingredients = $req['ingredients'];
+    //     $product->Schedule = $req['schedule'];
+    //     $product->Description = $req['description'];
+    //     // $product->SKU = $req['bath_no'];
+    //     // $product->MRP = $req['mrp'];
+    //     // $product->Price_unit = $req['mrp'] / $req['tripsize'];
+    //     // $product->Stock = $req['stock']; 
+    //     // $product->Exp_date = $req['exp_date'];
+    //     // $product->TripSize = $req['tripsize'];
+    //     //$product->Price_unit = $product->MRP/$product->TripSize;
+    //     $product->save();
+    //     // //return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
+    //     // //return redirect()->route('admin.view_product')->with('msg', 'Product updated!');
 
-                    $productvariant->batch = $req['batch'][$i];
-                    $productvariant->stock	 = $req['stock'][$i];
-                    $productvariant->expdate = $req['expdate'][$i];
-                    $productvariant->mrp_per_unit = $req['mrp'][$i];
-                    $productvariant->strip = $req['strip'][$i];
-                    $productvariant->save();
-                }else{
-                    $productvariant->delete();
-                }
+    //     //  //return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
+
+    //     foreach($req['batch'] as $i=>$pv ) {
+    //         if(isset($req['vid'][$i])){
+    //             $productvariant = ProductVeriant::find($req['vid'][$i]);
+    //             if($req['batch'][$i]){
+
+    //                 $productvariant->batch = $req['batch'][$i];
+    //                 $productvariant->stock	 = $req['stock'][$i];
+    //                 $productvariant->expdate = $req['expdate'][$i];
+    //                 $productvariant->mrp_per_unit = $req['mrp'][$i];
+    //                 $productvariant->strip = $req['strip'][$i];
+    //                 $productvariant->rate = $req['rate'][$i];
+    //                 $productvariant->save();
+    //             }else{
+    //                 $productvariant->delete();
+    //             }
  
-            }else{
-                if(isset($req['batch'][$i]) && $req['batch'][$i]!=''){
+    //         }else{
+    //             if(isset($req['batch'][$i]) && $req['batch'][$i]!=''){
 
-                    $productvariant = new ProductVeriant;
-                    $productvariant->batch = $req['batch'][$i];
-                    $productvariant->stock	 = $req['stock'][$i];
-                    $productvariant->expdate = $req['expdate'][$i];
-                    $productvariant->mrp_per_unit = $req['mrp'][$i];
-                    $productvariant->strip = $req['strip'][$i];
-                    $productvariant->pid = $req['pid'];
-                    $productvariant->save();
-                }
-            }
-    }
-    return redirect()->route('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
+    //                 $productvariant = new ProductVeriant;
+    //                 $productvariant->batch = $req['batch'][$i];
+    //                 $productvariant->stock	 = $req['stock'][$i];
+    //                 $productvariant->expdate = $req['expdate'][$i];
+    //                 $productvariant->mrp_per_unit = $req['mrp'][$i];
+    //                 $productvariant->strip = $req['strip'][$i];
+    //                 $productvariant->rate = $req['rate'][$i];
+    //                 $productvariant->pid = $req['pid'];
+    //                 $productvariant->save();
+    //             }
+    //         }
+    // }
+    // return redirect()->route('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
 }
     
     public function search(Request $request)

@@ -134,26 +134,33 @@
     <div class="col-2">
         strip
     </div>
+    <div class="col-2">
+        rate
+    </div>
     </div>
    
     <div class="row">
-        <input name="vid[]"  type="hidden" />
+    <input name="vid[]" type="hidden" />
     <div class="col-2">
-        <input name="batch[]"  type="text" />
-    </div>
-    <div class="col-2">
-        <input name="stock[]"  type="number"/> 
+        <input name="batch[]" type="text" required />
     </div>
     <div class="col-2">
-        <input name="expdate[]"  type="date" />
+        <input name="stock[]" type="number" required />
     </div>
     <div class="col-2">
-        <input name="mrp[]"  type="number" step="0.1"/>
+        <input name="expdate[]" type="date" required />
     </div>
     <div class="col-2">
-        <input name="strip[]"   type="number"/>
+        <input name="mrp[]" type="number" step="0.1" required />
     </div>
+    <div class="col-2">
+        <input name="strip[]" type="number" required />
     </div>
+    <div class="col-2">
+    <input name="rate[]" type="number" min="1" step="any" required />
+    </div>
+</div>
+
    
 </div>
     <button class="btn mt-2 text-white" style="background-color: #60b5ba">Submit</button>
@@ -185,6 +192,9 @@ function addrow(){
         +'<div class="col-2">'
             +'<input name="strip[]" value=" "  type="number"/>'
         +'</div>'
+        +'<div class="col-2">'
+            +'<input name="rate[]" value=" "  type="number"/>'
+        +'</div>'
         +'</div>';
     jQuery('.vupdate').append(html);
     return false;
@@ -192,7 +202,11 @@ function addrow(){
 </script>
 <script>
      $(function() {
-    
+        jQuery("#brand").on('keydown', function(event) {
+            if (event.keyCode === 8) {
+                $("#brand_id").val(null);
+            }
+        });
 
         jQuery("#brand").autocomplete({
       source: "{{ route('admin.brand_data') }}",
@@ -207,8 +221,12 @@ function addrow(){
 </script>
 <script>
      $(function() {
-    
-
+        jQuery("#function").on('keydown', function(event) {
+            if (event.keyCode === 8) {
+                $("#function_id").val(null);
+            }
+        });
+        
         jQuery("#function").autocomplete({
       source: "{{ route('admin.function_data') }}",
       dataType: "json",
