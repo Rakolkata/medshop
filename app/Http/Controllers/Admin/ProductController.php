@@ -228,7 +228,7 @@ class ProductController extends Controller
         if ($product != null) {
             $product->delete();
         }
-        return redirect()->route('admin.view_product', ['page' => $request->get('page')])->with('msg-deleted', $product->Title.' Product Deleted!');
+        return redirect()->route('admin.view_product', ['page' => $request->get('page')])->with('msg-deleted', $product->Title.' Deleted!');
     }
 
     function importData(Request $request)
@@ -355,16 +355,33 @@ class ProductController extends Controller
 
     public function edit($id) 
     {
-        $category = Category::all();
-        $brand = brand::all();
-        $product = Product::find($id);
-        $function = Med_Function::all();
-        $schedule = Schedule::all();
+        // $category = Category::all();
+        // $brand = brand::all();
+        // $product = Product::find($id);
+        // $function = Med_Function::all();
+        // $schedule = Schedule::all();
+        // Assuming $id is the product_id you want to find related records for
+            $product = Product::find($id);
+
+            // Fetching related records from Category
+            $category = $product->Category;
+
+            // Fetching related records from Brand
+            $brand = Brand::where('id',$product->Brand)->get();
+
+            // Fetching related records from Med_Function
+            $function = Med_Function::where('id',$product->Function)->get();
+
+            // Fetching related records from Schedule
+            $schedule = Schedule::where('id',$product->Schedule)->get();
+
         if ($product != null) {
             return view('admin.update_product')->with(compact('product', 'category', 'brand', 'function', 'schedule'));
         }else{
             echo"product not found";
         }
+
+        // echo $schedule;
         
       
     }
@@ -459,7 +476,7 @@ class ProductController extends Controller
                 }
             }
     }
-    return redirect()->route('admin.view_product', ['page' => $page])->with('msg', '-Product updated!');
+    return redirect()->route('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
 }
     
     public function search(Request $request)
