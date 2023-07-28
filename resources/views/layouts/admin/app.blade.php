@@ -72,11 +72,12 @@
                 <div id="collapseacademic" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Product Managment:</h6>
+                        <a class="collapse-item" href="{{route('admin.view_product')}}">View Product</a>
                         <a class="collapse-item" href="{{route('admin.view_category')}}">View Categoary</a>
                         <a class="collapse-item" href="{{route('admin.view_brand')}}">View Brand</a>
                         <a class="collapse-item" href="{{route('admin.view_function')}}">View Function</a>
                         <a class="collapse-item" href="{{route('admin.view_schedule')}}">View Schedule</a>
-                        <a class="collapse-item" href="{{route('admin.view_product')}}">View Product</a>
+                        
 
                     </div>
                 </div>
