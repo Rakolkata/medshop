@@ -484,7 +484,7 @@ class ProductController extends Controller
         $query = $request->get('query');
 
         if (strlen($query) >= 3) {
-            $results = Product::select('*')
+            $results = Product::select('products.*')
     ->with('category', 'brand', 'function', 'schedule', 'ProductVeriant')
     ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
     ->where('products.Title', 'like', "{$query}%")

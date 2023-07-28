@@ -309,6 +309,7 @@
        
 
         var id = item.id;
+        console.log(item)
         var currentPage = "{{ $product->currentpage() }}";
         var baseUrl = "{{ route('admin.edit_product', ['id' => ':id', 'page' => ':page']) }}";
         var editLink = document.createElement('a');
