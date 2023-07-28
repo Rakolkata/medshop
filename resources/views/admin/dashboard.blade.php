@@ -150,6 +150,18 @@
         
     });
 </script>
+<!-- <script>
+  $(document).ready(function() {
+    // Add click event to the document
+    $(document).click(function(event) {
+     $('.nav_link').addClass('collapsed');
+     $('#collapseacademic').removeClass('show');
+     
+    console.log("outside clicked")
+    });
+    
+  });
+</script> -->
 
 
 @endsection
