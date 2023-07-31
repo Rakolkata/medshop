@@ -363,8 +363,7 @@ class ProductController extends Controller
         // Assuming $id is the product_id you want to find related records for
             $product = Product::find($id);
 
-            // Fetching related records from Category
-            $category = $product->Category;
+           $category = Category::all();
 
             // Fetching related records from Brand
             $brand = Brand::where('id',$product->Brand)->get();
@@ -373,8 +372,8 @@ class ProductController extends Controller
             $function = Med_Function::where('id',$product->Function)->get();
 
             // Fetching related records from Schedule
-            $schedule = Schedule::where('id',$product->Schedule)->get();
-
+            // $schedule = Schedule::where('id',$product->Schedule)->get();
+            $schedule = Schedule::all();
         if ($product != null) {
             return view('admin.update_product')->with(compact('product', 'category', 'brand', 'function', 'schedule'));
         }else{

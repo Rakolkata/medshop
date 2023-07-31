@@ -10,7 +10,6 @@
 <form action="{{route('admin.update_product',['id'=>$product->id])}}" method="post">
 
     @csrf
- 
     <div class="row">
         <div class="col-md-6 mb-2">
         <label class="form-label">Title</label>
@@ -45,7 +44,7 @@
 
         <div class="col-md-6 mb-2">
         <label class="form-label">Category</label>
-        <select class="form-control"  name="category" aria-label="Default select example">
+        <select class="form-control"  name="category" aria-label="Default select example" id="category">
             <option disabled selected value> -- select an option -- </option>
             @foreach ($category as $item)
             <option value="{{$item->Categories_id}}" @selected($product->Categories_id == $item->Categories_id)
@@ -53,9 +52,8 @@
                 'bg-purple-600 text-white' => $product->Categories_id == $item->Categories_id
                 ])>{{$item->Name}}</option>
             @endforeach
-
-
         </select>
+   
                 
         </div>
 
@@ -255,4 +253,11 @@ function addrow(){
      });
 });
  
+</script>
+<script>
+    $(function(){
+     $("#category").on("click",function(){
+          console.log("clicked")
+     });
+    });
 </script>
