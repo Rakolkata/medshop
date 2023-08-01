@@ -33,10 +33,9 @@ class OrderController extends Controller
                 $search = $request->term;
             }
             $data = Product::with(['category', 'ProductVeriant' => function ($q) {
-                $q->where('stock', '>', 0)->orderBy('expdate', 'asc')->orderBy('stock', 'asc');
+                $q->where('stock', '>', 0)->orderBy('expdate', 'asc');
             }])
                 ->where('Title', 'LIKE', '%' . $search . '%')
-                // ->where('Stock', '>=', 1)
                 ->orWhere('Generic_name', 'LIKE', '%' . $search . '%')
                 ->orderBy('title', 'asc')
                 ->take(10)
@@ -53,7 +52,7 @@ class OrderController extends Controller
                     $totalStock = 0;
                     if (count($d->ProductVeriant) > 0) {
                         foreach ($d->ProductVeriant as $variant) {
-                              $output[] = ['label' => $d->Title ."   ".$variant->stock, 'id' => $d->id,'value'=>$d->Title, 'values' => $d];
+                              $output[] = ['label' => $d->Title ."             stock:".$variant->stock, 'id' => $d->id,'value'=>$d->Title, 'values' => $d];
                         }
                         // $output[] = ['label' => $d->Title ."   ".$totalStock, 'id' => $d->id,'value'=>$d->Title, 'values' => $d];
                     }
