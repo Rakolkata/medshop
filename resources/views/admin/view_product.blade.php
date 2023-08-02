@@ -247,14 +247,6 @@
       results.forEach(function(item) {
         console.log(item.id)
 
-//testing purpos
-        var row = document.createElement('tr');
-        
-        var idCell = document.createElement('td');
-        idCell.textContent = item.id;
-        row.appendChild(idCell);
-
-//end testing
 
         var row = document.createElement('tr');
         

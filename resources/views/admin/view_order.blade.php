@@ -17,16 +17,13 @@
 <div class="card m-1 p-1 " style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
   <h5><span style="border-bottom:1px solid #60b5ba">Order List</span></h5>
   <div class="float_right">
-    <form action="{{route('admin.order_search')}}" method="post">
       @csrf
       <div class="row">
         <div class="col-md-6 mt-2">
           <!-- <label class="form-label">To</label> -->
-          <input type="text" name="search" class="form-control" placeholder="Search.....">
+          <input type="text" name="search" class="form-control" placeholder="Search....." id="search"><br>
         </div>
       </div>
-      <button class="btn text-white mt-1 pt-2 mb-4" style="background-color: #60b5ba">Search</button>
-    </form>
   </div>
   <table class="table table-striped table-responsive-sm">
     <thead style="background-color: #60b5ba;color:#fff">
@@ -156,9 +153,111 @@
   @endforeach
 </div>
 
+
+<script>
+  $(function(){
+    $("#search").on("keyup",function(){
+        //  console.log($(this).val());
+
+        var tableBody = document.querySelector('tbody');
+        tableBody.innerHTML = '';
+        var data = $(this).val();
+        var url = "{{ route('admin.order_search') }}";
+
+        $.ajax({
+            type: 'GET', // The HTTP method for the request (GET in this case)
+            url: url, // Replace '/your-route' with the actual route URL
+            data: {
+                search: data // The data you want to send with the request
+            },
+            success: function(response) {
+                console.log(response.data);
+                var tableBody = document.querySelector('tbody');
+                tableBody.innerHTML = '';
+                if(response.data.length > 0){
+                  $.each(response.data, function( key, value ) {
+                    var row = document.createElement('tr');
+                    //append Order ID
+                    var orderidCell = document.createElement('td');
+                    orderidCell.textContent = value.orderID;
+                    row.appendChild(orderidCell);
+
+                    //append Name
+                    var nameCell = document.createElement('td');
+                    nameCell.textContent = value.name;
+                    row.appendChild(nameCell);
+                    //totalorder
+                    var totalorderCell = document.createElement('td');
+                    totalorderCell.textContent = value.Total_Order;
+                    row.appendChild(totalorderCell);
+                    //product
+                    var productCell = document.createElement('td');
+                    productCell.textContent = value.Title;
+                    row.appendChild(productCell);
+                    //action
+
+                    var actionCell = document.createElement('td');
+                      var id = value.id;
+                    // Append the first link with the delete functionality
+                      var deleteLink = document.createElement('a');
+                      var baseurl = "{{ route('admin.order_delete', ['id' => ':id']) }}";
+                      deleteLink.href = baseurl.replace(':id', id)
+                      deleteLink.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 20px"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path fill="red" d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>';
+                      actionCell.appendChild(deleteLink);
+
+                      // Append the second link for order details
+                      var orderDetailsLink = document.createElement('a');
+                      var baseurl = "{{ route('admin.order_details', ['Order_id' => ':id']) }}";
+                      orderDetailsLink.href = baseurl.replace(':id', id);
+                      orderDetailsLink.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="height: 20px"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path fill="#60b5ba" d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>';
+                      actionCell.appendChild(orderDetailsLink);
+
+                      // Append the third link with class "btn_pdf" and the provided ID
+                      var pdfLink = document.createElement('a');
+                      pdfLink.className = "btn_pdf";
+                      pdfLink.id = value.id;
+                      pdfLink.style.cursor = "pointer";
+                      pdfLink.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="height: 20px"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path fill="#60b5ba" d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg>';
+                      actionCell.appendChild(pdfLink);
+                      row.appendChild(actionCell);
+
+                    //cancel
+                     var cancelCell = document.createElement('td');
+                     var cancelLink = document.createElement('a');
+                      var baseurl = "{{ route('complete_order_cancle', ['id'=>':id']) }}";
+                      cancelLink.href = baseurl.replace(':id', id);
+                      cancelLink.className = "btn btn-danger";
+                      cancelLink.textContent = "Cancle";
+                      actionCell.appendChild(cancelLink);
+
+                      // Append the actionCell to the row
+                      row.appendChild(cancelCell);
+
+
+                    
+
+                    //append the row in tbody
+                    tableBody.appendChild(row);
+
+                });
+                }else{
+                    console.log("data not available")
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+
+   
+
+    });
+  });
+</script>
 <script type="text/javascript">
-  $(document).ready(function() {
-    $(".btn_pdf").click(function() {
+  $(function() {
+    $(".btn_pdf").on('click',function() {
+      console.log("clicked")
       var id = $(this).attr("id");
       window.jsPDF = window.jspdf.jsPDF;
 
@@ -181,5 +280,4 @@
 
   });
 </script>
-
 @endsection

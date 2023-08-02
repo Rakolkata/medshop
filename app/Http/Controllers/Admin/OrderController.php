@@ -225,27 +225,39 @@ return $pdfResponse;
     }
     public function serch_order(Request $req)
     {
-        $data = Order_User_Profile::where('id', '=', $req->search)->whereOr('phone', '=', $req->search)->first();
-        dd($data);
+        $search = $req->search;
 
         $order = Order::join('order__user__profiles', 'order__user__profiles.id', '=', 'orders.Profile_id')
-            ->join('users', 'users.id', '=', 'order__user__profiles.User_id')
-            ->select(['orders.Total_Order', 'users.name', 'orders.id', 'orders.orderID', 'order__user__profiles.Doc_Name_RegdNo', 'order__user__profiles.Address', 'order__user__profiles.Phone'])->paginate(15);
-        $order_id = [];
-        foreach ($order as $value) {
-            $order_id[] = $value->id;
-        }
-
-        $Order_Details = [];
-        foreach ($order_id as $item) {
-            $Order_Details[] = Order_details::where('Order_id', $item)
-                ->join('products', 'products.id', '=', 'order_details.Product_id')
-                ->leftJoin('orders', 'orders.id', '=', 'order_details.Order_id')
-                ->select('products.Title as Title', 'products.MRP as mrp', 'products.SKU as Sku', 'products.Exp_date as Exp', 'order_details.qty as Qty', 'order_details.rate as Rate', 'order_details.gst as Gst', 'order_details.Product_price as Total', 'orders.Total_Order as total_order', 'orders.Discount as discount')->get();
-        }
-
-
-        return view('admin.view_order')->with(compact('order', 'Order_Details'));
+            ->leftJoin('users', 'users.id', '=', 'order__user__profiles.User_id')
+            ->join('order_details', 'orders.id', '=', 'order_details.Order_id')
+            ->join('products', 'products.id', '=', 'order_details.Product_id')
+            ->select(
+                'orders.Total_Order',
+                'users.name',
+                'orders.id',
+                'orders.orderID',
+                'order__user__profiles.Doc_Name_RegdNo',
+                'order__user__profiles.Address',
+                'order__user__profiles.Phone',
+                'products.Title as Title',
+                'products.MRP as mrp',
+                'products.SKU as Sku',
+                'products.Exp_date as Exp',
+                'order_details.qty as Qty',
+                'order_details.rate as Rate',
+                'order_details.gst as Gst',
+                'order_details.Product_price as Total',
+                'orders.Total_Order as total_order',
+                'orders.Discount as discount'
+            )
+            ->where('orders.orderID', 'Like', $search. '%')
+            ->orWhere('order__user__profiles.phone', 'Like', $search . '%')
+            ->orWhere('users.name', 'like', $search . '%')
+            ->paginate(15);
+        
+            return $order;
+            // return response()->json($order);
+        //we have to return data of the
     }
 
     public function status_update(Request $request, $id)
