@@ -197,9 +197,8 @@
           "id": rowId
         }); // add the identifier to the new row
         if (productV.length > 0) {
-          newRow.append("<td></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[0].pid + "' /></td><td>" + ui.item.value + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>"+ productV[0].mrp_per_unit+"</td><td><input type='text' name='batch_no[]' class='id' value='" +
-            default_batch + "' readonly/></td><td>" +
-            default_expdate + "</td>" +
+          newRow.append("<td></td><td style='display:none'><input  step='any' name='exp[]' class='id' value='" + default_expdate + "' /></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[0].pid + "' /></td><td>" + ui.item.value + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>"+ productV[0].mrp_per_unit+"</td><td><input type='text' name='batch_no[]' class='id' value='" +
+            default_batch + "' readonly/></td><td>" +default_expdate + "</td>" +
             "<td><input type='number' step='any' id='" + productV[0].pid + "' name='qty[]' value=1 min=1 /></td><td>" +
             rate_default + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td>" + category1 + "</td><td><input type='number' step='any' name='gst[]' class='gst' value='" + parseInt(rate_default) * parseInt(category1) / 100 + "' readonly ></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default + "' ></td><td><i class='bi bi-trash3-fill' id='delete" + rowId + "' style='cursor: pointer; color: red;'></i></td></tr>");
           $("#table").append(newRow);
@@ -367,7 +366,7 @@ grandTotal = Math.round(grandTotal * 100) / 100;
               if (remainingQuantity > variantQuantity) {
                 // Create a new row for the current variant's stock
                 let newRow = $("<tr>").addClass("remaining-row" + productV[0].pid);
-                newRow.append("<td></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[i].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
+                newRow.append("<td></td><td style='display:none'><input  step='any' name='exp[]' class='id' value='" + default_expdate + "' /></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[i].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
                   rate_default_copy * default_strip_copy + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
                   default_batch_copy + "' readonly/></td><td>" +
                   default_expdate_copy + "</td>" +
@@ -405,7 +404,7 @@ grandTotal = Math.round(grandTotal * 100) / 100;
 
                 // Create a new row for the remaining quantity
                 let newRow = $("<tr>").addClass("remaining-row" + productV[0].pid);
-                newRow.append("<td></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[i].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
+                newRow.append("<td></td><td style='display:none'><input  step='any' name='exp[]' class='id' value='" + default_expdate + "' /></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[i].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
                   rate_default_copy * default_strip_copy + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
                   default_batch_copy + "' readonly/></td><td>" +
                   default_expdate_copy + "</td>" +

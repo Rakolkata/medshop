@@ -379,7 +379,8 @@ class OrderController extends Controller
             "rate" => [],
             "discount" => [],
             "gst" => [],
-            "total" => []
+            "total" => [],
+            "exp"=>[]
         ];
        
         for ($i = 0; $i <= count($result)-1; $i++) {
@@ -391,6 +392,7 @@ class OrderController extends Controller
             $selectedData['discount'][] = 'Null'; // Modify this line if you want to store individual discounts
             $selectedData['gst'][] = $result[$i]['Gst'];
             $selectedData['total'][] = $result[$i]['Total'];
+            $selectedData['exp'][] = $result[$i]['Exp'];
             }
 
             $pdf = PDF::loadView('admin.order_invoice', $selectedData);
