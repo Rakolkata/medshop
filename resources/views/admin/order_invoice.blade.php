@@ -1,12 +1,16 @@
 <div >
 
- 
 
     <div class="col-md-6 p-2" style="border-bottom: 1px solid black">
       <h5 class="text-capitalize ">{{env('APP_NAME')}}</h5>
     </div>
     <div class="col-md-6 p-2" style="border-bottom: 1px solid black;text-align:right">
-      <h5 class="text-capitalize ">Tax Invoice <br>{{substr(env('APP_NAME'), 0, 1) . date("dmY") .$id[0]}}</h5>
+    @if($order_id)
+    <h5 class="text-capitalize">Tax Invoice <br>{!! $order_id !!}</h5>
+@else
+    <h5 class="text-capitalize">Tax Invoice <br>{{ substr(env('APP_NAME'), 0, 1) . date("dmY") . $id[0] }}</h5>
+@endif
+
       <address>
         {{$customer_address}}<br>
         <a href="tel:{{$coustomer_phone}}">{{$coustomer_phone}}</a>

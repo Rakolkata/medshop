@@ -152,29 +152,18 @@ class OrderController extends Controller
         Order_details::insert($insert_data2);
 
         $pdf = PDF::loadView('admin.order_invoice', $req->all());
-        $filename = $dt.'.pdf';
         $pdf->setPaper('A4');
-        $pdf->save(public_path('pdf/' . $filename));
-        // Send email with the generated PDF
- 
+        $pdfContents = $pdf->output();
+        $response = response($pdfContents, 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="' . $dt . '.pdf"');
+            echo '<script>
+    var newTab = window.open("", "_blank");
+    newTab.document.write(\'<iframe width="100%" height="100%" src="data:application/pdf;base64,' . base64_encode($pdfContents) . '"></iframe>\');
+    setTimeout(function(){ window.location.href = "/admin/order-list"; }, 100);
+    </script>';
 
-          // Download the PDF file
-          $pathToFile = public_path('pdf/' . $filename);
-          // Set the appropriate headers for streaming the PDF
-$headers = [
-    'Content-Type' => 'application/pdf',
-    'Content-Disposition' => 'inline; filename="' . $filename . '"',
-];
-
-// Create the PDF response
-$pdfResponse = new \Illuminate\Http\Response(file_get_contents($pathToFile), 200, $headers);
-
-return $pdfResponse;
-          
         
-    
-        // return $prod_price;
-    //   echo  $dt;
     }
 
     public function view()
@@ -250,6 +239,7 @@ return $pdfResponse;
                 'orders.Total_Order as total_order',
                 'orders.Discount as discount'
             )
+            ->where('orders.status', '<>', 'cancled')
             ->where('orders.orderID', 'Like', $search. '%')
             ->orWhere('order__user__profiles.phone', 'Like', $search . '%')
             ->orWhere('users.name', 'like', $search . '%')
@@ -333,5 +323,83 @@ return $pdfResponse;
         }
 
         return redirect()->back(); 
+    }
+    public function genpdf(Request $req){
+        $result = Order::join('order__user__profiles', 'order__user__profiles.id', '=', 'orders.Profile_id')
+    ->leftJoin('users', 'users.id', '=', 'order__user__profiles.User_id')
+    ->join('order_details', 'orders.id', '=', 'order_details.Order_id')
+    ->join('products', 'products.id', '=', 'order_details.Product_id')
+    ->join('product_veriant','product_veriant.pid','=','products.id')
+    ->select(
+        'orders.Total_Order',
+        'users.name',
+        'users.email',
+        'orders.id',
+        'orders.orderID',
+        'order__user__profiles.Doc_Name_RegdNo',
+        'order__user__profiles.Address',
+        'order__user__profiles.Phone',
+        'products.Title as Title',
+        'products.MRP as mrp',
+        'products.SKU as Sku',
+        'products.Exp_date as Exp',
+        'order_details.qty as Qty',
+        'order_details.rate as Rate',
+        'order_details.gst as Gst',
+        'order_details.Product_price as Total',
+        'orders.Total_Order as total_order',
+        'orders.Discount as discount',
+        'orders.Total_Gst',
+        'orders.Adjustment as roundoff',
+        'product_veriant.batch'
+
+
+    )
+    ->where('orders.id', '=', $req->data)
+    ->get();
+        
+
+        $selectedData = [
+            '_token' => $req->_token,
+            'coustomer_name' => $result[0]['name'],
+            'coustomer_phone' => $result[0]['Phone'],
+            'coustomer_email' => $result[0]['email'],
+            'customer_address' => $result[0]['Address'],
+            'doc_name_regdno' => $result[0]['Doc_Name_RegdNo'],
+            'total_discount' => $result[0]['discount'],
+            'total_taxable_amount' => $result[0]['total_order'],
+            'total_gst' => $result[0]['Total_Gst'],
+            'round_off' => $result[0]['roundoff'],
+            'grand_total' => $result[0]['total_order'],
+            'order_id' => $result[0]['orderID'],
+            "id" => [],
+            "title" =>  [],
+            "batch_no" => [],
+            "qty" =>  [],
+            "rate" => [],
+            "discount" => [],
+            "gst" => [],
+            "total" => []
+        ];
+       
+        for ($i = 0; $i <= count($result)-1; $i++) {
+            $selectedData['id'][] = $i;
+            $selectedData['title'][] = $result[$i]['Title'];
+            $selectedData['batch_no'][] = $result[$i]['batch'];
+            $selectedData['qty'][] = $result[$i]['Qty'];
+            $selectedData['rate'][] = $result[$i]['Rate'];
+            $selectedData['discount'][] = 'Null'; // Modify this line if you want to store individual discounts
+            $selectedData['gst'][] = $result[$i]['Gst'];
+            $selectedData['total'][] = $result[$i]['Total'];
+            }
+
+            $pdf = PDF::loadView('admin.order_invoice', $selectedData);
+        $pdf->setPaper('A4');
+        $pdfContents = $pdf->output();
+
+         return response($pdfContents, 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="receipt.pdf"');
+        
     }
 }

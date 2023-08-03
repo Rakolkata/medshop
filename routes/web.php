@@ -102,6 +102,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/order-list', [OrderController::class, 'view'])->name('admin.order_view');
     Route::get('/admin/order-details/{Order_id}', [OrderController::class, 'order_details'])->name('admin.order_details');
     Route::get('/admin/order/delete/{id}', [OrderController::class, 'delete'])->name('admin.order_delete');
+    Route::get('/admin/genpdf', [OrderController::class, 'genpdf'])->name('admin.genpdf');
 
     Route::get('/admin/reports', [ReportsController::class, 'index'])->name('admin.reports');
     Route::post('/admin/reports/export', [ReportsController::class, 'export'])->name('admin.reports_exports');
