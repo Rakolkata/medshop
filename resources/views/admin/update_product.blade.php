@@ -169,7 +169,7 @@
         <input name="expdate[]" value="{{$item->expdate}}" type="date" />
     </div>
     <div class="col-2">
-        <input name="mrp[]" value="{{$item->mrp_per_unit}}" type="number" step="0.1"/>
+        <input name="mrp[]" value="{{$item->mrp_per_unit}}" min="1" step="any" type="number" />
     </div>
     <div class="col-2">
         <input name="strip[]" value="{{$item->strip}}"  type="number"/>
@@ -203,13 +203,13 @@ function addrow(){
             +'<input name="expdate[]" value=" " type="date" />'
         +'</div>'
         +'<div class="col-2">'
-            +'<input name="mrp[]" value="  " type="number" step=".1"/>'
+            +'<input name="mrp[]" value=""  min="1" step="any" type="number" step=".1"/>'
         +'</div>'
         +'<div class="col-2">'
             +'<input name="strip[]" value=" "  type="number"/>'
         +'</div>'
         +'<div class="col-2">'
-            +'<input name="rate[]" value=" "  type="number"/>'
+            +'<input name="rate[]" value=" " min="1" step="any" type="number"/>'
         +'</div>'
         +'</div>';
     jQuery('.vupdate').append(html);

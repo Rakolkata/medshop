@@ -151,7 +151,7 @@
         <input name="expdate[]" type="date" required />
     </div>
     <div class="col-2">
-        <input name="mrp[]" type="number" step="0.1" required />
+        <input name="mrp[]" type="number" min="1" step="any" required />
     </div>
     <div class="col-2">
         <input name="strip[]" type="number" required />
@@ -193,7 +193,7 @@ function addrow(){
             +'<input name="strip[]" value=" "  type="number"/>'
         +'</div>'
         +'<div class="col-2">'
-            +'<input name="rate[]" value=" "  type="number"/>'
+            +'<input name="rate[]" value=" " min="1" step="any" type="number"/>'
         +'</div>'
         +'</div>';
     jQuery('.vupdate').append(html);
