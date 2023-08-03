@@ -175,7 +175,7 @@
         <input name="strip[]" value="{{$item->strip}}"  type="number"/>
     </div>
     <div class="col-2">
-        <input name="rate[]" value="{{$item->rate}}"  type="number"/>
+        <input name="rate[]" value="{{$item->rate}}" min="1" step="any"  type="number"/>
     </div>
     </div>
     @endforeach
