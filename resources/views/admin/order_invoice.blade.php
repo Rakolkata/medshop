@@ -21,39 +21,38 @@
   <p>Doctor Name/Regd. no. : {{$doc_name_regdno}}</p>
 </div>
 <div class="col-md-6 p-1" style="border-bottom: 1px dashed">
-  <ul style="list-style-type: none">
+  <ul style="list-style-type: none; padding-left: 0px">
     <li id="patient_name">Patient Name : {{$coustomer_name}}</li>
     <li>Address : {{$customer_address}}</li>
   </ul>
 </div>
 <div class="col-md-12">
-  <table class="table table-responsive-sm">
+  <table class="table table-responsive-sm" style="width:100% border-collapse:collapse">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">Description Of Goods</th>
-        <th scope="col" style="width:100px">Batch No.</th>
-        <th scope="col" style="width:100px">Expiry</th>
-        <th scope="col">Qty</th>
-        <th scope="col">Rate</th>
-        <th scope="col">Gst</th>
-        <th scope="col">Discount</th>
-        <th scope="col">Total</th>
+        <th scope="col" style="width:30px">#</th>
+        <th scope="col" style="width:92px;padding-left:15px">Description Of Goods</th>
+        <th scope="col" style="width:92px;padding-left:15px">Batch No.</th>
+        <th scope="col" style="width:92px;padding-left78px">Expiry</th>
+        <th scope="col" style="width:70px">Qty</th>
+        <th scope="col" style="width:70px">Rate</th>
+        <th scope="col" style="width:70px">Gst</th>
+        <th scope="col" style="width:70px">Discount</th>
+        <th scope="col" style="width:70px">Total</th>
       </tr>
     </thead>
     <tbody>
       @foreach ($id as $index=>$value)
       <tr>
-        <td>{{$index}}</td>
-        <td>{{$title[$index]}}</td>
-        <td>{{$batch_no[$index]}}</td>
-        <td>{{$exp[$index]}}</td>
-        <td>{{$qty[$index]}}</td>
-        <td>{{$rate[$index]}}</td>
-        <td>{{$gst[$index]}}</td>
-        <td>{{$discount[$index]}}</td>
-        <td>{{$total[$index]}}</td>
-
+        <td style="text-align: center">{{$index}}</td>
+        <td style="text-align: center;padding-left:15px">{{$title[$index]}}</td>
+        <td style="text-align: center">{{$batch_no[$index]}}</td>
+        <td style="text-align: center; padding-left:20px">{{$exp[$index]}}</td>
+        <td style="text-align: center">{{$qty[$index]}}</td>
+        <td style="text-align: center">{{$rate[$index]}}</td>
+        <td style="text-align: center">{{$gst[$index]}}</td>
+        <td style="text-align: center">{{$discount[$index]}}</td>
+        <td style="text-align: center">{{$total[$index]}}</td>
       </tr>
       @endforeach
     </tbody>
@@ -68,9 +67,9 @@
         </ul>
       </div>
     </div>
-      <div class="container my-auto">
+      <div class="container my-auto" style="position: absolute bottom: 0">
         <div class="text-center my-auto">
-          <span>Thanks for making an order</span>
+          <span style="position:fixed; bottom:0; left:0">Thanks for making an order</span>
         </div>
       </div> 
   </div>
