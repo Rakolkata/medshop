@@ -44,7 +44,7 @@
     <tbody>
       @foreach ($id as $index=>$value)
       <tr>
-        <td style="text-align: center">{{$index}}</td>
+        <td style="text-align: center">{{$index+1}}</td>
         <td style="text-align: center;padding-left:15px">{{$title[$index]}}</td>
         <td style="text-align: center">{{$batch_no[$index]}}</td>
         <td style="text-align: center; padding-left:20px">{{$exp[$index]}}</td>
