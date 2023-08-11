@@ -1,3 +1,4 @@
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 @extends('layouts.admin.app')
 @push('title')
 <title>Medshop | Add-Product</title>
@@ -102,12 +103,14 @@
                     @enderror
                 </span>
             </div>
-            <!-- <div class="col-md-6 mb-2">
-                <label class="form-label">Trip Size</label>
-                <input type="number" name="tripsize" class="form-control" placeholder="Enter Trip Size">
+              
+                <div class="col-md-6 mb-2">
+                <label class="form-label">Pack Size</label>
+                <input type="number" name="packsize" class="form-control" placeholder="Enter Pack Size">
                 <span class="text-danger text-capitalize">
                 </span> 
-            </div> -->
+            </div> 
+            
 
             <div class="col-md-12">
                 <label for="exampleFormControlTextarea1" class="form-label">Description</label>
