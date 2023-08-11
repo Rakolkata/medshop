@@ -1,4 +1,4 @@
-
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 @extends('layouts.admin.app')
 @push('title')
 <title>Medshop |Reports</title>
@@ -42,7 +42,7 @@
 <div class="card m-1 p-1" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;z-index:1">
     <h5 class="p-2"><span style="border-bottom:1px solid #60b5ba">Reports  Data:</span></h5>
     <div class="container">
-     <!-- schedule -->
+     
     @if($schedule != 'false')
          
         <h6>Order Report</h6><form action="{{route('admin.reports_exports_excel')}}" method="post">
@@ -72,11 +72,15 @@
         </tr>
         @endforeach
         </tbody>
+
       </table> 
+     
+        
       @else
         <h6></h6>
       @endif
-    <!-- exp -->
+      
+    
     @if($exp != 'false')
         <h6>Order Report</h6><form action="{{route('admin.reports_exports_excel')}}" method="post">
         @csrf
@@ -106,11 +110,12 @@
         @endforeach
         </tbody>
       </table> 
+      
       @else
         <h6></h6>
       @endif
 
-      <!-- dm -->
+      
     @if($dm != 'false')
         <h6> Order Report</h6><form action="{{route('admin.reports_exports_excel')}}" method="post">
         @csrf
@@ -140,7 +145,8 @@
 
         @endforeach
         </tbody>
-      </table> 
+      </table>
+      
       @else
         <h6></h6>
       @endif
@@ -149,5 +155,6 @@
 
 </div>
 @endsection
+
 
 

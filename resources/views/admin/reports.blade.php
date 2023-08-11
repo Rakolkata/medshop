@@ -1,3 +1,4 @@
+
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 @extends('layouts.admin.app')
 @push('title')
@@ -11,18 +12,18 @@
             @csrf
             <div class="row">
                 <div class="col-md-6">
-                    <label for="" class="form-label">Select Schedule</label>
+                <label for="" class="form-label">Select Schedule</label>
                     <select class="form-control form-select-lg" name="schedule" id="">
-                        <option  selected value="null"> -- select an option -- </option>
+                       <option  selected value="null"> -- select an option -- </option>
                         @foreach ($Schedule as $item)
                         <option value="{{$item->id}}">{{$item->Name}}</option>
                         @endforeach
-                    </select>
+                    </select>  
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 mt-2">
-                    <label class="form-label">Expairy Date</label>
+                    <label class="form-label">Expiry Date</label>
                     <input type="date" name="exp_date" class="form-control">
                 </div>
                 <div class="col-md-6 mt-2">
@@ -39,3 +40,4 @@
     </div>
 </div>
 @endsection
+

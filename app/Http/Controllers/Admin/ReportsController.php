@@ -13,8 +13,6 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 
-
-
 use Illuminate\Support\Facades\DB;
 
 
@@ -29,23 +27,25 @@ class ReportsController extends Controller
 {
     public function index()
     {
+        
         $Schedule = Schedule::all();
         return view('admin.reports')->with(compact('Schedule'));
         
         
     }
 
+
+    
     public function export(Request $request)
     {
     $Schedules = Schedule::all();  
     $requestData = $request->all();
     $token = $requestData['_token'];
+    
     $Schedule = $requestData['schedule'];
     $exp_date = $requestData['exp_date'];
     $dm = $requestData['day_month'];
-
     //check
-
     if($Schedule != 'null' && $exp_date == null && $dm == 'null'){
     // $sdata = Product::join('product_veriant', 'products.id', '=', 'product_veriant.pid')
     // ->where('products.Schedule', '=', $Schedule)
@@ -58,29 +58,110 @@ class ReportsController extends Controller
      ->join('products', 'order_details.product_id', '=', 'products.id')
      ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
      ->where('products.Schedule', '=', $Schedule)
+     ->select('products.Title','product_veriant.*', 'orders.orderID')->get();
+     
+     
+     return view('admin.reports_exports')->withschedule($sdata)->withexp('false')->withdm('false')->withSched($Schedules);
+   }
+
+
+   elseif($Schedule == 'null' && $exp_date != null && $dm == 'null'){
+    // $sdata = Product::join('product_veriant', 'products.id', '=', 'product_veriant.pid')
+    // ->where('products.Schedule', '=', $Schedule)
+    // ->select('products.*', 'product_veriant.stock', 'product_veriant.batch')
+    // 
+    //     return view('admin.reports_exports')->withschedule($sdata)->withexp('false')->withdm('false')->withSched($Schedules);
+    
+     $sdata =  DB::table('orders')
+     ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+     ->join('products', 'order_details.product_id', '=', 'products.id')
+     ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
+     ->where('orders.created_at', 'like', $exp_date.'%')
+     ->select('products.Title','product_veriant.*', 'orders.orderID')->get();
+     
+     
+     return view('admin.reports_exports')->withschedule('false')->withexp($sdata)->withdm('false')->withSched($Schedules);
+   }
+
+/*
+   elseif($Schedule == 'null' && $exp_date == null && $dm != 'null'){
+    // $sdata = Product::join('product_veriant', 'products.id', '=', 'product_veriant.pid')
+    // ->where('products.Schedule', '=', $Schedule)
+    // ->select('products.*', 'product_veriant.stock', 'product_veriant.batch')
+    // 
+    //     return view('admin.reports_exports')->withschedule($sdata)->withexp('false')->withdm('false')->withSched($Schedules);
+    
+     $sdata =  DB::table('orders')
+     ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+     ->join('products', 'order_details.product_id', '=', 'products.id')
+     ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
+     ->where('products.created_at', '=', $dm)
      ->select('products.Title','product_veriant.*', 'orders.orderID')
-     ->get();
+     
 
      return view('admin.reports_exports')->withschedule($sdata)->withexp('false')->withdm('false')->withSched($Schedules);
-   }elseif($Schedule != 'null' && $exp_date != null && $dm == 'null'){
+   }
+
+
+   */
+
+
+elseif($Schedule == 'null' && $exp_date == null && $dm != 'null'){
+  if($dm == '1'){
+            $date = date('Y-m-d');
+            
+            $orders = DB::table('orders')
+            ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->join('products', 'order_details.product_id', '=', 'products.id')
+            ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
+            ->whereDATE('orders.created_at','like',$date)
+            ->select('products.Title','product_veriant.*', 'orders.*')->get();
+            
+                        
+            return view('admin.reports_exports')->withschedule("false")->withexp('false')->withdm($orders)->withSched($Schedules);
+        }
+        else{
+            $date = date('Y-m-d');
+            $beforeOneMonth = \Carbon\Carbon::parse($date)->subMonth()->toDateString();
+            
+            $orders = DB::table('orders')
+            ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->join('products', 'order_details.product_id', '=', 'products.id')
+            ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
+            ->whereBetween('orders.created_at', [$beforeOneMonth, $date])
+            ->select('products.Title', 'product_veriant.*', 'orders.orderID', 'orders.created_at')->get();
+            
+            //   echo $orders;
+                        return view('admin.reports_exports')->withschedule("false")->withexp('false')->withdm($orders)->withSched($Schedules);
+        }
+        
+
+
+}
+
+
+
+   elseif($Schedule != 'null' && $exp_date != null && $dm == 'null'){
      
     // $edata = Product::join('product_veriant', 'products.id', '=', 'product_veriant.pid')
     //   ->where('Exp_date','=',$exp_date)
     //   ->select('products.*', 'product_veriant.stock', 'product_veriant.batch')
-    //   ->get();
+    //   
 
     $edata = DB::table('orders')
     ->join('order_details', 'orders.id', '=', 'order_details.order_id')
     ->join('products', 'order_details.product_id', '=', 'products.id')
     ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
     ->where('products.Schedule', '=', $Schedule)
-    ->where('product_veriant.expdate', '=', $exp_date)
-    ->select('products.Title','product_veriant.*', 'orders.orderID')
-    ->get();
-   
+    ->where('orders.created_at', 'like', $exp_date.'%')
+    ->select('products.Title','product_veriant.*', 'orders.orderID')->get();
+    
+       
     return view('admin.reports_exports')->withschedule('false')->withexp($edata)->withdm('false')->withSched($Schedules);
 
-   }elseif($Schedule != 'null' && $exp_date != null && $dm != 'null'){
+   }
+   
+   elseif($Schedule != 'null' && $exp_date != null && $dm != 'null'){
       if($dm == '1'){
                 $date = date('Y-m-d');
                 
@@ -89,11 +170,11 @@ class ReportsController extends Controller
                 ->join('products', 'order_details.product_id', '=', 'products.id')
                 ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
                 ->where('products.Schedule', '=', $Schedule)
-                ->where('product_veriant.expdate', '=', $exp_date)
-                ->whereDATE('orders.created_at','=',$date)
-                ->select('products.Title','product_veriant.*', 'orders.*')
-                ->get();
+                ->where('orders.created_at', 'like', $exp_date.'%')
+                ->whereDATE('orders.created_at','like',$date)
+                ->select('products.Title','product_veriant.*', 'orders.*')->get();
                 
+                                
                 return view('admin.reports_exports')->withschedule("false")->withexp('false')->withdm($orders)->withSched($Schedules);
             }
             else{
@@ -105,16 +186,101 @@ class ReportsController extends Controller
                 ->join('products', 'order_details.product_id', '=', 'products.id')
                 ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
                 ->where('products.Schedule', '=', $Schedule)
-                ->where('product_veriant.expdate', '=', $exp_date)
+                ->where('orders.created_at', 'like', $exp_date.'%')
                 ->whereDATE('orders.created_at', '<=' ,$beforeOneMonth, 'and', 'orders.created_at', '>=' ,$date)
-                ->select('products.Title', 'product_veriant.*', 'orders.orderID', 'orders.created_at')
-                ->get();
-                //   echo $orders;
+                ->select('products.Title', 'product_veriant.*', 'orders.orderID', 'orders.created_at')->get();
+                
+                                //   echo $orders;
                 return view('admin.reports_exports')->withschedule("false")->withexp('false')->withdm($orders)->withSched($Schedules);
             }
+            
  
 
    }
+  
+
+   /*older code
+   
+   elseif($Schedule != 'null' && $exp_date == null && $dm != 'null'){
+    // $sdata = Product::join('product_veriant', 'products.id', '=', 'product_veriant.pid')
+    // ->where('products.Schedule', '=', $Schedule)
+    // ->select('products.*', 'product_veriant.stock', 'product_veriant.batch')
+    // 
+    //     return view('admin.reports_exports')->withschedule($sdata)->withexp('false')->withdm('false')->withSched($Schedules);
+    
+     $sdata =  DB::table('orders')
+     ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+     ->join('products', 'order_details.product_id', '=', 'products.id')
+     ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
+     ->where('products.Schedule', '=', $Schedule)
+     ->where('products.created_at', '=', $dm)
+     ->select('products.Title','product_veriant.*', 'orders.orderID')
+     ->get();
+     
+     return view('admin.reports_exports')->withschedule($sdata)->withexp('false')->withdm('false')->withSched($Schedules);
+   }
+   */
+
+   //updated one
+   elseif($Schedule != 'null' && $exp_date == null && $dm != 'null'){
+   if($dm == '1'){
+    $date = date('Y-m-d');
+    
+    $orders = DB::table('orders')
+    ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+    ->join('products', 'order_details.product_id', '=', 'products.id')
+    ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
+    ->where('products.Schedule', '=', $Schedule)
+    ->whereDATE('orders.created_at','like',$date)
+    ->select('products.Title','product_veriant.*', 'orders.*')->get();
+                    
+    return view('admin.reports_exports')->withschedule("false")->withexp('false')->withdm($orders)->withSched($Schedules);
+}
+else{
+    $date = date('Y-m-d');
+    $beforeOneMonth = \Carbon\Carbon::parse($date)->subMonth()->toDateString();
+    
+    $orders = DB::table('orders')
+    ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+    ->join('products', 'order_details.product_id', '=', 'products.id')
+    ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
+    ->where('products.Schedule', '=', $Schedule)
+    ->whereBetween('orders.created_at', [$beforeOneMonth, $date])
+    ->select('products.Title', 'product_veriant.*', 'orders.orderID', 'orders.created_at')->get();
+                    //   echo $orders;
+    return view('admin.reports_exports')->withschedule("false")->withexp('false')->withdm($orders)->withSched($Schedules);
+}
+ }
+
+
+
+   elseif($Schedule == 'null' && $exp_date != null && $dm != 'null'){
+    // $sdata = Product::join('product_veriant', 'products.id', '=', 'product_veriant.pid')
+    // ->where('products.Schedule', '=', $Schedule)
+    // ->select('products.*', 'product_veriant.stock', 'product_veriant.batch')
+    // ->get();
+    //     return view('admin.reports_exports')->withschedule($sdata)->withexp('false')->withdm('false')->withSched($Schedules);
+    
+     $sdata =  DB::table('orders')
+     ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+     ->join('products', 'order_details.product_id', '=', 'products.id')
+     ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
+     ->where('orders.created_at', 'like', $exp_date.'%')
+     ->select('products.Title','product_veriant.*', 'orders.orderID')->get();
+     
+     return view('admin.reports_exports')->withschedule($sdata)->withexp('false')->withdm('false')->withSched($Schedules);
+   }
+   
+
+   elseif ($Schedule == 'null' && $exp_date == null && $dm == 'null') {
+    return redirect()->back()->with('error', 'enter any one of these.');
+   }
+  }
+
+
+
+
+  
     // elseif ($Schedule != 'null' && $exp_date != null && $dm == 'null') {
     //     $sdata = Product::join('product_veriant', 'products.id', '=', 'product_veriant.pid')
     // ->where('products.Schedule', '=', $Schedule)
@@ -217,7 +383,7 @@ class ReportsController extends Controller
     // }
     
 
-    }
+    
     public function report(Request $request)
 {
     $data= $request->all();
