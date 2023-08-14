@@ -91,20 +91,35 @@ class OrderController extends Controller
         }
     }
 
+
+
+
     public function store(Request $req)
     {
-        // dd($req->all());
+        $prod_qty = $req['qty'];
+        //
+       
+          if (!is_array($prod_qty)) {
+             return redirect()->back()->with('error', 'Invalid order data.');
+           }
+
+          if (array_sum($prod_qty) === 0) {
+             return redirect()->back()->with('error', 'Order quantity cannot be zero.');
+           }
+    
         $user_find = User::where('email', $req['coustomer_email'])->first();
         $user_id = '';
+    
         if ($user_find == null) {
             $register = new RegisterController;
-            // Access method in TasksController
-            $register->create(array('name' => $req['coustomer_name'], 'email' => $req['coustomer_email'], 'type' => Null, 'password' => '12345678'));
+            $register->create(array('name' => $req['coustomer_name'], 'email' => $req['coustomer_email'], 'type' => null, 'password' => '12345678'));
+    
             $reg_id =  User::where('email', $req['coustomer_email'])->first();
             $user_id = $reg_id->id;
         } else {
             $user_id = $user_find->id;
         }
+    
         $Order_User_Profile = new Order_User_Profile;
         $customer_phone = $req['coustomer_phone'];
         $Order_User_Profile->phone = $customer_phone;
@@ -113,7 +128,7 @@ class OrderController extends Controller
         $Order_User_Profile->User_id =  $user_id;
         $Order_User_Profile->save();
         $last_id = $Order_User_Profile->id;
-
+    
         $order = new Order;
         $order->Profile_id = $last_id;
         $order->Total_Order = $req['grand_total'];
@@ -127,6 +142,7 @@ class OrderController extends Controller
         $dt = substr(env('APP_NAME'), 0, 1) . date("dmY") . $order_last_id;
         $order->orderID = $dt;
         $order->save();
+    
 
         $prod_name =  $req['title'];
         $prod_id =  $req['id'];
@@ -136,6 +152,9 @@ class OrderController extends Controller
         $prod_price = $req['total'];
         $prod_batch = $req['batch_no'];
 
+        
+
+    
         $insert_data2 = [];
         for ($k = 0; $k < count($prod_id); $k++) {
             $data1 = array(
@@ -149,22 +168,32 @@ class OrderController extends Controller
             );
             $insert_data2[] = $data1;
         }
-        Order_details::insert($insert_data2);
+        $order_deatil = Order_details::where('Product_id', '=', $prod_id)->first();
+        $product = ProductVeriant::where('pid', '=', $order_deatil->Product_id)->where('batch', '=', $order_deatil->batch_no)->first();
+        if($product)
+        {
+            $stock = $product->stock;
+            $product->stock = $stock - array_sum($prod_qty);
+            $product->save();
+        }
 
+        
+
+        Order_details::insert($insert_data2);
+    
         $pdf = PDF::loadView('admin.order_invoice', $req->all());
         $pdf->setPaper('A4');
         $pdfContents = $pdf->output();
-        $response = response($pdfContents, 200)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'inline; filename="' . $dt . '.pdf"');
-            echo '<script>
-    var newTab = window.open("", "_blank");
-    newTab.document.write(\'<iframe width="100%" height="100%" src="data:application/pdf;base64,' . base64_encode($pdfContents) . '"></iframe>\');
-    setTimeout(function(){ window.location.href = "/admin/order-list"; }, 100);
-    </script>';
+    
+        echo '<script>
+            var newTab = window.open("", "_blank");
+            newTab.document.write(\'<iframe width="100%" height="100%" src="data:application/pdf;base64,' . base64_encode($pdfContents) . '"></iframe>\');
+            setTimeout(function(){ window.location.href = "/admin/order-list"; }, 100);
+        </script>';
 
-        
     }
+    
+
 
     public function view()
     {
@@ -382,26 +411,29 @@ class OrderController extends Controller
             "total" => [],
             "exp"=>[]
         ];
-       
-        for ($i = 0; $i <= count($result)-1; $i++) {
-            $selectedData['id'][] = $i;
-            $selectedData['title'][] = $result[$i]['Title'];
-            $selectedData['batch_no'][] = $result[$i]['batch'];
-            $selectedData['qty'][] = $result[$i]['Qty'];
-            $selectedData['rate'][] = $result[$i]['Rate'];
-            $selectedData['discount'][] = 'Null'; // Modify this line if you want to store individual discounts
-            $selectedData['gst'][] = $result[$i]['Gst'];
-            $selectedData['total'][] = $result[$i]['Total'];
-            $selectedData['exp'][] = $result[$i]['Exp'];
-            }
 
-            $pdf = PDF::loadView('admin.order_invoice', $selectedData);
-        $pdf->setPaper('A4');
-        $pdfContents = $pdf->output();
-
-         return response($pdfContents, 200)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'attachment; filename="receipt.pdf"');
         
+        
+            for ($i = 0; $i <= count($result)-1; $i++) {
+                $selectedData['id'][] = $i;
+                $selectedData['title'][] = $result[$i]['Title'];
+                $selectedData['batch_no'][] = $result[$i]['batch'];
+                $selectedData['qty'][] = $result[$i]['Qty'];
+                $selectedData['rate'][] = $result[$i]['Rate'];
+                $selectedData['discount'][] = 'Null'; // Modify this line if you want to store individual discounts
+                $selectedData['gst'][] = $result[$i]['Gst'];
+                $selectedData['total'][] = $result[$i]['Total'];
+                $selectedData['exp'][] = $result[$i]['Exp'];
+                }
+
+
+    
+                $pdf = PDF::loadView('admin.order_invoice', $selectedData);
+            $pdf->setPaper('A4');
+            $pdfContents = $pdf->output();
+    
+             return response($pdfContents, 200)
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', 'attachment; filename="receipt.pdf"');
     }
 }
