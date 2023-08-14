@@ -1,4 +1,5 @@
 <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 @extends('layouts.admin.app')
 @push('title')
 <title>Medshop | Update-Product</title>
@@ -119,12 +120,12 @@
             @enderror
             </span>
         </div>
-
-        <!-- <div class="col-md-6 mb-2">
+        <!--
+        <div class="col-md-6 mb-2">
             <label class="form-label">Pack Size</label>
-            <input type="text" class="form-control" name="tripsize"  value="{{$product->TripSize}}"  placeholder="Enter Product Trip-Size">
-        </div> -->
-
+            <input type="text" class="form-control" name="packsize"  value="{{$product->TripSize}}"  placeholder="Enter Product Pack-Size">
+        </div> 
+        -->
         <div class="col-md-12">
           <label for="exampleFormControlTextarea1" class="form-label">Description</label>
           <textarea class="form-control" name="description"  rows="3">{{$product->Description}}</textarea>
@@ -149,7 +150,7 @@
         MRP per unit
     </div>
     <div class="col-2">
-        strip
+        PackSize
     </div>
     <div class="col-2">
         rate

@@ -79,7 +79,7 @@
         <th scope="col">Brand</th>
         <th scope="col">Function</th>
         <th scope="col">Schedule</th>
-        <th scope="col">TripSize</th>
+        <th scope="col">PackSize</th>
         <th scope="col" colspan="3">Actions</th>
       </tr>
     </thead>

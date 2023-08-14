@@ -33,7 +33,7 @@
         MRP per unit
     </div>
     <div class="col-2">
-        strip
+        PacKSize
     </div>
     </div>
     <input name="pid" value="{{$product->id}}" type="hidden" />

@@ -103,15 +103,14 @@
                     @enderror
                 </span>
             </div>
-              
+              <!--
                 <div class="col-md-6 mb-2">
                 <label class="form-label">Pack Size</label>
                 <input type="number" name="packsize" class="form-control" placeholder="Enter Pack Size">
                 <span class="text-danger text-capitalize">
                 </span> 
             </div> 
-            
-
+             -->
             <div class="col-md-12">
                 <label for="exampleFormControlTextarea1" class="form-label">Description</label>
                 <textarea class="form-control" name="description" rows="3"></textarea>
@@ -135,7 +134,7 @@
         MRP per unit
     </div>
     <div class="col-2">
-        strip
+        PackSize
     </div>
     <div class="col-2">
         rate

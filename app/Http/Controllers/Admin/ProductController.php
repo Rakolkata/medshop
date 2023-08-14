@@ -62,7 +62,7 @@ class ProductController extends Controller
 //             // $product->SKU = $req['sku'];
 //             // $product->Stock = $req['stock'];
 //             // $product->Exp_date = $req['exp_date'];
-//             // $product->TripSize = $req['tripsize'];
+//            // $product->TripSize = $req['packsize'];
 //             // if ($product->TripSize == null) {
 //             //     $product->Price_unit = 0;
 //             // } else {
@@ -164,7 +164,7 @@ class ProductController extends Controller
             // $product->SKU = $req['sku'];
             // $product->Stock = $req['stock'];
             // $product->Exp_date = $req['exp_date'];
-            // $product->TripSize = $req['tripsize'];
+             //$product->TripSize = $req['packsize'];
             // if ($product->TripSize == null) {
             //     $product->Price_unit = 0;
             // } else {
@@ -185,6 +185,7 @@ class ProductController extends Controller
                         $productvariant->expdate = $req['expdate'][$i];
                         $productvariant->mrp_per_unit = $req['mrp'][$i];
                         $productvariant->strip = $req['strip'][$i];
+                        $product->TripSize= $req['strip'][$i];
                         $productvariant->rate = $req['rate'][$i];
                         $productvariant->save();
                     }else{
@@ -200,6 +201,7 @@ class ProductController extends Controller
                         $productvariant->expdate = $req['expdate'][$i];
                         $productvariant->mrp_per_unit = $req['mrp'][$i];
                         $productvariant->strip = $req['strip'][$i];
+                        $product->TripSize= $req['strip'][$i];
                         $productvariant->rate = $req['rate'][$i];
                         $productvariant->pid = $newProductId;
                         $productvariant->save();
@@ -208,6 +210,7 @@ class ProductController extends Controller
 
         
         }
+        $product->save();
 
 
 
@@ -433,10 +436,10 @@ class ProductController extends Controller
         $product->Description = $req['description'];
         // $product->SKU = $req['bath_no'];
         // $product->MRP = $req['mrp'];
-        // $product->Price_unit = $req['mrp'] / $req['tripsize'];
+        // $product->Price_unit = $req['mrp'] / $req['packsize'];
         // $product->Stock = $req['stock']; 
         // $product->Exp_date = $req['exp_date'];
-        // $product->TripSize = $req['tripsize'];
+         $product->TripSize = $req['packsize'];
         //$product->Price_unit = $product->MRP/$product->TripSize;
         $product->save();
         // //return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
@@ -454,6 +457,7 @@ class ProductController extends Controller
                     $productvariant->expdate = $req['expdate'][$i];
                     $productvariant->mrp_per_unit = $req['mrp'][$i];
                     $productvariant->strip = $req['strip'][$i];
+                    $product->TripSize = $req['strip'][$i];
                     $productvariant->rate = $req['rate'][$i];
                     $productvariant->save();
                 }else{
@@ -469,12 +473,14 @@ class ProductController extends Controller
                     $productvariant->expdate = $req['expdate'][$i];
                     $productvariant->mrp_per_unit = $req['mrp'][$i];
                     $productvariant->strip = $req['strip'][$i];
+                    $product->TripSize = $req['strip'][$i];
                     $productvariant->rate = $req['rate'][$i];
                     $productvariant->pid = $req['pid'];
                     $productvariant->save();
                 }
             }
     }
+    $product->save();
     return redirect()->route('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
 }
     
