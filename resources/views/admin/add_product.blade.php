@@ -134,7 +134,7 @@
         MRP per unit
     </div>
     <div class="col-2">
-        PackSize
+        Pack Size
     </div>
     <div class="col-2">
         rate
