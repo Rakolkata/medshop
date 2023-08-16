@@ -168,6 +168,7 @@ class OrderController extends Controller
             );
             $insert_data2[] = $data1;
         }
+        /*
         $order_deatil = Order_details::where('Product_id', '=', $prod_id)->first();
         $product = ProductVeriant::where('pid', '=', $order_deatil->Product_id)->where('batch', '=', $order_deatil->batch_no)->first();
         if($product)
@@ -177,7 +178,7 @@ class OrderController extends Controller
             $product->save();
         }
 
-        
+        */
 
         Order_details::insert($insert_data2);
     
@@ -236,9 +237,27 @@ class OrderController extends Controller
     {
         echo $id;
         $order = Order::find($id);
-        if ($order != null) {
+
+        $order_deatil = Order_details::where('Order_id', '=', $id)->first();
+        $product = ProductVeriant::where('pid', '=', $order_deatil->Product_id)->where('batch', '=', $order_deatil->batch_no)->first();
+        if($product && $order_deatil->status == 'dispatched' )
+        {
+            $stock = $product->stock;
+            $product->stock = $stock + $order_deatil->qty ;
+            $product->save();
+        }
+        else if($product && $order_deatil->status == 'draft'){
+            $stock = $product->stock;
+            $product->stock = $stock;
+            $product->save();
+        }
+
+        if ($order != null) {  
+
             $order->delete();
         }
+        
+        
         return redirect()->route('admin.order_view')->with('order_deleetd', 'Order Deleted!');
     }
     public function serch_order(Request $req)
@@ -279,43 +298,39 @@ class OrderController extends Controller
         //we have to return data of the
     }
 
-    public function status_update(Request $request, $id)
-    {
-        // dd($id);
-        $order_deatil = Order_details::where('Product_id', '=', $id)->first();
-        // dd($order_deatil->toArray());
-        if ($order_deatil->status == 'draft') {
-            $order_deatil->status = 'dispatched';
-        } else {
-            $order_deatil->status = 'draft';
-        }
-        $order_deatil->save();
-        $product = ProductVeriant::where('pid', '=', $order_deatil->Product_id)->where('batch', '=', $order_deatil->batch_no)->first();
-        // dd($product->toArray());
-        if ($order_deatil->status == 'draft') {
-            // if ($product) {
-            $stock = $product->stock;
-            // dd($stock);
-            $product->stock = $stock + $order_deatil->qty;
-            $product->save();
-            // }
-        } else {
-            // $product = ProductVeriant::where('pid', '=', $order_deatil->Product_id)->where('batch', '=', $order_deatil->batch_no)->first();
-            // if ($product) {
-            $stock = $product->stock;
-            // dd($stock);
-            $product->stock = $stock - $order_deatil->qty;
-            $product->save();
-            // }
-        }
 
-        return redirect()->back();
+
+
+
+public function status_update(Request $request, $id)
+{
+    $orderDetails = Order_details::where('Product_id', '=', $id)->first();
+    $productVariant = ProductVeriant::where('pid', '=', $orderDetails->Product_id)
+        ->where('batch', '=', $orderDetails->batch_no)
+        ->first();
+      
+    if ($orderDetails->status === 'draft') {
+        $orderDetails->status = 'dispatched';
+        $productVariant->stock  = $productVariant->stock - $orderDetails->qty; 
+        $productVariant->save();
+    } else {
+        $orderDetails->status = 'draft';
+        $productVariant->stock = $productVariant->stock + $orderDetails->qty; 
+        $productVariant->save();
     }
+    
+    $orderDetails->save();
+    
+ 
+    return redirect()->back();
+}
+
+
 
     public function cancle_order(Request $request, $id)
     {
         // dd($id);
-        $order_details = Order_details::where('Product_id', $id)->first();
+        $order_details = Order_details::where('Order_id', '=', $id)->first();
 
         $order_details->status = 'cancled';
         $order_details->save();
@@ -341,7 +356,7 @@ class OrderController extends Controller
 
         $pro_id = $products->pluck('Product_id')->toArray();
         $pro_btach = $products->pluck('batch_no')->toArray();
-        // dd(gettype($pro_btach));
+        // dd(gettype($pro_btach));/
         // dd($pro_id);
         $pro_variants = ProductVeriant::whereIn('pid', $pro_id)->whereIn('batch', $pro_btach)->get();
         // dd($pro_ver);
@@ -353,6 +368,8 @@ class OrderController extends Controller
 
         return redirect()->back(); 
     }
+
+    
     public function genpdf(Request $req){
         $result = Order::join('order__user__profiles', 'order__user__profiles.id', '=', 'orders.Profile_id')
     ->leftJoin('users', 'users.id', '=', 'order__user__profiles.User_id')
