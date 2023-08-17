@@ -92,6 +92,7 @@ class ProductController extends Controller
             $product = Product::select('*')
             ->with('category', 'brand', 'function', 'schedule', 'ProductVeriant')
             ->where('products.Title', 'like', "{$search}%")
+            ->orderBy('products.Title', 'asc')
             ->paginate(25);
 
            
@@ -99,7 +100,7 @@ class ProductController extends Controller
 
         } else {
 
-            $product = Product::select('*')->with('category', 'brand', 'function', 'schedule','ProductVeriant')->paginate(25);
+            $product = Product::select('*')->with('category', 'brand', 'function', 'schedule','ProductVeriant')->orderBy('products.Title', 'asc')->paginate(25);
             
         }
         // print_r($product);
