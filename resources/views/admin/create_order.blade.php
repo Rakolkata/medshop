@@ -122,7 +122,7 @@
         console.log(event, "event");
         console.log(ui, "ui");
         let productV = ui.item.values.product_veriant;
-        // console.log(productV, "fr3fr");
+         console.log(productV, "fr3fr");
         let category = ui.item.values.category;
         var category1 = 0;
         if (category.length > 0) {
@@ -496,7 +496,7 @@ grandTotal = Math.round(grandTotal * 100) / 100;
     width: 100%;
   }
 
-  .ciRow3 .ciCol {
+  /*.ciRow3 .ciCol {
     width: 31%;
     float: left;
     margin-right: 2%;
@@ -506,12 +506,13 @@ grandTotal = Math.round(grandTotal * 100) / 100;
     width: 48%;
     float: left;
     margin-right: 2%;
-  }
+  }*/
 
   .ciRow3 .ciCol label {
     clear: both;
     display: block;
     margin-bottom: 5px;
+    font-weight:bold;
   }
 
   .ciRow3 .ciCol input {
@@ -524,6 +525,7 @@ grandTotal = Math.round(grandTotal * 100) / 100;
     clear: both;
     display: block;
     margin-bottom: 5px;
+    font-weight:bold;
   }
 
   .ciRow2 .ciCol textarea {

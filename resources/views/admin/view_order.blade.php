@@ -31,7 +31,7 @@
         <th scope="col">Order Id</th>
         <th scope="col">Name</th>
         <th scope="col">Total Order</th>
-        <th scope="col">Product</th>
+        <th scope="col">Address</th>
         <th scope="col">Action</th>
         <th scope="col">Cancle Order?</th>
       </tr>
@@ -45,9 +45,7 @@
         <td>{{$order[$index]->Total_Order}}</td>
 
         <td>
-          @foreach ($Order_Details[$index] as $item)
-          {{$item->Title}},
-          @endforeach 
+           {{$order[$index]->Address}}
         </td>
         <td>
           <a href="{{route('admin.order_delete',['id'=>$order[$index]->id])}}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="height: 20px"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
@@ -75,83 +73,7 @@
     {!! $order->links('pagination::bootstrap-5')!!}
   </div>
 </div>
-
-<!-- <div hidden>
-  @foreach ($order as $index=>$value)
-  <div class="row text-capitalize" id="recipet{{$loop->iteration}}">
-
-    <div class="col-md-6 p-2" style="border-bottom: 1px solid black">
-      <h5 class="text-capitalize ">{{env('APP_NAME')}}</h5>
-    </div>
-    <div class="col-md-6 p-2" style="border-bottom: 1px solid black;text-align:right">
-      <h5 class="text-capitalize ">Tax Invoice <br>{{$order[$index]->orderID}}</h5>
-      <address>
-        {{$order[$index]->Address}}<br>
-        <a href="tel:{{$order[$index]->Phone}}">{{$order[$index]->Phone}}</a>
-      </address>
-    </div>
-
-    <div class="col-md-6 p-1" style="border-bottom: 1px dashed">
-      <p>Doctor Name/Regd. no. : {{$order[$index]->Doc_Name_RegdNo}}</p>
-    </div>
-    <div class="col-md-6 p-1" style="border-bottom: 1px dashed">
-      <ul style="list-style-type: none">
-        <li id="patient_name">Patient Name : {{$order[$index]->name}}</li>
-        <li>Address : {{$order[$index]->Address}}</li>
-      </ul>
-    </div>
-    <div class="col-md-12">
-      <table class="table table-responsive-sm">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Description Of Goods</th>
-            <th scope="col">Mrp </th>
-            <th scope="col" style="width:100px">Batch No.</th>
-            <th scope="col" style="width:100px">Expiry</th>
-            <th scope="col">Qty</th>
-            <th scope="col">Rate</th>
-            <th scope="col">Gst</th>
-            <th scope="col">Order Total</th>
-            <th scope="col">Discount</th>
-            <th scope="col">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach ($Order_Details[$index] as $item)
-          <tr>
-            <td>{{$loop->iteration}}</td>
-            <td>{{$item->Title}}</td>
-            <td>{{$item->mrp}}</td>
-            <td>{{$item->Sku}}</td>
-            <td>{{$item->Exp}}</td>
-            <td>{{$item->Qty}}</td>
-            <td>{{$item->Rate}}</td>
-            <td>{{$item->Gst}}</td>
-            <td>{{$item->total_order}}</td>
-            <td>{{$item->discount}}</td>
-            <td>{{$item->Total}}</td>
-
-          </tr>
-          @endforeach
-        </tbody>
-      </table>
-      <div style="text-align: right">
-        <ul style="list-style-type: none">
-          <li>Grand Total : {{sprintf("%.2f",$order[$index]->Total_Order)}}</li>
-        </ul>
-      </div>
-    </div>
-    <footer class="sticky-footer bg-white text-center" style="margin-top:80%;">
-      <div class="container my-auto">
-        <div class="text-center my-auto">
-          <span>Thanks for making an order</span>
-        </div>
-      </div>
-    </footer>
-  </div>
-  @endforeach
-</div> -->
+ 
 
 
 <script>

@@ -200,7 +200,7 @@ class OrderController extends Controller
     {
         $order = Order::join('order__user__profiles', 'order__user__profiles.id', '=', 'orders.Profile_id')
             ->join('users', 'users.id', '=', 'order__user__profiles.User_id')
-            ->join('order_details', 'order_details.Order_id', '=', 'orders.id')
+             
             ->select(['orders.Total_Order', 'users.name', 'orders.id', 'orders.status', 'orders.orderID', 'order__user__profiles.Doc_Name_RegdNo', 'order__user__profiles.Address', 'order__user__profiles.Phone'])
             ->where('orders.status', '!=', 'cancled')
             // ->whereIn('order_details.status', ['draft', 'dispatched'])
@@ -219,9 +219,9 @@ class OrderController extends Controller
                 ->leftJoin('orders', 'orders.id', '=', 'order_details.Order_id')
                 ->select('products.Title as Title', 'products.MRP as mrp', 'products.SKU as Sku', 'products.Exp_date as Exp', 'order_details.qty as Qty', 'order_details.rate as Rate', 'order_details.gst as Gst', 'order_details.Product_price as Total', 'orders.Total_Order as total_order', 'orders.Discount as discount')->get();
         }
+//dump($Order_Details);
 
-
-        return view('admin.view_order')->with(compact('order', 'Order_Details'));
+        return view('admin.view_order')->with(compact('order'));
     }
 
     public function order_details($Order_id)
