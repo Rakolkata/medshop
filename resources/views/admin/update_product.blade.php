@@ -158,7 +158,7 @@
     </div>
     <input name="pid" value="{{$product->id}}" type="hidden" />
     @foreach ($product->ProductVeriant as $item)
-    <div class="row">
+    <div class="row" style="margin-bottom: 10px">
         <input name="vid[]" value="{{$item->id}}" type="hidden" />
     <div class="col-2">
         <input name="batch[]" value="{{$item->batch}}" type="text" />
@@ -167,22 +167,22 @@
         <input name="stock[]" value="{{$item->stock}}" type="number"/> 
     </div>
     <div class="col-2">
-        <input name="expdate[]" value="{{$item->expdate}}" type="date" />
+        <input name="expdate[]" value="{{$item->expdate}}" type="date" min="{{ now()->format('Y-m-d') }}"/>
     </div>
     <div class="col-2">
-        <input name="mrp[]" value="{{$item->mrp_per_unit}}" min="1" step="any" type="number" />
+        <input name="mrp[]" value="{{$item->mrp_per_unit}}" class="mrp_per_unit" min="1" step="any" type="number" />
     </div>
     <div class="col-2">
-        <input name="strip[]" value="{{$item->strip}}"  type="number"/>
+        <input name="strip[]" value="{{$item->strip}}" class="pack_size"  type="number"/>
     </div>
     <div class="col-2">
-        <input name="rate[]" value="{{$item->rate}}" min="1" step="any"  type="number"/>
+        <input name="rate[]" value="{{$item->rate}}" min="1" class="medicine_rate" step="any"  type="number"/>
     </div>
     </div>
     @endforeach
 </div>
     <button class="btn mt-2 text-white" style="background-color: #60b5ba">Submit</button>
-    <button onclick="return addrow()" >Add new</button>
+    <button onclick="return addrow()" class="btn mt-2 text-white" style="background-color: #60b5ba">Add new</button>
 </form>
 </div>
 @endsection
@@ -193,7 +193,7 @@
 
 <script>
 function addrow(){
-    let html= '<div class="row">'
+    let html= '<div class="row" style="margin-bottom: 10px">'
         +'<div class="col-2">'
             +'<input name="batch[]" value=" " type="text" requi/>'
         +'</div>'
@@ -201,16 +201,16 @@ function addrow(){
             +'<input name="stock[]" value=" " type="number"/>'
         +'</div>'
         +'<div class="col-2">'
-            +'<input name="expdate[]" value=" " type="date" />'
+            +'<input name="expdate[]" value=" " type="date" min="{{ now()->format('Y-m-d') }}"/>'
         +'</div>'
         +'<div class="col-2">'
-            +'<input name="mrp[]" value=""  min="1" step="any" type="number" step=".1"/>'
+            +'<input name="mrp[]" value=""  min="1" step="any" class="mrp_per_unit" type="number" step=".1"/>'
         +'</div>'
         +'<div class="col-2">'
-            +'<input name="strip[]" value=" "  type="number"/>'
+            +'<input name="strip[]" value=" "  type="number" class="pack_size"/>'
         +'</div>'
         +'<div class="col-2">'
-            +'<input name="rate[]" value=" " min="1" step="any" type="number"/>'
+            +'<input name="rate[]" value=" " min="1" step="any" class="medicine_rate" type="number"/>'
         +'</div>'
         +'</div>';
     jQuery('.vupdate').append(html);
@@ -252,6 +252,21 @@ function addrow(){
         $("#function_id").val(ui.item.id);
       }
      });
+
+     $(document).on("input",'.mrp_per_unit',function(e){
+        var rate =calculateRate($(this).val(), $(this).parent().next().children().val())
+        $(this).val(), $(this).parent().next().next().children().val(rate)
+        }); 
+
+    $(document).on("input",'.pack_size',function(e){
+    var rate =calculateRate($(this).parent().prev().children().val(), $(this).val())
+    $(this).val(), $(this).parent().next().children().val(rate)
+    }); 
+
+    function calculateRate(mrp, packSize) {
+        var num = mrp/packSize;
+        return num.toFixed(2);
+    }
 });
  
 </script>

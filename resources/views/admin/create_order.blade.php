@@ -67,7 +67,7 @@
           <ul style="text-align: right;list-style-type:none">
             <li class="mt-2" style="display:none">SubTotal</span></li>
             <li class="mt-2">Discount</li>
-            <li class="mt-2">Taxable Amount</li>
+            <li class="mt-2">Sub Total</li>
             <li class="mt-2">Tax (GST)</li>
             <li class="mt-2">Rand Off</li>
             <li class="mt-2">Grand Total</li>
@@ -130,20 +130,20 @@
             var category1 = category[0].Gstrate;
             console.log(typeof category1);
           } else if (category[0].Gstrate == null) {
-            var category1 = 0;
+            var category1 = 12;
             console.log(typeof category1);
           } else if (category[0].Gstrate == 'NULL') {
-            var category1 = 0;
+            var category1 = 12;
             console.log(typeof category1);
           } else if (category[0].Gstrate == '') {
-            var category1 = 0;
+            var category1 = 12;
             console.log(typeof category1);
           } else {
-            var category1 = 0;
+            var category1 = 12;
             console.log(typeof category1);
           }
         } else {
-          var category1 = 0;
+          var category1 = 12;
         }
 
         var rate_default = 0;
@@ -200,115 +200,83 @@
           newRow.append("<td></td><td style='display:none'><input  step='any' name='exp[]' class='id' value='" + default_expdate + "' /></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[0].pid + "' /></td><td>" + ui.item.value + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>"+ productV[0].mrp_per_unit+"</td><td><input type='text' name='batch_no[]' class='id' value='" +
             default_batch + "' readonly/></td><td>" +default_expdate + "</td>" +
             "<td><input type='number' step='any' id='" + productV[0].pid + "' name='qty[]' value=1 min=1 /></td><td>" +
-            rate_default + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td>" + category1 + "</td><td><input type='number' step='any' name='gst[]' class='gst' value='" + parseInt(rate_default) * parseInt(category1) / 100 + "' readonly ></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default + "' ></td><td><i class='bi bi-trash3-fill' id='delete" + rowId + "' style='cursor: pointer; color: red;'></i></td></tr>");
+            rate_default + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' data-id='" + rate_default + "' data-gst='" + category1 +"' min=0 max=10 value=0 /></td><td>" + category1 + "</td><td><input type='number' step='any' readonly name='gst[]' class='gst' value='" + (parseInt(rate_default) * parseInt(category1) / 100).toFixed(2) + "' readonly ></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default + "' readonly></td><td><i class='bi bi-trash3-fill' id='delete" + rowId + "' style='cursor: pointer; color: red;'></i></td></tr>");
           $("#table").append(newRow);
           // $("#no_data_row").remove();
           totals[rowId] = rate_default;
-          gstValues[rowId] = parseInt(rate_default) * parseInt(category1) / 100;
+          // gstValues[rowId] = parseInt(rate_default) * parseInt(category1) / 100;
+          gstValues = parseInt(rate_default) * parseInt(category1) / 100;
+      
           discounts[rowId] = 0;
           let grandTotal = array_sum(totals)
           grandTotal = parseFloat(grandTotal).toFixed(2);
           // console.log(totals)
-grandTotal = Math.round(grandTotal * 100) / 100;
+          grandTotal = Math.round(grandTotal * 100) / 100;
           // var grand_total = array_sum(totals);
           // if (grand_total) {
           //   grand_total_value = grand_total;
           // } else {
           //   grand_total_value = 00;
           // }
-          $("#total_taxable_amount").val(grandTotal);
-          $("#total_gst").val(array_sum(gstValues));
-          $("#total_discount").val(array_sum(discounts));
-          $("#round_off").val(grandTotal - (grandTotal));
-          $("#grand_total").val(grandTotal);
-        } else {
+          amountCalculation()
+            } else {
           // newRow.append("<td id='no_data_row' colspan=12 class='text_center'>This Product is not in stock.</td>");
           // $("#table").append(newRow);
           window.alert("This Product is not in Stock.");
         }
 
-        $(document).on('change', '#' + rowId + ' .discount', function() { // listen to changes on the discount input of the corresponding row
+        $(document).on('change', '.discount', function() { 
           let discount = $(this).val();
           if (discount > 10) { // limit discount to 10%
             discount = 10;
             $(this).val(discount); // update the value of the discount input to reflect the limit
           }
-          $(this).val(discount); // update the value of the discount input to reflect the limit
-          let price = rate_default;
-          let qty = $(this).closest('tr').find("input[name='qty[]']").val();
-          let subtotal = price * qty * (1 - discount / 100);
-          subtotal = parseFloat(subtotal).toFixed(2)
-          subtotal = Math.round(subtotal  * 100) / 100
-          $(this).closest('tr').find(".total").text(subtotal); // update the total for the corresponding row
-          $(this).closest('tr').find(".total").val(subtotal);
-          let gstRate = category1;
-          let gstAmount = subtotal * gstRate / 100;
-          gstAmount =  parseFloat(gstAmount).toFixed(2)
-          gstAmount = Math.round(gstAmount  * 100) / 100
-          $(this).closest('tr').find(".gst").text(gstAmount);
-          // $(this).closest('tr').find(".gst").val(gstAmount);
-          // let index = totals.indexOf(rowId);
-          totals[rowId] = subtotal;
-          gstValues[rowId] = gstAmount;
-          discounts[rowId] = (price * qty) - subtotal;
-          let grandTotal = array_sum(totals)
-          grandTotal = parseFloat(grandTotal).toFixed(2);
-          grandTotal = Math.round(grandTotal * 100) / 100;
-
-          let Discounts= array_sum(discounts)
-          Discounts = parseFloat(Discounts).toFixed(2);
-          Discounts = Math.round(Discounts * 100) / 100;
-          $("#total_taxable_amount").val(grandTotal);
-          $("#total_gst").val(array_sum(gstValues));
-          $("#total_discount").val(Discounts);
-          $("#round_off").val(grandTotal - (grandTotal));
-          $("#grand_total").val(grandTotal);
-
-        });
-
-        $(document).on('click', '#delete' + rowId, function() {
-          $('#table #' + rowId).remove();
+          amountCalculation()
         });
 
         $(document).on('change', '#' + rowId + ' input[name="qty[]"]', function() { // listen to changes on the quantity input of the corresponding row
-          let qty = $(this).val();
-          let price = rate_default;
-          let discount = $(this).closest('tr').find(".discount").val();
-          if (discount > 10) { // limit discount to 10%
-            discount = 10;
-            $(this).closest('tr').find(".discount").val(discount); // update the value of the discount input to reflect the limit
-          }
-          $(this).closest('tr').find(".discount").val(discount); // update the value of the discount input to reflect the limit
-          let subtotal = price * qty * (1 - discount / 100);
-          subtotal = parseFloat(subtotal).toFixed(2)
-          subtotal = Math.round(subtotal  * 100) / 100
-          $(this).closest('tr').find(".total").text(subtotal); // update the total for the corresponding row
-          $(this).closest('tr').find(".total").val(subtotal);
-          let gstRate = category1;
-          let gstAmount = subtotal * gstRate / 100;
-          $(this).closest('tr').find(".gst").text(gstAmount);
-          $(this).closest('tr').find(".gst").val(gstAmount);
-          // let index = totals.indexOf(rowId);
-          
-          totals[rowId] = subtotal;
-          gstValues[rowId] = gstAmount;
-          discounts[rowId] = (price * qty) - subtotal;
-          let grandTotal = array_sum(totals)
-          grandTotal = parseFloat(grandTotal).toFixed(2);
-          console.log(totals)
-
-grandTotal = Math.round(grandTotal * 100) / 100;
-          $("#total_taxable_amount").val(grandTotal);
-          $("#total_gst").val(array_sum(gstValues));
-          $("#total_discount").val(array_sum(discounts));
-          $("#round_off").val(grandTotal - (grandTotal));
-          $("#grand_total").val(grandTotal);
-
+          amountCalculation()
         });
+        
+        function amountCalculation() {
+          var grandTotalArray = [];
+          var gstAmountArray = [];
+          var DiscountsArray = [];
+          $('.discount').each(function(index, element) {
+            let discount = $(this).val();
+            let price = $(this).data('id');
+            let qty = $(this).closest('tr').find("input[name='qty[]']").val();
+            let discountAmount = (price * qty * discount) / 100
+            let subtotal = (price * qty) - discountAmount ;
+            $(this).closest('tr').find(".total").val(subtotal.toFixed(2));
+            let gstRate = $(this).data('gst');
+            let gstAmount = subtotal * gstRate / 100;
+            $(this).closest('tr').find(".gst").val(gstAmount.toFixed(2));
+
+            grandTotal = subtotal - gstAmount;
+            grandTotalArray[index] = grandTotal;
+            gstAmountArray[index] = gstAmount;
+            DiscountsArray[index] = discountAmount;
+          });
+
+          $("#total_taxable_amount").val(array_sum(grandTotalArray).toFixed(2));
+          $("#total_gst").val(array_sum(gstAmountArray).toFixed(2));
+          $("#total_discount").val(array_sum(DiscountsArray).toFixed(2));
+          $("#round_off").val(array_sum(grandTotalArray) - (array_sum(grandTotalArray)));
+          $("#grand_total").val(array_sum([parseFloat(array_sum(grandTotalArray)), parseFloat(array_sum(gstAmountArray))]).toFixed(2));
+   
+        }
+      
+
+        $(document).on('click', '#delete' + rowId, function() {
+          $('#table #' + rowId).remove();
+          amountCalculation()
+        });
+
+        
 
         $(document).on('change', '#' + productV[0].pid, function() {
           $(".remaining-row" + productV[0].pid + "").remove();
-
           let row = $(this).closest('tr'); // Get the parent row of the changed quantity input
           // console.log(row);
           let quantity = parseInt($(this).val());
@@ -387,11 +355,11 @@ grandTotal = Math.round(grandTotal * 100) / 100;
                 // } else {
                 //   grand_total_value = 00;
                 // }
-                $("#total_taxable_amount").val(grandTotal);
-                $("#total_gst").val(array_sum(gstValues));
-                $("#total_discount").val(array_sum(discounts));
-                $("#round_off").val(grandTotal - (grandTotal));
-                $("#grand_total").val(grandTotal);
+                // $("#total_taxable_amount").val(grandTotal);
+                // $("#total_gst").val(array_sum(gstValues));
+                // $("#total_discount").val(array_sum(discounts));
+                // $("#round_off").val(grandTotal - (grandTotal));
+                // $("#grand_total").val(grandTotal);
                 // newRow.append("<td></td><td><input type='number' step='any' name='qty[]' value='" + variantQuantity + "' readonly/></td>");
 
                 // Append the new row to the table
