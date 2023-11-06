@@ -122,13 +122,13 @@
     <div class="row">
 
     <div class="col-2">
-        batch
+        Batch
     </div>
     <div class="col-2">
-        stock
+        Stock
     </div>
     <div class="col-2">
-        expdate
+        Expdate
     </div>
     <div class="col-2">
         MRP
@@ -137,7 +137,7 @@
         Pack Size
     </div>
     <div class="col-2">
-        rate
+        Rate per price
     </div>
     </div>
    

@@ -69,7 +69,7 @@
             <li class="mt-2">Discount</li>
             <li class="mt-2">Sub Total</li>
             <li class="mt-2">Tax (GST)</li>
-            <li class="mt-2">Rand Off</li>
+            <li class="mt-2">Round Off</li>
             <li class="mt-2">Grand Total</li>
           </ul>
         </div>
@@ -227,8 +227,8 @@
 
         $(document).on('change', '.discount', function() { 
           let discount = $(this).val();
-          if (discount > 10) { // limit discount to 10%
-            discount = 10;
+          if (discount > 20) { // limit discount to 10%
+            discount = 20;
             $(this).val(discount); // update the value of the discount input to reflect the limit
           }
           amountCalculation()
@@ -259,11 +259,13 @@
             DiscountsArray[index] = discountAmount;
           });
          var fiGrandTotal = array_sum([parseFloat(array_sum(grandTotalArray)), parseFloat(array_sum(gstAmountArray))]).toFixed(2);
-          $("#total_taxable_amount").val(array_sum(grandTotalArray).toFixed(2));
+         var roundOff = (Math.round(fiGrandTotal) - fiGrandTotal).toFixed(2);
+  
+         $("#total_taxable_amount").val(array_sum(grandTotalArray).toFixed(2));
           $("#total_gst").val(array_sum(gstAmountArray).toFixed(2));
           $("#total_discount").val(array_sum(DiscountsArray).toFixed(2));
-          $("#round_off").val(Math.round(fiGrandTotal));
-          $("#grand_total").val(fiGrandTotal);
+          $("#round_off").val(roundOff);
+          $("#grand_total").val(parseFloat(array_sum([parseFloat(fiGrandTotal),parseFloat(roundOff)])).toFixed(2));
    
         }
       

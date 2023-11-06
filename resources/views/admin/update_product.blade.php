@@ -138,22 +138,22 @@
     <div class="row">
 
     <div class="col-2">
-        batch
+        Batch
     </div>
     <div class="col-2">
-        stock
+        Stock
     </div>
     <div class="col-2">
-        expdate
+        Expdate
     </div>
     <div class="col-2">
-        MRP per unit
+        MRP
     </div>
     <div class="col-2">
         PackSize
     </div>
     <div class="col-2">
-        rate
+        Rate per price
     </div>
     </div>
     <input name="pid" value="{{$product->id}}" type="hidden" />
