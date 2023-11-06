@@ -258,12 +258,12 @@
             gstAmountArray[index] = gstAmount;
             DiscountsArray[index] = discountAmount;
           });
-
+         var fiGrandTotal = array_sum([parseFloat(array_sum(grandTotalArray)), parseFloat(array_sum(gstAmountArray))]).toFixed(2);
           $("#total_taxable_amount").val(array_sum(grandTotalArray).toFixed(2));
           $("#total_gst").val(array_sum(gstAmountArray).toFixed(2));
           $("#total_discount").val(array_sum(DiscountsArray).toFixed(2));
-          $("#round_off").val(array_sum(grandTotalArray) - (array_sum(grandTotalArray)));
-          $("#grand_total").val(array_sum([parseFloat(array_sum(grandTotalArray)), parseFloat(array_sum(gstAmountArray))]).toFixed(2));
+          $("#round_off").val(Math.round(fiGrandTotal));
+          $("#grand_total").val(fiGrandTotal);
    
         }
       

@@ -404,7 +404,6 @@ public function status_update(Request $request, $id)
     ->where('orders.id', '=', $req->data)
     ->get();
         
-
         $selectedData = [
             '_token' => $req->_token,
             'coustomer_name' => $result[0]['name'],
@@ -413,7 +412,7 @@ public function status_update(Request $request, $id)
             'customer_address' => $result[0]['Address'],
             'doc_name_regdno' => $result[0]['Doc_Name_RegdNo'],
             'total_discount' => $result[0]['discount'],
-            'total_taxable_amount' => $result[0]['total_order'],
+            'total_taxable_amount' => $result[0]['total_order']-$result[0]['Total_Gst'],
             'total_gst' => $result[0]['Total_Gst'],
             'round_off' => $result[0]['roundoff'],
             'grand_total' => $result[0]['total_order'],
@@ -436,17 +435,17 @@ public function status_update(Request $request, $id)
                 $selectedData['title'][] = $result[$i]['Title'];
                 $selectedData['batch_no'][] = $result[$i]['batch'];
                 $selectedData['qty'][] = $result[$i]['Qty'];
-                $selectedData['rate'][] = $result[$i]['Rate'];
-                $selectedData['discount'][] = 'Null'; // Modify this line if you want to store individual discounts
-                $selectedData['gst'][] = $result[$i]['Gst'];
-                $selectedData['total'][] = $result[$i]['Total'];
+                $selectedData['rate'][] = number_format($result[$i]['Rate'], 2);
+                $selectedData['discount'][] = number_format('0', 2);// Modify this line if you want to store individual discounts
+                $selectedData['gst'][] = number_format($result[$i]['Gst'], 2);
+                $selectedData['total'][] = number_format($result[$i]['Total'], 2);
                 $selectedData['exp'][] = $result[$i]['Exp'];
                 }
 
 
     
                 $pdf = PDF::loadView('admin.order_invoice', $selectedData);
-            $pdf->setPaper('A4');
+            $pdf->setPaper('letter', 'landscape');
             $pdfContents = $pdf->output();
     
              return response($pdfContents, 200)
