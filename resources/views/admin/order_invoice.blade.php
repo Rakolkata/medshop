@@ -9,7 +9,7 @@
                 <td style="text-align: right">
                     <address>
                       {{ env('APP_ADDRESS') }}<br>
-                        <a href="tel:{{ $coustomer_phone }}">{{ $coustomer_phone }}</a>
+                      {{ env('APP_GST') }}<br>
                     </address>
                 </td>
             </tr>
@@ -26,12 +26,9 @@
                     </ul>
                 </td>
                 <td style="text-align: right">
-                    @if (isset($order_id))
+                 
                         <h5 class="text-capitalize">Tax Invoice <br>{!! $order_id !!}</h5>
-                    @else
-                        <h5 class="text-capitalize">Tax Invoice
-                            <br>{{ substr(env('APP_NAME'), 0, 1) . date('dmY') . $id[0] }}</h5>
-                    @endif
+                 
                 </td>
             </tr>
         </table>
