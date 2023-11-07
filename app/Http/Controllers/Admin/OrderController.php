@@ -107,14 +107,14 @@ class OrderController extends Controller
              return redirect()->back()->with('error', 'Order quantity cannot be zero.');
            }
     
-        $user_find = User::where('email', $req['coustomer_email'])->first();
+        $user_find = User::where('email', $req['coustomer_phone'].'@gmail.com')->first();  //modifyed here  $req['coustomer_email'] to $req['coustomer_phone'].'@gmail.com'
         $user_id = '';
     
         if ($user_find == null) {
             $register = new RegisterController;
-            $register->create(array('name' => $req['coustomer_name'], 'email' => $req['coustomer_email'], 'type' => null, 'password' => '12345678'));
+            $register->create(array('name' => $req['coustomer_name'], 'email' => $req['coustomer_phone'].'@gmail.com', 'type' => null, 'password' => '12345678'));
     
-            $reg_id =  User::where('email', $req['coustomer_email'])->first();
+            $reg_id =  User::where('email', $req['coustomer_phone'].'@gmail.com')->first();
             $user_id = $reg_id->id;
         } else {
             $user_id = $user_find->id;

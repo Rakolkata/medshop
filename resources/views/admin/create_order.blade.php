@@ -14,7 +14,7 @@
       <div class="ciRow3">
         <div class="ciCol"><label>Name</label><input type="text" name="coustomer_name" required /></div>
         <div class="ciCol"><label>Phone</label><input type="text" name="coustomer_phone" required /></div>
-        <div class="ciCol"><label>Email</label><input type="email" name="coustomer_email" required /></div>
+        <div class="ciCol"><label>Email</label><input type="email" name="coustomer_email" /></div>
       </div>
 
       <div class="ciRow2">

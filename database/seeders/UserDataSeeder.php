@@ -18,8 +18,8 @@ class UserDataSeeder extends Seeder
         User::create(
             [
             'name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'password' => Hash::make('admin@123'),
+            'email' => 'admin',
+            'password' => Hash::make('123'),
             'type' => 1
         ]
             );
