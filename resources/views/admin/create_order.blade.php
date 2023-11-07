@@ -200,7 +200,7 @@
           newRow.append("<td></td><td style='display:none'><input  step='any' name='exp[]' class='id' value='" + default_expdate + "' /></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[0].pid + "' /></td><td>" + ui.item.value + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>"+ productV[0].mrp_per_unit+"</td><td><input type='text' name='batch_no[]' class='id' value='" +
             default_batch + "' readonly/></td><td>" +default_expdate + "</td>" +
             "<td><input type='number' step='any' id='" + productV[0].pid + "' name='qty[]' value=1 min=1 /></td><td>" +
-            rate_default + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' data-id='" + rate_default + "' data-gst='" + category1 +"' min=0 max=10 value=0 /></td><td>" + category1 + "</td><td><input type='number' step='any' readonly name='gst[]' class='gst' value='" + (parseInt(rate_default) * parseInt(category1) / 100).toFixed(2) + "' readonly ></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default + "' readonly></td><td><i class='bi bi-trash3-fill' id='delete" + rowId + "' style='cursor: pointer; color: red;'></i></td></tr>");
+            rate_default + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' data-id='" + rate_default + "' data-gst='" + category1 +"' min=0 max=20 value=0 /></td><td>" + category1 + "</td><td><input type='number' step='any' readonly name='gst[]' class='gst' value='" + (parseInt(rate_default) * parseInt(category1) / 100).toFixed(2) + "' readonly ></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default + "' readonly></td><td><i class='bi bi-trash3-fill' id='delete" + rowId + "' style='cursor: pointer; color: red;'></i></td></tr>");
           $("#table").append(newRow);
           // $("#no_data_row").remove();
           totals[rowId] = rate_default;
@@ -341,7 +341,7 @@
                   default_batch_copy + "' readonly/></td><td>" +
                   default_expdate_copy + "</td>" +
                   "<td><input type='number' step='any' name='qty[]' value='" + variantQuantity + "' readonly/></td><td>" +
-                  rate_default_copy + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default_copy + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td>" + category1 + "</td><td><input type='number' step='any' name='gst[]' class='gst' value='" + parseInt(rate_default_copy) * parseInt(category1) / 100 + "' readonly></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default_copy + "' ></td></tr>");
+                  rate_default_copy + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default_copy + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' min=0 max=20 value=0 /></td><td>" + category1 + "</td><td><input type='number' step='any' name='gst[]' class='gst' value='" + parseInt(rate_default_copy) * parseInt(category1) / 100 + "' readonly></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default_copy + "' ></td></tr>");
                 $("#table").append(newRow);
                 // $("#no_data_row").remove();
                 totals[rowId] = rate_default_copy;
@@ -379,7 +379,7 @@
                   default_batch_copy + "' readonly/></td><td>" +
                   default_expdate_copy + "</td>" +
                   "<td><input type='number' step='any' name='qty[]' value='" + remainingQuantity + "' readonly/></td><td>" +
-                  rate_default_copy + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default_copy + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' min=0 max=10 value=0 /></td><td class='gst'>" + category1 + "</td><td><input type='number' step='any' name='gst[]' class='gst' value='" + parseInt(rate_default_copy) * parseInt(category1) / 100 + "'></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default_copy + "' ></td></tr>");
+                  rate_default_copy + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default_copy + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' min=0 max=20 value=0 /></td><td class='gst'>" + category1 + "</td><td><input type='number' step='any' name='gst[]' class='gst' value='" + parseInt(rate_default_copy) * parseInt(category1) / 100 + "'></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default_copy + "' ></td></tr>");
                 $("#table").append(newRow);
                 $
                 // $("#no_data_row").remove();

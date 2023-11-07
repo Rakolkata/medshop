@@ -142,7 +142,7 @@ class OrderController extends Controller
         $dt = substr(env('APP_NAME'), 0, 1) . date("dmY") . $order_last_id;
         $order->orderID = $dt;
         $order->save();
-    
+        $req['order_id'] = $dt;
 
         $prod_name =  $req['title'];
         $prod_id =  $req['id'];
