@@ -111,6 +111,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/reports/upcoming_exp_product', [HomeController::class, 'upexp'])->name('admin.report_recentexpairy');
     Route::get('/admin/reports/less_stock_product', [HomeController::class, 'lessstock'])->name('admin.report_lessstock');
     Route::post('/admin/reports/less_stock_product', [HomeController::class, 'lessstock'])->name('admin.report_lessstock');
+    Route::get('/admin/reports/gst_report', [ReportsController::class, 'gst_report'])->name('admin.gst_report');
+    Route::post('/admin/reports/gst_report_export', [ReportsController::class, 'gst_report_export'])->name('admin.gst_report_export');
     
  
  

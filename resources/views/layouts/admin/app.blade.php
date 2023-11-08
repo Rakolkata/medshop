@@ -111,7 +111,7 @@
                         <a class="collapse-item" href="{{route('admin.report_recentexpairy')}}">Exp Product Reports</a>
                         <a class="collapse-item" href="{{route('admin.report_lessstock')}}"> Product Reports</a>
                         <a class="collapse-item" href="{{route('admin.report_lessstock')}}"> Product Reports</a>
-                        <a class="collapse-item" href="#"> GST Reports</a>
+                        <a class="collapse-item" href="{{route('admin.gst_report')}}"> GST Reports</a>
                     </div>
                 </div>
             </li>
