@@ -188,6 +188,7 @@ class ProductController extends Controller
                         $productvariant->strip = $req['strip'][$i];
                         $product->TripSize= $req['strip'][$i];
                         $productvariant->rate = $req['rate'][$i];
+                        $productvariant->remarks = $req['remarks'][$i];
                         $productvariant->save();
                     }else{
                         $productvariant->delete();
@@ -204,6 +205,7 @@ class ProductController extends Controller
                         $productvariant->strip = $req['strip'][$i];
                         $product->TripSize= $req['strip'][$i];
                         $productvariant->rate = $req['rate'][$i];
+                        $productvariant->remarks = $req['remarks'][$i];
                         $productvariant->pid = $newProductId;
                         $productvariant->save();
                     }
@@ -460,6 +462,7 @@ class ProductController extends Controller
                     $productvariant->strip = $req['strip'][$i];
                     $product->TripSize = $req['strip'][$i];
                     $productvariant->rate = $req['rate'][$i];
+                    $productvariant->remarks = $req['remarks'][$i];
                     $productvariant->save();
                 }else{
                     $productvariant->delete();
@@ -476,6 +479,7 @@ class ProductController extends Controller
                     $productvariant->strip = $req['strip'][$i];
                     $product->TripSize = $req['strip'][$i];
                     $productvariant->rate = $req['rate'][$i];
+                    $productvariant->remarks = $req['remarks'][$i];
                     $productvariant->pid = $req['pid'];
                     $productvariant->save();
                 }

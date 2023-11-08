@@ -51,7 +51,7 @@
             <option value="{{$item->Categories_id}}" @selected($product->Categories_id == $item->Categories_id)
                 @class([
                 'bg-purple-600 text-white' => $product->Categories_id == $item->Categories_id
-                ])>{{$item->Name}}</option>
+                ])>{{$item->HSN."-".$item->Gstrate."-".$item->Name}}</option>
             @endforeach
         </select>
    
@@ -155,6 +155,9 @@
     <div class="col-2">
         Rate per price
     </div>
+    <div class="col-2">
+        Remarks
+    </div>
     </div>
     <input name="pid" value="{{$product->id}}" type="hidden" />
     @foreach ($product->ProductVeriant as $item)
@@ -177,6 +180,9 @@
     </div>
     <div class="col-2">
         <input name="rate[]" value="{{$item->rate}}" min="1" class="medicine_rate" step="any"  type="number"/>
+    </div>
+    <div class="col-2">
+        <input name="remarks[]" value="{{$item->remarks}}" class="remarks"   type="text"/>
     </div>
     </div>
     @endforeach
@@ -211,6 +217,9 @@ function addrow(){
         +'</div>'
         +'<div class="col-2">'
             +'<input name="rate[]" value=" " min="1" step="any" class="medicine_rate" type="number"/>'
+        +'</div>'
+        +'<div class="col-2">'
+            +'<input name="remarks[]" value=" " class="remarks" type="text"/>'
         +'</div>'
         +'</div>';
     jQuery('.vupdate').append(html);

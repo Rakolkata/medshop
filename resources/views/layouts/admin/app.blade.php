@@ -77,7 +77,7 @@
                         <a class="collapse-item" href="{{route('admin.view_brand')}}">View Brand</a>
                         <a class="collapse-item" href="{{route('admin.view_function')}}">View Function</a>
                         <a class="collapse-item" href="{{route('admin.view_schedule')}}">View Schedule</a>
-                        
+                        <a class="collapse-item" href="#">Incoming Invoice</a>
 
                     </div>
                 </div>
@@ -110,6 +110,8 @@
                         <a class="collapse-item" href="{{route('admin.reports')}}">Order Reports</a>
                         <a class="collapse-item" href="{{route('admin.report_recentexpairy')}}">Exp Product Reports</a>
                         <a class="collapse-item" href="{{route('admin.report_lessstock')}}"> Product Reports</a>
+                        <a class="collapse-item" href="{{route('admin.report_lessstock')}}"> Product Reports</a>
+                        <a class="collapse-item" href="#"> GST Reports</a>
                     </div>
                 </div>
             </li>

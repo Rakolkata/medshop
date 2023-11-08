@@ -37,13 +37,13 @@
                 <label class="form-label">Exp. date</label>
                 <input class="form-control" type="date" name="exp_date" placeholder="Enter Product Exp date">
             </div> -->
-
             <div class="col-md-6 mb-2">
                 <label class="form-label">Category</label>
                 <select class="form-control" name="category" aria-label="Default select example">
                     <option disabled selected value> -- select an option -- </option>
                     @foreach ($category as $item)
-                    <option value="{{$item->Categories_id}}">{{$item->Name}}</option>
+                    
+                    <option value="{{$item->Categories_id}}">{{$item->HSN."-".$item->Gstrate."-".$item->Name}}</option>
                     @endforeach
                 </select>
                 
@@ -139,6 +139,9 @@
     <div class="col-2">
         Rate per price
     </div>
+    <div class="col-2">
+        Remarks
+    </div>
     </div>
    
     <div class="row" style="margin-bottom: 10px">
@@ -161,6 +164,10 @@
     <div class="col-2">
     <input name="rate[]" type="number" min="1" step="any" class="medicine_rate" required />
     </div>
+    <div class="col-2">
+    <input name="remarks[]" type="text"  class="remarks" required />
+    </div>
+
 </div>
 
    
@@ -196,6 +203,9 @@ function addrow(){
         +'</div>'
         +'<div class="col-2">'
             +'<input name="rate[]" value=" " min="1" step="any" class="medicine_rate" type="number"/>'
+        +'</div>'
+        +'<div class="col-2">'
+            +'<input name="remarks[]" value=" "  class="remarks" type="text"/>'
         +'</div>'
         +'</div>';
     jQuery('.vupdate').append(html);
