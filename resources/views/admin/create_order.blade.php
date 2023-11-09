@@ -12,14 +12,14 @@
     <div class="container">
       <h2>Customer Info:</h2>
       <div class="ciRow3">
-        <div class="ciCol"><label>Name</label><input type="text" name="coustomer_name" required /></div>
-        <div class="ciCol"><label>Phone</label><input type="text" name="coustomer_phone" required /></div>
-        <div class="ciCol"><label>Email</label><input type="email" name="coustomer_email" /></div>
+        <div class="ciCol"><label>Name</label><input type="text" name="coustomer_name" required id="name"/></div>
+        <div class="ciCol"><label>Phone</label><input type="text" name="coustomer_phone" required id="phone"/></div>
+        <div class="ciCol"><label>Email</label><input type="email" name="coustomer_email" id="email"/></div>
       </div>
 
       <div class="ciRow2">
-        <div class="ciCol"><label>Address</label><textarea name="customer_address" required></textarea></div>
-        <div class="ciCol"><label>Dr. Name/Reg. No.</label><textarea name="doc_name_regdno"></textarea></div>
+        <div class="ciCol"><label>Address</label><textarea name="customer_address" required id="address"></textarea></div>
+        <div class="ciCol"><label>Dr. Name/Reg. No.</label><textarea name="doc_name_regdno" id="regno"></textarea></div>
       </div>
     </div>
   </div>
@@ -431,8 +431,19 @@ grandTotal = Math.round(grandTotal * 100) / 100;
       }
     });
 
-
+    jQuery("#phone").autocomplete({
+      source: "{{ route('admin.customer_data') }}",
+      dataType: "json",
+      minLength: 2,
+      select: function(event, ui) {
+        console.log(ui);
+        $("#email").val(ui.item.values.email);
+        $("#name").val(ui.item.values.name);
+        $("#address").val(ui.item.values.Address);
+        $("#regno").val(ui.item.values.Doc_Name_RegdNo);
+      }
   });
+});
 </script>
 
 

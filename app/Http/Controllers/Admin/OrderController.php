@@ -452,4 +452,19 @@ public function status_update(Request $request, $id)
                 ->header('Content-Type', 'application/pdf')
                 ->header('Content-Disposition', 'attachment; filename="receipt.pdf"');
     }
+
+    public function customer_data(Request $req){
+
+        $data = Order_User_Profile::join('users', 'order__user__profiles.User_id','=','users.id')->where('order__user__profiles.phone','like', $req->phone.'%')->get();
+            $output = [];
+            if (count($data) > 0) {
+                //dump($data);
+                foreach ($data as $d) {
+                    $output[] = ['label' => $d->Phone,'value'=>$d->Phone, 'values' => $d];
+                }
+
+        }
+
+        return response()->json($output);
+    }
 }
