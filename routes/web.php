@@ -90,7 +90,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::post('/admin/update/product/{id}', [ProductController::class, 'update'])->name('admin.update_product');
     Route::get('/admin/update/product/{id}/veriant', [ProductVeriantController::class, 'update'])->name('admin.update_product_veriant');
     Route::post('/admin/update/product/{id}/save', [ProductVeriantController::class, 'save'])->name('admin.update_product_veriant_save');
-
+    Route::get('/admin/incoming_invoice', [ProductController::class, 'incoming_invoice'])->name('admin.incoming_invoice');
+    Route::get('/admin/incoming_invoice_list', [ProductController::class, 'incoming_invoice_list'])->name('admin.incoming_invoice_list');
+    Route::post('/admin/incoming_invoice_store', [ProductController::class, 'incoming_invoice_store'])->name('admin.incoming_invoice_store');
 
 
 

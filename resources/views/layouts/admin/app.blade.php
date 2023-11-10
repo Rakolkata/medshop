@@ -77,7 +77,7 @@
                         <a class="collapse-item" href="{{route('admin.view_brand')}}">View Brand</a>
                         <a class="collapse-item" href="{{route('admin.view_function')}}">View Function</a>
                         <a class="collapse-item" href="{{route('admin.view_schedule')}}">View Schedule</a>
-                        <a class="collapse-item" href="#">Incoming Invoice</a>
+                        <a class="collapse-item" href="{{route('admin.incoming_invoice')}}">Purchase Invoice</a>
 
                     </div>
                 </div>

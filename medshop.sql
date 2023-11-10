@@ -255,6 +255,20 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `incoming_invoices`
+--
+
+CREATE TABLE `incoming_invoices` (
+  `id` int NOT NULL,
+  `invoice_no` varchar(255) NOT NULL,
+  `order_date` date NOT NULL,
+  `total_gst` varchar(255) NOT NULL,
+  `total_amount` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
 -- Indexes for dumped tables
 --
 
@@ -316,6 +330,12 @@ ALTER TABLE `schedules`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `incoming_invoices`
+--
+ALTER TABLE `incoming_invoices`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -382,6 +402,23 @@ ALTER TABLE `schedules`
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
+
+
+
+
+
+
+
+
+
+
+--
+-- AUTO_INCREMENT for table `incoming_invoices`
+--
+ALTER TABLE `incoming_invoices`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+COMMIT;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

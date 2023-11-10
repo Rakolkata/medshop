@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -16,6 +17,7 @@ use  App\Models\Schedule;
 use  App\Models\Product;
 use Carbon\Carbon;
 use  App\Models\ProductVeriant;
+use  App\Models\IncomingInvoice;
 
  
 class ProductController extends Controller
@@ -507,5 +509,34 @@ class ProductController extends Controller
         }
 
         return response()->json($results);
+    }
+
+    public function incoming_invoice(){
+        return view('admin.incoming_invoice');
+    }
+
+    public function incoming_invoice_list(){
+        $data = IncomingInvoice::get();
+
+        return response()->json($data);
+    }
+
+    public function incoming_invoice_store(Request $req){
+
+        $invoice_no = $req->invoice_id;
+        $order_date = $req->order_date;
+        $total_amount = $req->total_amount;
+        $total_gst = $req->total_gst;
+        
+        $inv = new IncomingInvoice;
+        $inv->invoice_no = $invoice_no;
+        $inv->order_date = date("Y-m-d", strtotime($order_date));
+        $inv->total_gst = $total_gst;
+        $inv->total_amount = $total_amount;
+        $inv->save();
+
+        return response()->json($req);
+
+
     }
 }
