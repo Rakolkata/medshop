@@ -118,8 +118,8 @@
 
             <!-- <button class="btn mt-2 text-white" style="background-color: #60b5ba">Submit</button> -->
         </div>
-        <div class="container vupdate" style="margin-top:40px" >
-    <div class="row">
+        <div class="container" style="margin-top:40px" >
+    <div class="row" style="flex-wrap: nowrap">
 
     <div class="col-2">
         Batch
@@ -144,7 +144,7 @@
     </div>
     </div>
    
-    <div class="row" style="margin-bottom: 10px">
+    <div class="row" style="margin-bottom: 10px; flex-wrap: nowrap">
     <input name="vid[]" type="hidden" />
     <div class="col-2">
         <input name="batch[]" type="text" required />
@@ -267,3 +267,7 @@ function addrow(){
 });
  
 </script>
+<style>
+
+    
+</style>

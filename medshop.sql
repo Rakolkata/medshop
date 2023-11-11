@@ -211,16 +211,17 @@ CREATE TABLE `products` (
 --
 
 CREATE TABLE `product_veriant` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `pid` bigint(20) UNSIGNED DEFAULT NULL,
-  `stock` int(11) NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `pid` bigint UNSIGNED DEFAULT NULL,
+  `stock` int NOT NULL,
   `expdate` date NOT NULL,
-  `mrp_per_unit` double(8,2) DEFAULT 123.45,
-  `batch` varchar(100) DEFAULT '',
-  `strip` tinyint(4) NOT NULL,
+  `mrp_per_unit` double(8,2) DEFAULT '123.45',
+  `batch` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT '',
+  `strip` tinyint NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `rate` decimal(10,2) DEFAULT NULL
+  `rate` decimal(10,2) DEFAULT NULL,
+  `remarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
