@@ -66,7 +66,7 @@ class gstMail extends Command
         
         // return Command::SUCCESS;
         Mail::send("gstmail",[],function($message) use($currentDate){
-          $message->to('tripathiarupkumar@gmail.com')
+          $message->to(env('MAIL_TO'))
           ->subject('Daily GST Report')
           ->attach('http://medshop.test/gst/'.$currentDate.'_report.xlsx');
         });
