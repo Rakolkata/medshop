@@ -68,7 +68,7 @@ class gstMail extends Command
         Mail::send("gstmail",[],function($message) use($currentDate){
           $message->to(env('MAIL_TO'))
           ->subject('Daily GST Report')
-          ->attach('http://medshop.test/gst/'.$currentDate.'_report.xlsx');
+          ->attach(env('APP_URL').'/gst/'.$currentDate.'_report.xlsx');
         });
 
         
