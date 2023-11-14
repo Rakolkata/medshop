@@ -181,8 +181,9 @@ class OrderController extends Controller
         */
 
         Order_details::insert($insert_data2);
-    
-        $pdf = PDF::loadView('admin.order_invoice', $req->all());
+        $data = $req->all();
+        $data['order_date'] = date("Y-m-d H:i:s");
+        $pdf = PDF::loadView('admin.order_invoice',$data);
         $pdf->setPaper('A4');
         $pdfContents = $pdf->output();
     
@@ -382,6 +383,7 @@ public function status_update(Request $request, $id)
         'users.email',
         'orders.id',
         'orders.orderID',
+        'orders.created_at',
         'order__user__profiles.Doc_Name_RegdNo',
         'order__user__profiles.Address',
         'order__user__profiles.Phone',
@@ -411,6 +413,7 @@ public function status_update(Request $request, $id)
             'coustomer_email' => $result[0]['email'],
             'customer_address' => $result[0]['Address'],
             'doc_name_regdno' => $result[0]['Doc_Name_RegdNo'],
+            'order_date' => $result[0]['created_at'],
             'total_discount' => $result[0]['discount'],
             'total_taxable_amount' => $result[0]['total_order']-$result[0]['Total_Gst'],
             'total_gst' => $result[0]['Total_Gst'],

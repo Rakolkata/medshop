@@ -27,7 +27,7 @@
                 </td>
                 <td style="text-align: right">
                  
-                        <h5 class="text-capitalize">Tax Invoice <br>{!! $order_id !!}</h5>
+                        <h5 class="text-capitalize">Tax Invoice <br>{!! $order_id !!}<br>{{ $order_date }}</h5>
                  
                 </td>
             </tr>
