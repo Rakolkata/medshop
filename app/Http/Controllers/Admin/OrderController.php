@@ -305,21 +305,29 @@ class OrderController extends Controller
 
 public function status_update(Request $request, $id)
 {
-    $orderDetails = Order_details::where('Product_id', '=', $id)->first();
+    $orderDetails = Order_details::where('Order_id', '=', $id)->first();
     $productVariant = ProductVeriant::where('pid', '=', $orderDetails->Product_id)
         ->where('batch', '=', $orderDetails->batch_no)
         ->first();
+
+    $orders = Order::where('id', '=', $id)->first();
       
     if ($orderDetails->status === 'draft') {
         $orderDetails->status = 'dispatched';
         $productVariant->stock  = $productVariant->stock - $orderDetails->qty; 
         $productVariant->save();
+
+        $orders->status ='dispatched';
+
     } else {
         $orderDetails->status = 'draft';
         $productVariant->stock = $productVariant->stock + $orderDetails->qty; 
         $productVariant->save();
+
+        $orders->status = 'draft';
     }
     
+    $orders->save();
     $orderDetails->save();
     
  
@@ -332,16 +340,22 @@ public function status_update(Request $request, $id)
     {
         // dd($id);
         $order_details = Order_details::where('Order_id', '=', $id)->first();
+        $orders = Order::where('id','=',$id)->first();
 
         $order_details->status = 'cancled';
         $order_details->save();
+        
+        $orders->status = 'cancled';
+        $orders->save();
 
-        $stock = ProductVeriant::where('pid', '=', $id)->where('batch', '=', $order_details->batch_no)->first();
+
+        $stock = ProductVeriant::where('pid', '=', $order_details->Product_id)->where('batch', '=', $order_details->batch_no)->first();
         $stock->stock = $stock->stock + $order_details->qty;
         $stock->save();
 
-        return redirect()->back();
-        // return redirect()->route('admin.order_view');
+        
+
+        return redirect()->route('admin.order_view');
     }
 
     public function cancle_complete_order(Request $request, $id)

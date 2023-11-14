@@ -17,7 +17,7 @@ class CategoryController extends Controller
 
     public function view()
     {
-        $category = Category::paginate(25);
+        $category = Category::paginate(10);
         return view('admin.view_category')->with(compact('category'));
     }
 
@@ -65,8 +65,18 @@ class CategoryController extends Controller
         return redirect(route('admin.view_category'))->with(Session::flash('message-updated', "Category updated!"));
     }
 
-    // public function cat_data(){
-      
-    // }
+    public function search(Request $request)
+    {
+        $query = $request->get('query');
+
+        if (strlen($query) >= 3) {
+            $results = Category::where('Name','LIKE',"{$query}%")->get();
+            
+        } else {
+            $results = [];
+        }
+
+        return response()->json($results);
+    }
     
 }

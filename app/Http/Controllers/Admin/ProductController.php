@@ -236,7 +236,8 @@ class ProductController extends Controller
         if ($product != null) {
             $product->delete();
         }
-        return redirect()->route('admin.view_product', ['page' => $request->get('page')])->with('msg-deleted', $product->Title.' Deleted!');
+        // return redirect()->route('admin.view_product', ['page' => $request->get('page')])->with('msg-deleted', $product->Title.' Deleted!');
+        return redirect()->back(); 
     }
 
     function importData(Request $request)

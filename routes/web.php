@@ -53,6 +53,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/edit/category/{id}', [CategoryController::class, 'edit'])->name('admin.edit_category');
     Route::post('/admin/update/category/{id}', [CategoryController::class, 'update'])->name('admin.update_category');
     // Route::get('/admin/category/data', [CategoryController::class, 'cat_data'])->name('admin.cat_data');
+    Route::get('/admin/category/search',[CategoryController::class, 'search'])->name('admin.category_search');
 
     Route::get('/admin/view/brand', [BrandController::class, 'view'])->name('admin.view_brand');
     Route::get('/admin/add/brand', [BrandController::class, 'index'])->name('admin.add_brand');

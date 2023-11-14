@@ -39,7 +39,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" id="deleteButton" onclick="closeModel()" class="btn btn-danger text-white">Close</button>
-              <a href="{{ route('order_cancle',$item->Product_id) }}" class="btn btn-success">Cancle Order</a>
+              <a href="{{ route('order_cancle',$item->Order_id) }}" class="btn btn-success">Cancle Order</a>
             </div>
           </div>
         </div>
@@ -52,7 +52,7 @@
         <td>{{$item->qty}}</td>
         <td>{{$item->gst}}</td>
         <td>{{$item->Product_price}}</td>
-        <td><a href="{{ route('cahnge_status', $item->Product_id) }}" class="btn btn-primary">{{ $item->status }}</a></td>
+        <td><a href="{{ route('cahnge_status', $item->Order_id) }}" class="btn btn-primary">{{ $item->status }}</a></td>
         <td> <a class="btn btn-danger" onclick="togglemodel()">Cancle Order</a></td>
         <!-- <td><a href="{{ route('order_cancle',$item->Product_id) }}" class="btn btn-success">Cancle Order</a></td> -->
       </tr>
