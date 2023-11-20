@@ -220,6 +220,7 @@
                     link.href = pdfUrl;
                     link.download = 'receipt.pdf';
                     link.click();
+                    // console.log(data);
                 }
             });
     });

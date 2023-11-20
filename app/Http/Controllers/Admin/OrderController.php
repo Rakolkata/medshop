@@ -404,7 +404,7 @@ public function status_update(Request $request, $id)
         'products.Title as Title',
         'products.MRP as mrp',
         'products.SKU as Sku',
-        'products.Exp_date as Exp',
+        'product_veriant.expdate as Exp',
         'order_details.qty as Qty',
         'order_details.rate as Rate',
         'order_details.gst as Gst',
@@ -459,7 +459,7 @@ public function status_update(Request $request, $id)
                 $selectedData['exp'][] = $result[$i]['Exp'];
                 }
 
-
+            //  return response()->json($result);
     
                 $pdf = PDF::loadView('admin.order_invoice', $selectedData);
             $pdf->setPaper('letter', 'landscape');
