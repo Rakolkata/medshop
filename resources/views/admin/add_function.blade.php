@@ -1,10 +1,11 @@
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 @extends('layouts.admin.app')
 @push('title')
 <title>Medshop | Add-Function</title>   
 @endpush  
 @section('content')
 <div class="card m-3 p-3 " style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
-    <h6 ><span style="border-bottom: 1px solid #4e73df">Add Function</span></h6>
+    <h6 ><span style="border-bottom: 1px solid #60b5ba">Add Function</span></h6>
     <form action="{{route('admin.store_function')}}" method="post">
     @csrf
     <label class="form-label">Name</label>
@@ -14,7 +15,7 @@
     {{$message}}   
     @enderror
     </span>
-    <button class="btn btn-block text-white mt-2" style="background-color:#4e73df">Submit</button>
+    <button class="btn btn-block text-white mt-2" style="background-color:#60b5ba">Submit</button>
     </form>
 </div>
 @endsection

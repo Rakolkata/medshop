@@ -22,6 +22,7 @@ return new class extends Migration
             $table->float('mrp_per_unit')->nullable()->default(123.45);
             $table->string('batch', 100)->nullable()->default('');
             $table->tinyInteger('strip');
+            $table->float('rate')->nullable();
 
         });
     }
