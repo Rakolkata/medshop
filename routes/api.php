@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\LoginController;
+use App\Http\Controllers\API\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+// API expose for login
+Route::post('login', [LoginController::class, 'login']);
+
+// API expose for orderCreation
+Route::middleware(['auth:sanctum', 'admin'])->prefix('orders')->group(function () {
+    Route::post('store', [OrderController::class, 'store']);
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
