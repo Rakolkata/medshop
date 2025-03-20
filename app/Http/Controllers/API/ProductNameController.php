@@ -16,20 +16,17 @@ class ProductNameController extends Controller
             $products = Product::where('Title', 'LIKE', $search . '%')
                 ->orWhere('Function', $search)
                 ->orderBy('Title', 'ASC')
-                ->select('Title', 'MRP')
-                ->get();
+                ->get(); // Fetch all fields
         } else {
-            // Fetch all product names and their MRP sorted alphabetically
-            $products = Product::orderBy('Title', 'ASC')
-                ->select('Title', 'MRP') // Fetch both fields
-                ->get();
+            // Fetch all products sorted alphabetically
+            $products = Product::orderBy('Title', 'ASC')->get(); // Fetch all fields
         }
 
         return response()->json([
             'success' => true,
-            'message' => 'Product names and MRP retrieved successfully',
+            'message' => 'Product details retrieved successfully',
             'data' => $products,
         ], 200);
     }
-
 }
+
