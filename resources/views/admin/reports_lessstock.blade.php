@@ -1,0 +1,290 @@
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+@extends('layouts.admin.app')
+@push('title')
+<title>Medshop |Reports</title>
+@endpush
+@section('content')
+<div class="card m-1 p-1" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;z-index:1">
+    <h5 class="p-2"><span style="border-bottom:1px solid #60b5ba">Reports :</span></h5>
+    <div class="container">
+        <form action="{{route('admin.report_lessstock')}}" method="post">
+            @csrf
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="" class="form-label">Select Schedule</label>
+                    <select class="form-control form-select-lg" name="schedule" id="">
+                        <option  selected value="null"> -- select an option -- </option>
+                        @foreach ($Sched as $item)
+                        <option value="{{$item->id}}">{{$item->Name}}</option>
+                        @endforeach
+                    </select>
+                    <br>
+                </div>
+
+                <div class="col-md-6">
+                <label for="" class="form-label">Select Brand</label>
+                    <select class="form-control form-select-lg" name="brand" id="">
+                       <option  selected value="null"> -- select an option -- </option>
+                        @foreach ($brands as $item)
+                        <option value="{{$item->id}}">{{$item->Name}}</option>
+                        @endforeach
+                    </select> 
+                    <br>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">Expiry Date</label>
+                    <input type="date" name="exp_date" class="form-control">
+                    <br>
+                </div>
+                
+                <div class="col-md-6">
+                <label for="" class="form-label">Select Category</label>
+                    <select class="form-control form-select-lg" name="brand" id="">
+                       <option  selected value="null"> -- select an option -- </option>
+                        @foreach ($categories as $item)
+                        <option value="{{$item->id}}">{{$item->Name}}</option>
+                        @endforeach
+                    </select>  
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="" class="form-label">Select Function</label>
+                    <select class="form-control form-select-lg" name="schedule" id="">
+                        <option  selected value="null"> -- select an option -- </option>
+                        @foreach ($functions as $item)
+                        <option value="{{$item->id}}">{{$item->Name}}</option>
+                        @endforeach
+                    </select>
+                    <br>
+                </div>
+            </div>
+            <button class="btn text-white mt-1" style="background-color: #60b5ba">Filter</button>
+        </form>
+    </div>
+</div>
+<div class="card m-1 p-1" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;z-index:1">
+    <h5 class="p-2"><span style="border-bottom:1px solid #60b5ba">Reports:</span></h5>
+    <div class="container">
+
+
+
+    @if($Sched != 'false')
+    <div class="container">
+    
+    <h5 class="card-title">Product Report</h5>
+                
+                <div>
+
+
+                <form action="{{route('admin.report_lessstock')}}" method="post">
+        @csrf
+        <input type="hidden" name="data" value="{{ $Sched}}">
+        <input type="hidden" name="report_type" value="schedule"> 
+        <button class="btn text-white mt-1" style="background-color: #60b5ba">Download Report</button></form>
+        <br>
+
+
+
+                <div>
+                <table style="border-collapse: collapse; width: 100%;">
+                    <tr style="border: 1px solid black;">
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Product Name</td>
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Exp Date</td>
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Stock</td>
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Batch No</td>
+                    </tr>
+                    @foreach($qty as $index => $item)
+                        <tr style="border: 1px solid black;">
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->product_name }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->expdate }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->stock }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->batch }}</td>
+                        </tr>
+                       
+                    @endforeach
+
+                </table>
+                </div>
+                <div class="d-flex" id="pagination">
+    {!! $qty->links('pagination::bootstrap-5')!!}
+ 
+
+                </div>
+
+
+                @elseif($brands != 'false')
+                <div class="container">
+    
+    <h5 class="card-title">Product Report</h5>
+                
+                <div>
+
+
+                <form action="{{route('admin.report_lessstock')}}" method="post">
+        @csrf
+        <input type="hidden" name="data" value="{{ $brands}}">
+        <input type="hidden" name="report_type" value="brands"> 
+        <button class="btn text-white mt-1" style="background-color: #60b5ba">Download Report</button></form>
+        <br>
+
+
+
+                <div>
+                <table style="border-collapse: collapse; width: 100%;">
+                    <tr style="border: 1px solid black;">
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Product Name</td>
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Exp Date</td>
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Stock</td>
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Batch No</td>
+                    </tr>
+                    @foreach($qty as $index => $item)
+                        <tr style="border: 1px solid black;">
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->product_name }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->expdate }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->stock }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->batch }}</td>
+                        </tr>
+                       
+                    @endforeach
+
+                </table>
+                </div>
+                <div class="d-flex" id="pagination">
+    {!! $qty->links('pagination::bootstrap-5')!!}
+ 
+
+                </div>
+
+
+
+                @elseif($categories != 'false') 
+    <div class="container">
+        <h5 class="card-title">Product Report</h5>
+        <div>
+            <form action="{{ route('admin.report_lessstock') }}" method="post">
+                @csrf
+                <input type="hidden" name="data" value="{{ $categories }}">
+                <input type="hidden" name="report_type" value="categories"> 
+                <button class="btn text-white mt-1" style="background-color: #60b5ba">Download Report</button>
+            </form>
+            <br>
+            <div>
+                <table style="border-collapse: collapse; width: 100%;">
+                    <tr style="border: 1px solid black;">
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Product Name</td>
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Exp Date</td>
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Stock</td>
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Batch No</td>
+                    </tr>
+                    @foreach($qty as $index => $item)
+                        <tr style="border: 1px solid black;">
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->product_name }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->expdate }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->stock }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->batch }}</td>
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+            <div class="d-flex" id="pagination">
+                {!! $qty->links('pagination::bootstrap-5') !!}
+            </div>
+        </div>
+    </div>
+
+
+    @elseif($functions != 'false') 
+    <div class="container">
+        <h5 class="card-title">Product Report</h5>
+        <div>
+            <form action="{{ route('admin.report_lessstock') }}" method="post">
+                @csrf
+                <input type="hidden" name="data" value="{{ $functions }}">
+                <input type="hidden" name="report_type" value="functions"> 
+                <button class="btn text-white mt-1" style="background-color: #60b5ba">Download Report</button>
+            </form>
+            <br>
+            <div>
+                <table style="border-collapse: collapse; width: 100%;">
+                    <tr style="border: 1px solid black;">
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Product Name</td>
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Exp Date</td>
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Stock</td>
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Batch No</td>
+                    </tr>
+                    @foreach($qty as $index => $item)
+                        <tr style="border: 1px solid black;">
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->product_name }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->expdate }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->stock }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->batch }}</td>
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+            <div class="d-flex" id="pagination">
+                {!! $qty->links('pagination::bootstrap-5') !!}
+            </div>
+        </div>
+    </div>
+
+
+               
+                @else(qty != 'false')
+
+                <div class="container">
+    
+    <h5 class="card-title">Product Report</h5>
+                
+                <div>
+
+
+                <form action="{{route('admin.report_lessstock')}}" method="post">
+        @csrf
+        <input type="hidden" name="data" value="{{ $brands}}">
+        <input type="hidden" name="report_type" value="brands"> 
+        <button class="btn text-white mt-1" style="background-color: #60b5ba">Download Report</button></form>
+        <br>
+
+
+
+                <div>
+                <table style="border-collapse: collapse; width: 100%;">
+                    <tr style="border: 1px solid black;">
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Product Name</td>
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Exp Date</td>
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Stock</td>
+                        <td style="border: 1px solid black; padding: 5px; font-weight: bold;">Batch No</td>
+                    </tr>
+                    @foreach($qty as $index => $item)
+                        <tr style="border: 1px solid black;">
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->product_name }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->expdate }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->stock }}</td>
+                            <td style="border: 1px solid black; padding: 5px;">{{ $item->batch }}</td>
+                        </tr>
+                       
+                    @endforeach
+
+                </table>
+                </div>
+                <div class="d-flex" id="pagination">
+    {!! $qty->links('pagination::bootstrap-5')!!}
+ 
+
+                </div>
+                @endif
+
+                
+            
+    </div>
+</div>
+@endsection
+
+

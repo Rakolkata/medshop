@@ -52,4 +52,28 @@ class FunctionController extends Controller
     $function->save();
     return redirect()->route('admin.view_function')->with('function_updated','Function Updated!');
     }
+    public function function_data(Request $request)
+    {
+        if ($request->name) {
+            $search = $request->name;
+        } else {
+            $search = $request->term;
+        } 
+        $data = Med_Function::where('Name', 'LIKE', $search . '%')
+
+        ->orderBy('name', 'asc')
+                ->take(10)
+            ->get();
+
+            $output = [];
+            if (count($data) > 0) {
+                //dump($data);
+                foreach ($data as $d) {
+                    $output[] = ['label' => $d->Name, 'id' => $d->id,'value'=>$d->Name, 'values' => $d];
+                }
+
+        }
+
+        return response()->json($output);
+    }
 }

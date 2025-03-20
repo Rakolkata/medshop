@@ -18,7 +18,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{{url('css/sb-admin-2.css')}}" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -37,10 +37,10 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
-                <div class="sidebar-brand-icon rotate-n-15">
+                <!-- <div class="sidebar-brand-icon rotate-n-15">
                     <div>{{env('APP_NAME')}} </div>
                     {{-- <img src="{{env('APP_NAME')}}" style="height: 100px"> --}}
-                </div>
+                </div> -->
 
             </a>
 
@@ -72,11 +72,12 @@
                 <div id="collapseacademic" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Product Managment:</h6>
+                        <a class="collapse-item" href="{{route('admin.view_product')}}">View Product</a>
                         <a class="collapse-item" href="{{route('admin.view_category')}}">View Categoary</a>
                         <a class="collapse-item" href="{{route('admin.view_brand')}}">View Brand</a>
                         <a class="collapse-item" href="{{route('admin.view_function')}}">View Function</a>
                         <a class="collapse-item" href="{{route('admin.view_schedule')}}">View Schedule</a>
-                        <a class="collapse-item" href="{{route('admin.view_product')}}">View Product</a>
+                        <a class="collapse-item" href="{{route('admin.incoming_invoice')}}">Purchase Invoice</a>
 
                     </div>
                 </div>
@@ -107,6 +108,10 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header"> Reports:</h6>
                         <a class="collapse-item" href="{{route('admin.reports')}}">Order Reports</a>
+                        <a class="collapse-item" href="{{route('admin.report_recentexpairy')}}">Exp Product Reports</a>
+                        <a class="collapse-item" href="{{route('admin.report_lessstock')}}"> Product Reports</a>
+                        <a class="collapse-item" href="{{route('admin.report_lessstock')}}"> Product Reports</a>
+                        <a class="collapse-item" href="{{route('admin.gst_report')}}"> GST Reports</a>
                     </div>
                 </div>
             </li>
@@ -140,7 +145,12 @@
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
+                <div class="navbar-brand mx-auto">
+                <div class="sidebar-brand-icon" style="color:#60b5ba; margin-left:320px">
+                    <div><b>{{env('APP_NAME')}}</b> </div>
+                    {{-- <img src="{{env('APP_NAME')}}" style="height: 100px"> --}}
+                </div>
+                </div>
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
@@ -149,9 +159,9 @@
 
                    <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
+                    
                         <div class="topbar-divider d-none d-sm-block"></div>
-
+                            
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -269,5 +279,15 @@
     <!-- Page level plugins -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function() {
+    // Add click event to the document
+    $(document).click(function(event) {
+    $('.nav-link').addClass('collapsed');
+    $('#collapseacademic, #collapseorder, #collapsereport').removeClass('show');
+    });
+    
+  });
+</script>
 </body>
 </html>

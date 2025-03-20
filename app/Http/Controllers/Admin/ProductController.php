@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -15,6 +16,8 @@ use  App\Models\Med_Function;
 use  App\Models\Schedule;
 use  App\Models\Product;
 use Carbon\Carbon;
+use  App\Models\ProductVeriant;
+use  App\Models\IncomingInvoice;
 
  
 class ProductController extends Controller
@@ -26,41 +29,145 @@ class ProductController extends Controller
         $function = Med_Function::all();
         $schedule = Schedule::all();
         return view('admin.add_product')->with(compact('category', 'brand', 'function', 'schedule'));
+//   dev
+//     }
+//     public function view(Request $req)
+//     {
+//         $search = $req['search'] ?? "";
+//         if ($search != "") {
+//             $product = Product::where('Title', 'LIKE', '%' . $search . '%')->orWhere('Function', '=', $search)->paginate(5);
+//         } else {
+//             $product = Product::with('category', 'brand', 'function', 'schedule')->orderBy('Title', 'ASC')->paginate(5);
+//         }
+//         return view('admin.view_product')->with(compact('product'));
+//     }
+
+//     public function store(Request $req)
+//     {
+//         $req->validate([
+//             'title' => 'required',
+//             'schedule' => 'required',
+//         ]);
+//         //$sku_find = Product::where('SKU', $req['sku'])->first();
+//         //if ($sku_find == null) {
+//             $product = new Product;
+
+//             $product->Title = $req['title'];
+//             // $product->MRP = $req['mrp'];
+//             $product->Categories_id = $req['category'];
+//             $product->Brand = $req['brand'];
+//             $product->Box_No = $req['box_no'];
+//             $product->Function = $req['function'];
+//             $product->Generic_name = $req['generic_name'];
+//             $product->Ingredients = $req['infredients'];
+//             $product->Schedule = $req['schedule'];
+//             // $product->SKU = $req['sku'];
+//             // $product->Stock = $req['stock'];
+//             // $product->Exp_date = $req['exp_date'];
+//            // $product->TripSize = $req['packsize'];
+//             // if ($product->TripSize == null) {
+//             //     $product->Price_unit = 0;
+//             // } else {
+//             //     $product->Price_unit = $product->MRP / $product->TripSize;
+//             // }
+//             $product->Description = $req['description'];
+//             $product->save();
+//             return redirect()->route('admin.view_product')->with('msg', 'Product Added!');
+//        // } 
+//         // else {
+
+//         //     $product = Product::find($sku_find->id);
+//         //     $product->Stock = $sku_find->Stock +  $req['stock'];
+//         //     $product->save();
+//         //     return redirect()->route('admin.view_product')->with('msg', 'Stock Updated!');
+            
+//         // }
+//     } 
+
+//   production
     }
     public function view(Request $req)
     {
         $search = $req['search'] ?? "";
         if ($search != "") {
-            $product = Product::where('Title', 'LIKE', '%' . $search . '%')->orWhere('Function', '=', $search)->paginate(25);
+
+            $product = Product::select('*')
+            ->with('category', 'brand', 'function', 'schedule', 'ProductVeriant')
+            ->where('products.Title', 'like', "{$search}%")
+            ->orderBy('products.Title', 'asc')
+            ->paginate(25);
+
+           
+           
+
         } else {
-            $product = Product::with('category', 'brand', 'function', 'schedule')->orderBy('Title', 'ASC')->paginate(25);
+
+            $product = Product::select('*')->with('category', 'brand', 'function', 'schedule','ProductVeriant')->orderBy('products.Title', 'asc')->paginate(25);
+            
         }
+        // print_r($product);
         return view('admin.view_product')->with(compact('product'));
+      
     }
 
     public function store(Request $req)
     {
+        // dd($req->all());
         $req->validate([
             'title' => 'required',
             'schedule' => 'required',
         ]);
-        $sku_find = Product::where('SKU', $req['sku'])->first();
-        if ($sku_find == null) {
-            $product = new Product;
+        // $sku_find = Product::where('SKU', $req['sku'])->first();
+        // if ($sku_find == null) {// we have to work here
+
+               if( $req['brand_id'] == null){
+                $brand_name=$req['brand'];
+                $existing_brand = Brand::where('Name', $brand_name)->first();
+                if ($existing_brand) {
+                    $brand_id = $existing_brand->id;
+                } else {
+                    $brand = new Brand();
+                    $brand->Name = $brand_name;
+                    $brand->save();
+                    $brand_id = intval($brand->id);
+                }
+               }else{
+               $brand_id=intval($req['brand_id']);
+               }
+                if( $req['function_id'] == null){
+                    $function_name=$req['function'];
+                    $existing_function = Med_Function::where('Name', $function_name)->first();
+
+                    if ($existing_function) {
+                        $function_id = $existing_function->id;
+                    } else {
+                        $function = new Med_Function();
+                        $function->Name = $function_name;
+                        $function->save();
+                        $function_id = intval($function->id);
+                    }
+
+                   
+                
+                   }else{
+                   $function_id=intval($req['function_id']);
+                   }
+
+            $product = new Product; 
 
             $product->Title = $req['title'];
             // $product->MRP = $req['mrp'];
             $product->Categories_id = $req['category'];
-            $product->Brand = $req['brand'];
+            $product->Brand = $brand_id;
             $product->Box_No = $req['box_no'];
-            $product->Function = $req['function'];
+            $product->Function = $function_id;
             $product->Generic_name = $req['generic_name'];
             $product->Ingredients = $req['infredients'];
             $product->Schedule = $req['schedule'];
             // $product->SKU = $req['sku'];
             // $product->Stock = $req['stock'];
             // $product->Exp_date = $req['exp_date'];
-            // $product->TripSize = $req['tripsize'];
+             //$product->TripSize = $req['packsize'];
             // if ($product->TripSize == null) {
             //     $product->Price_unit = 0;
             // } else {
@@ -68,23 +175,69 @@ class ProductController extends Controller
             // }
             $product->Description = $req['description'];
             $product->save();
-            return redirect()->route('admin.view_product')->with('msg', 'Product Added!');
-        } else {
 
-            $product = Product::find($sku_find->id);
-            $product->Stock = $sku_find->Stock +  $req['stock'];
-            $product->save();
-            return redirect()->route('admin.view_product')->with('msg', 'Stock Updated!');
+            $newProductId = $product->id; 
+
+            foreach($req['batch'] as $i=>$pv ) {
+                if(isset($req['vid'][$i])){
+                    $productvariant = ProductVeriant::find($req['vid'][$i]);
+                    if($req['batch'][$i]){
+    
+                        $productvariant->batch = $req['batch'][$i];
+                        $productvariant->stock	 = $req['stock'][$i];
+                        $productvariant->expdate = $req['expdate'][$i];
+                        $productvariant->mrp_per_unit = $req['mrp'][$i];
+                        $productvariant->strip = $req['strip'][$i];
+                        $product->TripSize= $req['strip'][$i];
+                        $productvariant->rate = $req['rate'][$i];
+                        $productvariant->remarks = $req['remarks'][$i];
+                        $productvariant->save();
+                    }else{
+                        $productvariant->delete();
+                    }
+     
+                }else{
+                    if(isset($req['batch'][$i]) && $req['batch'][$i]!=''){
+    
+                        $productvariant = new ProductVeriant;
+                        $productvariant->batch = $req['batch'][$i];
+                        $productvariant->stock	 = $req['stock'][$i];
+                        $productvariant->expdate = $req['expdate'][$i];
+                        $productvariant->mrp_per_unit = $req['mrp'][$i];
+                        $productvariant->strip = $req['strip'][$i];
+                        $product->TripSize= $req['strip'][$i];
+                        $productvariant->rate = $req['rate'][$i];
+                        $productvariant->remarks = $req['remarks'][$i];
+                        $productvariant->pid = $newProductId;
+                        $productvariant->save();
+                    }
+                }
+
+        
         }
+        $product->save();
+
+
+
+
+        return redirect()->route('admin.view_product')->with('msg', 'Product Added!');
+       
     }
 
     public function delete($id, Request $request)
-    {
+    {   $productVerients = ProductVeriant::where('pid', $id)->get();
+        foreach ($productVerients as $productVerient) {
+            if($productVerient->count() > 0)
+            $productVerient->delete();
+        }
+        
+        // Step 2: Delete the Product model with the given $id
         $product = Product::find($id);
         if ($product != null) {
             $product->delete();
         }
-        return redirect()->route('admin.view_product', ['page' => $request->get('page')])->with('msg-deleted', 'Product Deleted!');
+        // return redirect()->route('admin.view_product', ['page' => $request->get('page')])->with('msg-deleted', $product->Title.' Deleted!');
+        return redirect()->back(); 
     }
 
     function importData(Request $request)
@@ -148,6 +301,32 @@ class ProductController extends Controller
                             $function->save();
                             $function_id = $function->id;
                         }
+//   dev
+
+//                         $Product->Function = $function_id;
+//                         $Product->Generic_name = $sheet->getCell('K' . $row)->getValue();
+//                         $Product->Ingredients = $sheet->getCell('L' . $row)->getValue();
+
+//                         $schedule_find = Schedule::where('Name', $sheet->getCell('M' . $row)->getValue())->first();
+//                         if ($schedule_find != null) {
+//                             $schedule_id = $schedule_find->id;
+//                         } else {
+//                             $schedule = new Schedule;
+//                             $schedule->Name = $sheet->getCell('M' . $row)->getValue();
+//                             $schedule->save();
+//                             $schedule_id = $schedule->id;
+//                         }
+
+//                         $Product->Schedule =  $schedule_id;
+//                         $Product->TripSize = $sheet->getCell('N' . $row)->getValue();
+//                         $Product->Price_unit = $Product->MRP / $Product->TripSize;
+//                         $Product->Description = $sheet->getCell('O' . $row)->getValue();
+//                         $Product->save();
+//                     } else {
+//                         $product = Product::find($sku_find->id);
+
+
+//   production
 
                         $Product->Function = $function_id;
                         $Product->Generic_name = $sheet->getCell('K' . $row)->getValue();
@@ -185,37 +364,180 @@ class ProductController extends Controller
 
     public function edit($id) 
     {
-        $category = Category::all();
-        $brand = brand::all();
-        $product = Product::find($id);
-        $function = Med_Function::all();
-        $schedule = Schedule::all();
+        // $category = Category::all();
+        // $brand = brand::all();
+        // $product = Product::find($id);
+        // $function = Med_Function::all();
+        // $schedule = Schedule::all();
+        // Assuming $id is the product_id you want to find related records for
+            $product = Product::find($id);
+
+           $category = Category::all();
+
+            // Fetching related records from Brand
+            $brand = Brand::where('id',$product->Brand)->get();
+
+            // Fetching related records from Med_Function
+            $function = Med_Function::where('id',$product->Function)->get();
+
+            // Fetching related records from Schedule
+            // $schedule = Schedule::where('id',$product->Schedule)->get();
+            $schedule = Schedule::all();
         if ($product != null) {
             return view('admin.update_product')->with(compact('product', 'category', 'brand', 'function', 'schedule'));
+        }else{
+            echo"product not found";
         }
+
+        // echo $schedule;
+        
+      
     }
 
     public function update($id, Request $req)
     {
+    
         $page = $req['page'];
+        if( $req['brand_id'] == null){
+            $brand_name=$req['brand'];
+            $existing_brand = Brand::where('Name', $brand_name)->first();
+            if ($existing_brand) {
+                $brand_id = $existing_brand->id;
+            } else {
+                $brand = new Brand();
+                $brand->Name = $brand_name;
+                $brand->save();
+                $brand_id = intval($brand->id);
+            }
+           }else{
+           $brand_id=intval($req['brand_id']);
+           }
+            if( $req['function_id'] == null){
+                $function_name=$req['function'];
+                $existing_function = Med_Function::where('Name', $function_name)->first();
+
+                if ($existing_function) {
+                    $function_id = $existing_function->id;
+                } else {
+                    $function = new Med_Function();
+                    $function->Name = $function_name;
+                    $function->save();
+                    $function_id = intval($function->id);
+                }
+
+               
+            
+               }else{
+               $function_id=intval($req['function_id']);
+               }
         $product = Product::find($id);
         $product->Title = $req['title'];
         $product->Categories_id = $req['category'];
-        $product->Brand = $req['brand'];
+        $product->Brand = $brand_id;
         $product->Box_No = $req['box_no'];
-        $product->Function = $req['function'];
+        $product->Function = $function_id;
         $product->Generic_name = $req['generic_name'];
         $product->Ingredients = $req['ingredients'];
         $product->Schedule = $req['schedule'];
         $product->Description = $req['description'];
         // $product->SKU = $req['bath_no'];
         // $product->MRP = $req['mrp'];
-        // $product->Price_unit = $req['mrp'] / $req['tripsize'];
-        // $product->Stock = $req['stock'];
+        // $product->Price_unit = $req['mrp'] / $req['packsize'];
+        // $product->Stock = $req['stock']; 
         // $product->Exp_date = $req['exp_date'];
-        // $product->TripSize = $req['tripsize'];
+         $product->TripSize = $req['packsize'];
         //$product->Price_unit = $product->MRP/$product->TripSize;
         $product->save();
-        return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
+        // //return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
+        // //return redirect()->route('admin.view_product')->with('msg', 'Product updated!');
+
+        //  //return redirect()->back('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
+
+        foreach($req['batch'] as $i=>$pv ) {
+            if(isset($req['vid'][$i])){
+                $productvariant = ProductVeriant::find($req['vid'][$i]);
+                if($req['batch'][$i]){
+
+                    $productvariant->batch = $req['batch'][$i];
+                    $productvariant->stock	 = $req['stock'][$i];
+                    $productvariant->expdate = $req['expdate'][$i];
+                    $productvariant->mrp_per_unit = $req['mrp'][$i];
+                    $productvariant->strip = $req['strip'][$i];
+                    $product->TripSize = $req['strip'][$i];
+                    $productvariant->rate = $req['rate'][$i];
+                    $productvariant->remarks = $req['remarks'][$i];
+                    $productvariant->save();
+                }else{
+                    $productvariant->delete();
+                }
+ 
+            }else{
+                if(isset($req['batch'][$i]) && $req['batch'][$i]!=''){
+
+                    $productvariant = new ProductVeriant;
+                    $productvariant->batch = $req['batch'][$i];
+                    $productvariant->stock	 = $req['stock'][$i];
+                    $productvariant->expdate = $req['expdate'][$i];
+                    $productvariant->mrp_per_unit = $req['mrp'][$i];
+                    $productvariant->strip = $req['strip'][$i];
+                    $product->TripSize = $req['strip'][$i];
+                    $productvariant->rate = $req['rate'][$i];
+                    $productvariant->remarks = $req['remarks'][$i];
+                    $productvariant->pid = $req['pid'];
+                    $productvariant->save();
+                }
+            }
+    }
+    $product->save();
+    return redirect()->route('admin.view_product', ['page' => $page])->with('msg', 'Product updated!');
+}
+    
+    public function search(Request $request)
+    {
+        $query = $request->get('query');
+
+        if (strlen($query) >= 3) {
+            $results = Product::select('products.*')
+    ->with('category', 'brand', 'function', 'schedule', 'ProductVeriant')
+    ->join('product_veriant', 'products.id', '=', 'product_veriant.pid')
+    ->where('products.Title', 'like', "{$query}%")
+    ->get();
+
+        
+            
+        } else {
+            $results = [];
+        }
+
+        return response()->json($results);
+    }
+
+    public function incoming_invoice(){
+        return view('admin.incoming_invoice');
+    }
+
+    public function incoming_invoice_list(){
+        $data = IncomingInvoice::get();
+
+        return response()->json($data);
+    }
+
+    public function incoming_invoice_store(Request $req){
+
+        $invoice_no = $req->invoice_id;
+        $order_date = $req->order_date;
+        $total_amount = $req->total_amount;
+        $total_gst = $req->total_gst;
+        
+        $inv = new IncomingInvoice;
+        $inv->invoice_no = $invoice_no;
+        $inv->order_date = date("Y-m-d", strtotime($order_date));
+        $inv->total_gst = $total_gst;
+        $inv->total_amount = $total_amount;
+        $inv->save();
+
+        return response()->json($req);
+
+
     }
 }
