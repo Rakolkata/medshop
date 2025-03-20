@@ -1,0 +1,327 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "MedShop API",
+        "description": "API documentation for MedShop application",
+        "contact": {
+            "email": "support@medshop.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User Login",
+                "description": "Authenticate a user and return an access token",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login successful"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "format": "email",
+                                                    "example": "user@example.com"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|fZmWyk...qX"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "properties": {
+                                                "email": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "password": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Invalid credentials.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unauthorized. Invalid credentials."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/orders/store": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Create a new order",
+                "description": "Create a new order with customer details and products. Requires bearer token authentication. Only users with admin access can create orders.",
+                "operationId": "8fbfa4402286b8b54a0ca548f3ee2ad5",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token for authentication (e.g., 'Bearer <token>')",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5..."
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "coustomer_email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "customer@example.com"
+                                    },
+                                    "coustomer_name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "coustomer_phone": {
+                                        "type": "string",
+                                        "example": "9876543210"
+                                    },
+                                    "customer_address": {
+                                        "type": "string",
+                                        "example": "123 Street Name, City"
+                                    },
+                                    "doc_name_regdno": {
+                                        "type": "string",
+                                        "example": "Dr. Smith - ABC123"
+                                    },
+                                    "grand_total": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 500.75
+                                    },
+                                    "total_gst": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 50
+                                    },
+                                    "total_discount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 10
+                                    },
+                                    "round_off": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 0.25
+                                    },
+                                    "title": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "Product A"
+                                        }
+                                    },
+                                    "id": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "rate": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 100
+                                        }
+                                    },
+                                    "qty": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "example": 2
+                                        }
+                                    },
+                                    "gst": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 5
+                                        }
+                                    },
+                                    "total": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 200
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Order created successfully"
+                                        },
+                                        "orderID": {
+                                            "type": "string",
+                                            "example": "M12302024"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized! Admin access only.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized! Admin access only."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized! Invalid or missing bearer token.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized! Invalid or missing bearer token."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        },
+        {
+            "name": "Orders",
+            "description": "Orders"
+        }
+    ]
+}
