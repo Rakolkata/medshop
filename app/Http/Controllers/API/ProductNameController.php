@@ -13,10 +13,10 @@ class ProductNameController extends Controller
 
         if (!empty($search)) {
             // Search products by Title (partial match) or Function (exact match)
-            $products = Product::where('Title', 'LIKE', '%' . $search . '%')
+            $products = Product::where('Title', 'LIKE', $search . '%')
                 ->orWhere('Function', $search)
                 ->orderBy('Title', 'ASC')
-                ->select('Title', 'MRP') // Fetch both Title and MRP
+                ->select('Title', 'MRP')
                 ->get();
         } else {
             // Fetch all product names and their MRP sorted alphabetically
