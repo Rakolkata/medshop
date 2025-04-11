@@ -77,14 +77,16 @@
           <th scope="col">GST</th>
           <th scope="col">Total (inc. GST)</th>
           <th scope="col">Total (after Dis.)</th>
-          <th scope="col">Actions</th>
+          <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody id="table">
         <tr>
           <th class="row">1</th>
-          <td>
-          <input type="text" class="form-control" placeholder="Enter medicine name" />
+          <td style="position: relative;">
+          <input type="text" name="product_name[]" class="form-control product-name" id="ProductNameSearch"
+            placeholder="Enter product name">
+          <!-- <div class="dropdown-menu product-suggestions" style="width: 100%; max-height: 150px; overflow-y: auto;"></div> -->
           </td>
           <td style="display:none;"></td>
           <td>
@@ -166,54 +168,51 @@
       </ul>
       </div>
       </div>
-    </div> -->
     </div>
-    <!-- <div style="text-align:right">
+    </div>
+    <div style="text-align:right">
     <button class="btn text-white" style="background: #60b5ba">Save Order</button>
     </div> -->
     <div class="container-fluid my-3">
-    <div class="row justify-content-end">
+      <div class="row justify-content-end">
       <div class="col-md-4 ">
-      <div>
+        <div>
         <h4>Price details</h4>
         <table class="table">
-        <tbody>
+          <tbody>
           <tr>
-          <td>Discount</td>
-          <td><strong>₹ </strong><input type="number" name="total_discount" id="total_discount" readonly
-            style="border:none"></td>
+            <td>Discount</td>
+            <td><strong>₹ </strong><input type="number" name="total_discount" id="total_discount" readonly
+              style="border:none"></td>
           </tr>
           <tr>
-          <td>Taxable Amount</td>
-          <td><strong>₹ </strong><input type="number" name="total_taxable_amount" id="total_taxable_amount"
-            readonly style="border:none"></td>
+            <td>Taxable Amount</td>
+            <td><strong>₹ </strong><input type="number" name="total_taxable_amount" id="total_taxable_amount"
+              readonly style="border:none"></td>
           </tr>
           <tr>
-          <td>Tax (GST)</td>
-          <td><strong>₹ </strong><input type="number" name="total_gst" id="total_gst" readonly
-            style="border:none"></td>
+            <td>Tax (GST)</td>
+            <td><strong>₹ </strong><input type="number" name="total_gst" id="total_gst" readonly
+              style="border:none"></td>
           </tr>
           <tr>
-          <td>Rand Off</td>
-          <td><strong>₹ </strong><input type="number" name="round_off" id="round_off" readonly
-            style="border:none"></td>
+            <td>Rand Off</td>
+            <td><strong>₹ </strong><input type="number" name="round_off" id="round_off" readonly
+              style="border:none"></td>
           </tr>
           <tr class="grandtotal">
-          <td>Grand Total</td>
-          <td><strong>₹ </strong><input type="number" name="grand_total" id="grand_total" readonly
-            style="border:none"></td>
+            <td>Grand Total</td>
+            <td><strong>₹ </strong><input type="number" name="grand_total" id="grand_total" readonly
+              style="border:none"></td>
           </tr>
-        </tbody>
+          </tbody>
         </table>
-      </div>
-      <button class="btn background btn-lg btn-primary text-white border-0 fs-6 p-3 rounded-0 w-100"
+        </div>
+        <button class="btn background btn-lg btn-primary text-white border-0 fs-6 p-3 rounded-0 w-100"
         style="background: #60b5ba">Save
         Order</button>
       </div>
-    </div>
-
-
-    </div>
+      </div>
   </form>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
@@ -229,115 +228,331 @@
       sum += value;
     }
     return sum;
-  }
+    }
 
-  let totals = [];
-  let gstValues = [];
-  let discounts = [];
+    let totals = [];
+    let gstValues = [];
+    let discounts = [];
 
-  $(function() {
+    $(function () {
 
     function log(message) {
       $("#table").append(message);
     }
+    $("#ProductNameSearch").autocomplete({
+      source: "{{ route('admin.prod_name') }}",
+      dataType: "json",
+      minLength: 2,
+      select: function (event, ui) {
+      // console.log(event, "event");
+      // console.log(ui, "ui");
+      let productV = ui.item.values.product_veriant;
+      // console.log(productV, "fr3fr");
+      let category = ui.item.values.category;
+      var category1 = 0;
+      if (category.length > 0) {
+        if (category[0].Gstrate) {
+        var category1 = category[0].Gstrate;
+        console.log(typeof category1);
+        } else if (category[0].Gstrate == null) {
+        var category1 = 12;
+        console.log(typeof category1);
+        } else if (category[0].Gstrate == 'NULL') {
+        var category1 = 12;
+        console.log(typeof category1);
+        } else if (category[0].Gstrate == '') {
+        var category1 = 12;
+        console.log(typeof category1);
+        } else {
+        var category1 = 12;
+        console.log(typeof category1);
+        }
+      } else {
+        var category1 = 12;
+      }
 
+      var rate_default = 0;
+      var default_strip = 0;
+      var default_batch = 'Null';
+      var default_expdate = 0000 - 00 - 00;
+      if (productV.length > 0) {
+        if (productV[0].rate) {
+        rate_default = productV[0].rate;
+        } else if (productV[0].rate == null) {
+        rate_default = productV[0].mrp_per_unit;
+        } else if (productV[0].rate == 'NULL') {
+        rate_default = productV[0].mrp_per_unit;
+        } else {
+        rate_default = 0;
+        }
+
+        if (productV[0].strip) {
+        default_strip = productV[0].strip;
+        } else if (productV[0].strip == null) {
+        default_strip = 0;
+        } else if (productV[0].strip == 'NULL') {
+        default_strip = 0;
+        } else {
+        default_strip = 0;
+        }
+
+        if (productV[0].batch) {
+        default_batch = productV[0].batch;
+        } else if (productV[0].batch == '') {
+        default_batch = 'Null';
+        } else {
+        default_batch = 'Null';
+        }
+
+        if (productV[0].expdate) {
+        default_expdate = productV[0].expdate;
+        } else {
+        default_expdate = 0000 - 00 - 00;
+        }
+      } else {
+        rate_default = 0;
+        default_strip = 0;
+        default_batch = 'Null';
+        default_expdate = 0000 - 00 - 00;
+      }
+      }
+    })
     $("#seachprodduct").autocomplete({
       source: "{{ route('admin.prod_name') }}",
       dataType: "json",
       minLength: 2,
-      select: function(event, ui) {
-        console.log(event, "event");
-        console.log(ui, "ui");
-        let productV = ui.item.values.product_veriant;
-         console.log(productV, "fr3fr");
-        let category = ui.item.values.category;
-        var category1 = 0;
-        if (category.length > 0) {
-          if (category[0].Gstrate) {
-            var category1 = category[0].Gstrate;
-            console.log(typeof category1);
-          } else if (category[0].Gstrate == null) {
-            var category1 = 12;
-            console.log(typeof category1);
-          } else if (category[0].Gstrate == 'NULL') {
-            var category1 = 12;
-            console.log(typeof category1);
-          } else if (category[0].Gstrate == '') {
-            var category1 = 12;
-            console.log(typeof category1);
-          } else {
-            var category1 = 12;
-            console.log(typeof category1);
-          }
+      select: function (event, ui) {
+      console.log(event, "event");
+      console.log(ui, "ui");
+      let productV = ui.item.values.product_veriant;
+      console.log(productV, "fr3fr");
+      let category = ui.item.values.category;
+      var category1 = 0;
+      if (category.length > 0) {
+        if (category[0].Gstrate) {
+        var category1 = category[0].Gstrate;
+        console.log(typeof category1);
+        } else if (category[0].Gstrate == null) {
+        var category1 = 12;
+        console.log(typeof category1);
+        } else if (category[0].Gstrate == 'NULL') {
+        var category1 = 12;
+        console.log(typeof category1);
+        } else if (category[0].Gstrate == '') {
+        var category1 = 12;
+        console.log(typeof category1);
         } else {
-          var category1 = 12;
+        var category1 = 12;
+        console.log(typeof category1);
+        }
+      } else {
+        var category1 = 12;
+      }
+
+      var rate_default = 0;
+      var default_strip = 0;
+      var default_batch = 'Null';
+      var default_expdate = 0000 - 00 - 00;
+      if (productV.length > 0) {
+        if (productV[0].rate) {
+        rate_default = productV[0].rate;
+        } else if (productV[0].rate == null) {
+        rate_default = productV[0].mrp_per_unit;
+        } else if (productV[0].rate == 'NULL') {
+        rate_default = productV[0].mrp_per_unit;
+        } else {
+        rate_default = 0;
         }
 
-        var rate_default = 0;
-        var default_strip = 0;
-        var default_batch = 'Null';
-        var default_expdate = 0000 - 00 - 00;
-        if (productV.length > 0) {
-          if (productV[0].rate) {
-            rate_default = productV[0].rate;
-          } else if (productV[0].rate == null) {
-            rate_default = productV[0].mrp_per_unit;
-          } else if (productV[0].rate == 'NULL') {
-            rate_default = productV[0].mrp_per_unit;
-          } else {
-            rate_default = 0;
-          }
-
-          if (productV[0].strip) {
-            default_strip = productV[0].strip;
-          } else if (productV[0].strip == null) {
-            default_strip = 0;
-          } else if (productV[0].strip == 'NULL') {
-            default_strip = 0;
-          } else {
-            default_strip = 0;
-          }
-
-          if (productV[0].batch) {
-            default_batch = productV[0].batch;
-          } else if (productV[0].batch == '') {
-            default_batch = 'Null';
-          } else {
-            default_batch = 'Null';
-          }
-
-          if (productV[0].expdate) {
-            default_expdate = productV[0].expdate;
-          } else {
-            default_expdate = 0000 - 00 - 00;
-          }
+        if (productV[0].strip) {
+        default_strip = productV[0].strip;
+        } else if (productV[0].strip == null) {
+        default_strip = 0;
+        } else if (productV[0].strip == 'NULL') {
+        default_strip = 0;
         } else {
-          rate_default = 0;
-          default_strip = 0;
-          default_batch = 'Null';
-          default_expdate = 0000 - 00 - 00;
+        default_strip = 0;
         }
-        // var grand_total_value = 0;
 
-        let rowId = Date.now(); // generate a unique identifier for the row
-        let newRow = $("<tr>", {
-          "id": rowId
-        }); // add the identifier to the new row
-        if (productV.length > 0) {
-          newRow.append("<td></td><td style='display:none'><input  step='any' name='exp[]' class='id' value='" + default_expdate + "' /></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[0].pid + "' /></td><td>" + ui.item.value + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>"+ productV[0].mrp_per_unit+"</td><td><input type='text' name='batch_no[]' class='id' value='" +
-            default_batch + "' readonly/></td><td>" +default_expdate + "</td>" +
-            "<td><input type='number' step='any' id='" + productV[0].pid + "' name='qty[]' value=1 min=1 /></td><td>" +
-            rate_default + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' data-id='" + rate_default + "' data-gst='" + category1 +"' min=0 max=20 value=0 /></td><td>" + category1 + "</td><td><input type='number' step='any' readonly name='gst[]' class='gst' value='" + (parseInt(rate_default) * parseInt(category1) / 100).toFixed(2) + "' readonly ></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default + "' readonly></td><td><i class='bi bi-trash3-fill' id='delete" + rowId + "' style='cursor: pointer; color: red;'></i></td></tr>");
+        if (productV[0].batch) {
+        default_batch = productV[0].batch;
+        } else if (productV[0].batch == '') {
+        default_batch = 'Null';
+        } else {
+        default_batch = 'Null';
+        }
+
+        if (productV[0].expdate) {
+        default_expdate = productV[0].expdate;
+        } else {
+        default_expdate = 0000 - 00 - 00;
+        }
+      } else {
+        rate_default = 0;
+        default_strip = 0;
+        default_batch = 'Null';
+        default_expdate = 0000 - 00 - 00;
+      }
+      // var grand_total_value = 0;
+
+      let rowId = Date.now(); // generate a unique identifier for the row
+      let newRow = $("<tr>", {
+        "id": rowId
+      }); // add the identifier to the new row
+      if (productV.length > 0) {
+        newRow.append("<td></td><td style='display:none'><input  step='any' name='exp[]' class='id' value='" + default_expdate + "' /></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[0].pid + "' /></td><td>" + ui.item.value + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" + productV[0].mrp_per_unit + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
+        default_batch + "' readonly/></td><td>" + default_expdate + "</td>" +
+        "<td><input type='number' step='any' id='" + productV[0].pid + "' name='qty[]' value=1 min=1 /></td><td>" +
+        rate_default + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' data-id='" + rate_default + "' data-gst='" + category1 + "' min=0 max=20 value=0 /></td><td>" + category1 + "</td><td><input type='number' step='any' readonly name='gst[]' class='gst' value='" + (parseInt(rate_default) * parseInt(category1) / 100).toFixed(2) + "' readonly ></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default + "' readonly></td><td><i class='bi bi-trash3-fill' id='delete" + rowId + "' style='cursor: pointer; color: red;'></i></td></tr>");
+        $("#table").append(newRow);
+        // $("#no_data_row").remove();
+        totals[rowId] = rate_default;
+        // gstValues[rowId] = parseInt(rate_default) * parseInt(category1) / 100;
+        gstValues = parseInt(rate_default) * parseInt(category1) / 100;
+
+        discounts[rowId] = 0;
+        let grandTotal = array_sum(totals)
+        grandTotal = parseFloat(grandTotal).toFixed(2);
+        // console.log(totals)
+        grandTotal = Math.round(grandTotal * 100) / 100;
+        // var grand_total = array_sum(totals);
+        // if (grand_total) {
+        //   grand_total_value = grand_total;
+        // } else {
+        //   grand_total_value = 00;
+        // }
+        amountCalculation()
+      } else {
+        // newRow.append("<td id='no_data_row' colspan=12 class='text_center'>This Product is not in stock.</td>");
+        // $("#table").append(newRow);
+        window.alert("This Product is not in Stock.");
+      }
+
+      $(document).on('change', '.discount', function () {
+        let discount = $(this).val();
+        if (discount > 20) { // limit discount to 10%
+        discount = 20;
+        $(this).val(discount); // update the value of the discount input to reflect the limit
+        }
+        amountCalculation()
+      });
+
+      $(document).on('change', '#' + rowId + ' input[name="qty[]"]', function () { // listen to changes on the quantity input of the corresponding row
+        amountCalculation()
+      });
+
+      function amountCalculation() {
+        var grandTotalArray = [];
+        var gstAmountArray = [];
+        var DiscountsArray = [];
+        $('.discount').each(function (index, element) {
+        let discount = $(this).val();
+        let price = $(this).data('id');
+        let qty = $(this).closest('tr').find("input[name='qty[]']").val();
+        let discountAmount = (price * qty * discount) / 100
+        let subtotal = (price * qty) - discountAmount;
+        $(this).closest('tr').find(".total").val(subtotal.toFixed(2));
+        let gstRate = $(this).data('gst');
+        let gstAmount = subtotal * gstRate / 100;
+        $(this).closest('tr').find(".gst").val(gstAmount.toFixed(2));
+
+        grandTotal = subtotal - gstAmount;
+        grandTotalArray[index] = grandTotal;
+        gstAmountArray[index] = gstAmount;
+        DiscountsArray[index] = discountAmount;
+        });
+        var fiGrandTotal = array_sum([parseFloat(array_sum(grandTotalArray)), parseFloat(array_sum(gstAmountArray))]).toFixed(2);
+        var roundOff = (Math.round(fiGrandTotal) - fiGrandTotal).toFixed(2);
+
+        $("#total_taxable_amount").val(array_sum(grandTotalArray).toFixed(2));
+        $("#total_gst").val(array_sum(gstAmountArray).toFixed(2));
+        $("#total_discount").val(array_sum(DiscountsArray).toFixed(2));
+        $("#round_off").val(roundOff);
+        $("#grand_total").val(parseFloat(array_sum([parseFloat(fiGrandTotal), parseFloat(roundOff)])).toFixed(2));
+
+      }
+
+
+      $(document).on('click', '#delete' + rowId, function () {
+        $('#table #' + rowId).remove();
+        amountCalculation()
+      });
+
+
+
+      $(document).on('change', '#' + productV[0].pid, function () {
+        $(".remaining-row" + productV[0].pid + "").remove();
+        let row = $(this).closest('tr'); // Get the parent row of the changed quantity input
+        // console.log(row);
+        let quantity = parseInt($(this).val());
+        let stock = productV[0].stock;
+
+        if (quantity > stock) {
+        // Calculate the remaining quantity
+        let remainingQuantity = quantity - stock;
+        parseInt($(this).val(stock));
+        var total_stock = stock;
+        // $(".remaining-row").remove();
+
+        // Iterate over the product variants to add rows for each remaining quantity
+        for (let i = 1; i < productV.length; i++) {
+          let variant = productV[i];
+          // let category = ui.item.values.category;
+          // if (category[0].Gstrate) {
+          //   var category1 = category[0].Gstrate;
+          //   console.log(category1);
+          // } else {
+          //   var category1 = 0;
+          //   console.log(category1);
+          // }
+
+          var rate_default_copy = 0;
+          if (productV[i].mrp_per_unit) {
+          rate_default_copy = productV[i].mrp_per_unit;
+          } else {
+          rate_default_copy = 0;
+          }
+
+          var default_strip_copy = 0;
+          if (productV[i].strip) {
+          default_strip_copy = productV[i].strip;
+          } else {
+          default_strip_copy = 0;
+          }
+
+          var default_batch_copy = 'Null';
+          if (productV[i].batch) {
+          default_batch_copy = productV[i].batch;
+          } else {
+          default_batch_copy = 'Null';
+          }
+
+          var default_expdate_copy = 0000 - 00 - 00;
+          if (productV[i].expdate) {
+          default_expdate_copy = productV[i].expdate;
+          } else {
+          default_expdate_copy = 0000 - 00 - 00;
+          }
+          // console.log("remaining-row" + productV[0].pid + "");
+          // console.log(".remaining-row " + productV[0].pid + "", "javascript")
+          let variantQuantity = variant.stock;
+          if (remainingQuantity > variantQuantity) {
+          // Create a new row for the current variant's stock
+          let newRow = $("<tr>").addClass("remaining-row" + productV[0].pid);
+          newRow.append("<td></td><td style='display:none'><input  step='any' name='exp[]' class='id' value='" + default_expdate + "' /></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[i].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
+            rate_default_copy * default_strip_copy + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
+            default_batch_copy + "' readonly/></td><td>" +
+            default_expdate_copy + "</td>" +
+            "<td><input type='number' step='any' name='qty[]' value='" + variantQuantity + "' readonly/></td><td>" +
+            rate_default_copy + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default_copy + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' min=0 max=20 value=0 /></td><td>" + category1 + "</td><td><input type='number' step='any' name='gst[]' class='gst' value='" + parseInt(rate_default_copy) * parseInt(category1) / 100 + "' readonly></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default_copy + "' ></td></tr>");
           $("#table").append(newRow);
           // $("#no_data_row").remove();
-          totals[rowId] = rate_default;
-          // gstValues[rowId] = parseInt(rate_default) * parseInt(category1) / 100;
-          gstValues = parseInt(rate_default) * parseInt(category1) / 100;
-      
+          totals[rowId] = rate_default_copy;
+          gstValues[rowId] = parseInt(rate_default_copy) * parseInt(category1) / 100;
           discounts[rowId] = 0;
           let grandTotal = array_sum(totals)
           grandTotal = parseFloat(grandTotal).toFixed(2);
-          // console.log(totals)
+
           grandTotal = Math.round(grandTotal * 100) / 100;
           // var grand_total = array_sum(totals);
           // if (grand_total) {
@@ -345,178 +560,39 @@
           // } else {
           //   grand_total_value = 00;
           // }
-          amountCalculation()
-            } else {
-          // newRow.append("<td id='no_data_row' colspan=12 class='text_center'>This Product is not in stock.</td>");
-          // $("#table").append(newRow);
-          window.alert("This Product is not in Stock.");
-        }
+          // $("#total_taxable_amount").val(grandTotal);
+          // $("#total_gst").val(array_sum(gstValues));
+          // $("#total_discount").val(array_sum(discounts));
+          // $("#round_off").val(grandTotal - (grandTotal));
+          // $("#grand_total").val(grandTotal);
+          // newRow.append("<td></td><td><input type='number' step='any' name='qty[]' value='" + variantQuantity + "' readonly/></td>");
 
-        $(document).on('change', '.discount', function() { 
-          let discount = $(this).val();
-          if (discount > 20) { // limit discount to 10%
-            discount = 20;
-            $(this).val(discount); // update the value of the discount input to reflect the limit
-          }
-          amountCalculation()
-        });
+          // Append the new row to the table
+          $("#table").append(newRow);
 
-        $(document).on('change', '#' + rowId + ' input[name="qty[]"]', function() { // listen to changes on the quantity input of the corresponding row
-          amountCalculation()
-        });
-        
-        function amountCalculation() {
-          var grandTotalArray = [];
-          var gstAmountArray = [];
-          var DiscountsArray = [];
-          $('.discount').each(function(index, element) {
-            let discount = $(this).val();
-            let price = $(this).data('id');
-            let qty = $(this).closest('tr').find("input[name='qty[]']").val();
-            let discountAmount = (price * qty * discount) / 100
-            let subtotal = (price * qty) - discountAmount ;
-            $(this).closest('tr').find(".total").val(subtotal.toFixed(2));
-            let gstRate = $(this).data('gst');
-            let gstAmount = subtotal * gstRate / 100;
-            $(this).closest('tr').find(".gst").val(gstAmount.toFixed(2));
+          // Update the remaining quantity for the next iteration
+          remainingQuantity -= variantQuantity;
+          total_stock += variantQuantity
+          } else {
 
-            grandTotal = subtotal - gstAmount;
-            grandTotalArray[index] = grandTotal;
-            gstAmountArray[index] = gstAmount;
-            DiscountsArray[index] = discountAmount;
-          });
-         var fiGrandTotal = array_sum([parseFloat(array_sum(grandTotalArray)), parseFloat(array_sum(gstAmountArray))]).toFixed(2);
-         var roundOff = (Math.round(fiGrandTotal) - fiGrandTotal).toFixed(2);
-  
-         $("#total_taxable_amount").val(array_sum(grandTotalArray).toFixed(2));
-          $("#total_gst").val(array_sum(gstAmountArray).toFixed(2));
-          $("#total_discount").val(array_sum(DiscountsArray).toFixed(2));
-          $("#round_off").val(roundOff);
-          $("#grand_total").val(parseFloat(array_sum([parseFloat(fiGrandTotal),parseFloat(roundOff)])).toFixed(2));
-   
-        }
-      
-
-        $(document).on('click', '#delete' + rowId, function() {
-          $('#table #' + rowId).remove();
-          amountCalculation()
-        });
-
-        
-
-        $(document).on('change', '#' + productV[0].pid, function() {
-          $(".remaining-row" + productV[0].pid + "").remove();
-          let row = $(this).closest('tr'); // Get the parent row of the changed quantity input
-          // console.log(row);
-          let quantity = parseInt($(this).val());
-          let stock = productV[0].stock;
-
-          if (quantity > stock) {
-            // Calculate the remaining quantity
-            let remainingQuantity = quantity - stock;
-            parseInt($(this).val(stock));
-            var total_stock = stock;
-            // $(".remaining-row").remove();
-
-            // Iterate over the product variants to add rows for each remaining quantity
-            for (let i = 1; i < productV.length; i++) {
-              let variant = productV[i];
-              // let category = ui.item.values.category;
-              // if (category[0].Gstrate) {
-              //   var category1 = category[0].Gstrate;
-              //   console.log(category1);
-              // } else {
-              //   var category1 = 0;
-              //   console.log(category1);
-              // }
-
-              var rate_default_copy = 0;
-              if (productV[i].mrp_per_unit) {
-                rate_default_copy = productV[i].mrp_per_unit;
-              } else {
-                rate_default_copy = 0;
-              }
-
-              var default_strip_copy = 0;
-              if (productV[i].strip) {
-                default_strip_copy = productV[i].strip;
-              } else {
-                default_strip_copy = 0;
-              }
-
-              var default_batch_copy = 'Null';
-              if (productV[i].batch) {
-                default_batch_copy = productV[i].batch;
-              } else {
-                default_batch_copy = 'Null';
-              }
-
-              var default_expdate_copy = 0000 - 00 - 00;
-              if (productV[i].expdate) {
-                default_expdate_copy = productV[i].expdate;
-              } else {
-                default_expdate_copy = 0000 - 00 - 00;
-              }
-              // console.log("remaining-row" + productV[0].pid + "");
-              // console.log(".remaining-row " + productV[0].pid + "", "javascript")
-              let variantQuantity = variant.stock;
-              if (remainingQuantity > variantQuantity) {
-                // Create a new row for the current variant's stock
-                let newRow = $("<tr>").addClass("remaining-row" + productV[0].pid);
-                newRow.append("<td></td><td style='display:none'><input  step='any' name='exp[]' class='id' value='" + default_expdate + "' /></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[i].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
-                  rate_default_copy * default_strip_copy + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
-                  default_batch_copy + "' readonly/></td><td>" +
-                  default_expdate_copy + "</td>" +
-                  "<td><input type='number' step='any' name='qty[]' value='" + variantQuantity + "' readonly/></td><td>" +
-                  rate_default_copy + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default_copy + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' min=0 max=20 value=0 /></td><td>" + category1 + "</td><td><input type='number' step='any' name='gst[]' class='gst' value='" + parseInt(rate_default_copy) * parseInt(category1) / 100 + "' readonly></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default_copy + "' ></td></tr>");
-                $("#table").append(newRow);
-                // $("#no_data_row").remove();
-                totals[rowId] = rate_default_copy;
-                gstValues[rowId] = parseInt(rate_default_copy) * parseInt(category1) / 100;
-                discounts[rowId] = 0;
-                let grandTotal = array_sum(totals)
-                grandTotal = parseFloat(grandTotal).toFixed(2);
-               
-                grandTotal = Math.round(grandTotal * 100) / 100;
-                // var grand_total = array_sum(totals);
-                // if (grand_total) {
-                //   grand_total_value = grand_total;
-                // } else {
-                //   grand_total_value = 00;
-                // }
-                // $("#total_taxable_amount").val(grandTotal);
-                // $("#total_gst").val(array_sum(gstValues));
-                // $("#total_discount").val(array_sum(discounts));
-                // $("#round_off").val(grandTotal - (grandTotal));
-                // $("#grand_total").val(grandTotal);
-                // newRow.append("<td></td><td><input type='number' step='any' name='qty[]' value='" + variantQuantity + "' readonly/></td>");
-
-                // Append the new row to the table
-                $("#table").append(newRow);
-
-                // Update the remaining quantity for the next iteration
-                remainingQuantity -= variantQuantity;
-                total_stock += variantQuantity
-              } else {
-
-                // Create a new row for the remaining quantity
-                let newRow = $("<tr>").addClass("remaining-row" + productV[0].pid);
-                newRow.append("<td></td><td style='display:none'><input  step='any' name='exp[]' class='id' value='" + default_expdate + "' /></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[i].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
-                  rate_default_copy * default_strip_copy + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
-                  default_batch_copy + "' readonly/></td><td>" +
-                  default_expdate_copy + "</td>" +
-                  "<td><input type='number' step='any' name='qty[]' value='" + remainingQuantity + "' readonly/></td><td>" +
-                  rate_default_copy + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default_copy + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' min=0 max=20 value=0 /></td><td class='gst'>" + category1 + "</td><td><input type='number' step='any' name='gst[]' class='gst' value='" + parseInt(rate_default_copy) * parseInt(category1) / 100 + "'></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default_copy + "' ></td></tr>");
-                $("#table").append(newRow);
-                $
-                // $("#no_data_row").remove();
+          // Create a new row for the remaining quantity
+          let newRow = $("<tr>").addClass("remaining-row" + productV[0].pid);
+          newRow.append("<td></td><td style='display:none'><input  step='any' name='exp[]' class='id' value='" + default_expdate + "' /></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[i].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
+            rate_default_copy * default_strip_copy + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
+            default_batch_copy + "' readonly/></td><td>" +
+            default_expdate_copy + "</td>" +
+            "<td><input type='number' step='any' name='qty[]' value='" + remainingQuantity + "' readonly/></td><td>" +
+            rate_default_copy + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default_copy + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' min=0 max=20 value=0 /></td><td class='gst'>" + category1 + "</td><td><input type='number' step='any' name='gst[]' class='gst' value='" + parseInt(rate_default_copy) * parseInt(category1) / 100 + "'></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default_copy + "' ></td></tr>");
+          $("#table").append(newRow);
+          $
+          // $("#no_data_row").remove();
           //       totals[(rowId+1)] = rate_default_copy;
           //       gstValues[(rowId+1)] = parseInt(rate_default_copy) * parseInt(category1) / 100;
           //       discounts[(rowId+1)] = 0;
-                let grandTotal = array_sum(totals)
+          let grandTotal = array_sum(totals)
           grandTotal = parseFloat(grandTotal).toFixed(2);
 
-         grandTotal = Math.round(grandTotal * 100) / 100;
+          grandTotal = Math.round(grandTotal * 100) / 100;
           //       var grand_total = array_sum(totals);
           //       if (grand_total) {
           //         grand_total_value = grand_total;
@@ -528,31 +604,31 @@
           //       $("#total_discount").val(array_sum(discounts));
           //       $("#round_off").val(grandTotal - (grandTotal));
           //       $("#grand_total").val(grandTotal);
-                // newRow.append("<td></td><td><input type='number' step='any' name='qty[]' value='" + remainingQuantity + "' readonly/></td>");
-                // same row data
-                var curent_qty= $('.remaining-row' + productV[0].pid).find("input[name='qty[]']");
-                var current_val=curent_qty.val()
-                
-                var prow_input= $('#' + rowId).find("input[name='total[]']");
-                var prow_value= prow_input.val()
-                $('#' + rowId).find("input[name='total[]']").val(prow_value-(rate_default_copy * current_val))
-                $('.remaining-row' + productV[0].pid).find("input[name='total[]']").val((rate_default_copy * current_val))
-                // console.log(current_val)
-                // Append the new row to the table
-                $("#table").append(newRow);
+          // newRow.append("<td></td><td><input type='number' step='any' name='qty[]' value='" + remainingQuantity + "' readonly/></td>");
+          // same row data
+          var curent_qty = $('.remaining-row' + productV[0].pid).find("input[name='qty[]']");
+          var current_val = curent_qty.val()
+
+          var prow_input = $('#' + rowId).find("input[name='total[]']");
+          var prow_value = prow_input.val()
+          $('#' + rowId).find("input[name='total[]']").val(prow_value - (rate_default_copy * current_val))
+          $('.remaining-row' + productV[0].pid).find("input[name='total[]']").val((rate_default_copy * current_val))
+          // console.log(current_val)
+          // Append the new row to the table
+          $("#table").append(newRow);
 
 
 
-                // Exit the loop as remaining quantity is zero
-                break;
-              }
-            }
-            if (quantity > total_stock) {
-              window.alert('We wre out of stock now for this product. we have only ' + total_stock + ' and you are demanding ' + quantity)
-            }
+          // Exit the loop as remaining quantity is zero
+          break;
           }
+        }
+        if (quantity > total_stock) {
+          window.alert('We wre out of stock now for this product. we have only ' + total_stock + ' and you are demanding ' + quantity)
+        }
+        }
 
-        });
+      });
 
 
       }
@@ -562,21 +638,105 @@
       source: "{{ route('admin.customer_data') }}",
       dataType: "json",
       minLength: 2,
-      select: function(event, ui) {
-        console.log(ui);
-        $("#email").val(ui.item.values.email);
-        $("#name").val(ui.item.values.name);
-        $("#address").val(ui.item.values.Address);
-        $("#regno").val(ui.item.values.Doc_Name_RegdNo);
+      select: function (event, ui) {
+      console.log(ui);
+      $("#email").val(ui.item.values.email);
+      $("#name").val(ui.item.values.name);
+      $("#address").val(ui.item.values.Address);
+      $("#regno").val(ui.item.values.Doc_Name_RegdNo);
       }
-  });
-});
-</script>
+    });
+    });
+  </script>
 
 
 
   @push('styles')
     <style>
+    /* ul li:hover {
+    cursor: copy;
+    background-color: #60b5ba;
+    color: #fff;
+    }
+
+    .container {
+    width: 1100px;
+    margin: 0 auto;
+    }
+
+    .ciRow3,
+    .ciRow2 {
+    clear: both;
+    display: block;
+    margin-bottom: 15px;
+    }
+
+    .ciRow3:after,
+    .ciRow2:after {
+    content: "";
+    clear: both;
+    display: block;
+    height: 1px;
+    width: 100%;
+    } */
+
+    /*.ciRow3 .ciCol {
+    width: 31%;
+    float: left;
+    margin-right: 2%;
+    }
+
+    .ciRow2 .ciCol {
+    width: 48%;
+    float: left;
+    margin-right: 2%;
+    }*/
+
+    /* .ciRow3 .ciCol label {
+    clear: both;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    }
+
+    .ciRow3 .ciCol input {
+    border: 1px solid #ebebeb;
+    padding: 10px;
+    width: 90%;
+    }
+
+    .ciRow2 .ciCol label {
+    clear: both;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    }
+
+    .ciRow2 .ciCol textarea {
+    border: 1px solid #ebebeb;
+    padding: 10px;
+    width: 91%;
+    }
+
+    .customerInfo .container {
+    background: #f7f7f7;
+    padding: 30px;
+    border-radius: 0px 0px 20px 20px;
+    margin-bottom: 10px;
+    }
+
+    .qty_outoff_stock {
+    background-color: red;
+    color: #fff;
+    }
+
+    .qty_in_stock {
+    background-color: #fff;
+    }
+
+    .text_center {
+    text-align: center;
+    } */
     ul li:hover {
     cursor: copy;
     background-color: #60b5ba;
