@@ -1,100 +1,227 @@
 @extends('layouts.admin.app')
 @push('title')
-<title>Medshop | Create-Order</title>
+  <title>Medshop | Create-Order</title>
 @endpush
 
 
 @section('content')
 
-<form action="{{route('admin.order_store')}}" method="post">
-  @csrf
-  <div class="customerInfo">
-    <div class="container">
+  <form action="{{route('admin.order_store')}}" method="post">
+    @csrf
+    <div class="d-flex mb-3 justify-center align-middle text-center">
+    <div>
+      <h3 style="font-size: 24px; line-height: 38px; margin-bottom: 0;">Bill:</h3>
+    </div>
+    <div class="d-flex mx-2 ">
+      <select style="padding:5px; margin-bottom:15px;" class="selectBox">
+      <option selected>Cash</option>
+      <option value="1">Online</option>
+      </select>
+    </div>
+    </div>
+    <div class="customerInfo">
+    <div class="container1">
       <h2>Customer Info:</h2>
-      <div class="ciRow3">
-        <div class="ciCol"><label>Name</label><input type="text" name="coustomer_name" required id="name"/></div>
-        <div class="ciCol"><label>Phone</label><input type="text" name="coustomer_phone" required id="phone"/></div>
-        <div class="ciCol"><label>Email</label><input type="email" name="coustomer_email" id="email"/></div>
+      <div class="row">
+      <div class="col-md-3">
+        <!-- <label>Name</label> -->
+        <input type="text" name="coustomer_name" placeholder="Name" required id="name" />
+      </div>
+      <div class="col-md-3">
+        <!-- <label>Phone</label> -->
+        <input type="text" name="coustomer_phone" placeholder="Phone" required id="phone" />
+      </div>
+      <div class="col-md-3">
+        <!-- <label>Email</label> -->
+        <input type="email" name="coustomer_email" placeholder="Email" required id="email" />
+      </div>
+      <div class="col-md-3">
+        <!-- <label>Address</label> -->
+        <textarea name="customer_address" placeholder="Address" required id="address"></textarea>
+      </div>
       </div>
 
-      <div class="ciRow2">
-        <div class="ciCol"><label>Address</label><textarea name="customer_address" required id="address"></textarea></div>
-        <div class="ciCol"><label>Dr. Name/Reg. No.</label><textarea name="doc_name_regdno" id="regno"></textarea></div>
+      <div class="row">
+      <div class="col-md-3">
+        <!-- <label>Dr. Name/Reg. No.</label> -->
+        <textarea name="doc_name_regdno" placeholder="Dr. Name/Reg. No." id="regno"></textarea>
+      </div>
       </div>
     </div>
-  </div>
-  <div class="row">
+    </div>
+    <div class="row">
     Search
     <div class="col-md-12">
-      <input name="product" id="seachprodduct" type="text" placeholder="Seach your product" style="padding:5px; margin-bottom:15px;" />
+      <input name="product" id="seachprodduct" type="text" placeholder="Seach your product"
+      style="padding:5px; margin-bottom:15px;" />
     </div>
-  </div>
-  <div class="row">
+    </div>
+    <div class="row">
     <div class="col-md-12">
       <div class="form-group">
-        <table class="table table-striped ">
+      <table class="table table-striped ">
 
-          <thead style="background-color: #60b5ba;color:#fff">
+        <thead style="background-color: #60b5ba;color:#fff">
 
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col" style="display:none">Id</th>
-              <th scope="col">MRP</th>
-              <th scope="col">Batch No.</th>
-              <th scope="col">Exp. Dt</th>
-              <th scope="col">Qty</th>
-              <th scope="col">Rate</th>
-              <th scope="col">Discount (%)</th>
-              <th scope="col" style="display:none">Subtotal</th>
-              <th scope="col">GST</th>
-              <th scope="col">Total (inc. GST)</th>
-              <th scope="col">Total (after Dis.)</th>
-              <th scope="col">Delete Row</th>
-            </tr>
-          </thead>
-          <tbody id="table">
-
-          </tbody>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col" style="display:none">Id</th>
+          <th scope="col">MRP</th>
+          <th scope="col">Batch No.</th>
+          <th scope="col">Exp. Dt</th>
+          <th scope="col">Qty</th>
+          <th scope="col">Rate</th>
+          <th scope="col">Discount (%)</th>
+          <th scope="col" style="display:none">Subtotal</th>
+          <th scope="col">GST</th>
+          <th scope="col">Total (inc. GST)</th>
+          <th scope="col">Total (after Dis.)</th>
+          <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody id="table">
+        <tr>
+          <th class="row">1</th>
+          <td>
+          <input type="text" class="form-control" placeholder="Enter medicine name" />
+          </td>
+          <td style="display:none;"></td>
+          <td>
+          <div class="d-flex align-items-center">
+            <strong class="me-1">₹ </strong>55
+          </div>
+          </td>
+          <td>
+          <input type="text" class="form-control" placeholder="Batch No." />
+          </td>
+          <td>2024-10-05</td>
+          <td>
+          <input type="text" class="form-control" placeholder="Qty" />
+          </td>
+          <td>
+          <div class="d-flex align-items-center">
+            <strong class="me-1">₹ </strong>55
+          </div>
+          </td>
+          <td>
+          <input type="text" class="form-control" placeholder="Discount" />
+          </td>
+          <td style="display:none;"></td>
+          <td>
+          <input type="text" class="form-control" placeholder="GST" />
+          </td>
+          <td>
+          <input type="text" class="form-control" placeholder="Total" />
+          </td>
+          <td>
+          <input type="text" class="form-control" placeholder="TotalAfterDiscount" />
+          </td>
+          <td class="d-flex gap-2">
+          <a href="#" class="delete" data-bs-target="#staticBackdrop">
+            <svg width="21" height="19" viewBox="0 0 21 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M0.410156 3.05157C0.180469 3.05157 0 2.87111 0 2.64142C0 2.41173 0.180469 2.23126 0.410156 2.23126L19.6875 2.26407C19.9172 2.26407 20.0977 2.44454 20.0977 2.67423C20.0977 2.90392 19.9172 3.08439 19.6875 3.08439L0.410156 3.05157ZM3.57656 3.88829C3.57656 3.65861 3.75703 3.47814 3.98672 3.47814C4.21641 3.47814 4.39687 3.65861 4.39687 3.88829V18.0141L16.4062 17.8828V4.03595C16.4062 3.80626 16.5867 3.62579 16.8164 3.62579C17.0461 3.62579 17.2266 3.80626 17.2266 4.03595V18.736L3.56016 18.8836V3.88829H3.57656Z"
+              fill="white" />
+            <path
+              d="M13.7484 15.8812C13.5187 15.8812 13.3383 15.7008 13.3383 15.4711V5.72578C13.3383 5.49609 13.5187 5.31562 13.7484 5.31562C13.9781 5.31562 14.1586 5.49609 14.1586 5.72578V15.4711C14.175 15.7008 13.9781 15.8812 13.7484 15.8812ZM7.28435 15.8812C7.05466 15.8812 6.87419 15.7008 6.87419 15.4711V5.72578C6.87419 5.49609 7.05466 5.31562 7.28435 5.31562C7.51404 5.31562 7.69451 5.49609 7.69451 5.72578V15.4711C7.71091 15.7008 7.51404 15.8812 7.28435 15.8812ZM10.5164 15.8812C10.2867 15.8812 10.1062 15.7008 10.1062 15.4711V5.72578C10.1062 5.49609 10.2867 5.31562 10.5164 5.31562C10.7461 5.31562 10.9265 5.49609 10.9265 5.72578V15.4711C10.9429 15.7008 10.7461 15.8812 10.5164 15.8812ZM13.1906 2.47734V1.47656C13.1906 1.11562 12.8953 0.820312 12.5344 0.820312H8.33435C7.95701 0.820312 7.6781 1.11563 7.6781 1.49297V2.3625H6.85779V1.49297C6.85779 0.672656 7.53044 0 8.35076 0H12.5508C13.3711 0 14.0437 0.672656 14.0437 1.49297V2.49375H13.1906V2.47734Z"
+              fill="white" />
+            </svg>
+          </a>
+          <a href="#" class="addbtn">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M8.75 11.25V20H11.25V11.25H20V8.75H11.25V0H8.75V8.75H0V11.25H8.75Z" fill="white" />
+            </svg>
+          </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+    <div class="col-md-6">
+    </div>
+    <!-- <div class="col-md-6">
+      <div class="row">
+      <div class="col-md-6">
+      <ul style="text-align: right;list-style-type:none">
+      <li class="mt-2" style="display:none">SubTotal</span></li>
+      <li class="mt-2">Discount</li>
+      <li class="mt-2">Sub Total</li>
+      <li class="mt-2">Tax (GST)</li>
+      <li class="mt-2">Round Off</li>
+      <li class="mt-2">Grand Total</li>
+      </ul>
+      </div>
+      <div class="col-md-6">
+      <ul style="text-align: right;list-style-type:none">
+      <li class="p-1"><input type="number" name="total_discount" id="total_discount" readonly style="border:none">
+      </li>
+      <li class="p-1"><input type="number" name="total_taxable_amount" id="total_taxable_amount" readonly
+      style="border:none"></li>
+      <li class="p-1"><input type="number" name="total_gst" id="total_gst" readonly style="border:none"></li>
+      <li class="p-1"><input type="number" name="round_off" id="round_off" readonly style="border:none"></li>
+      <li class="p-1"><input type="number" name="grand_total" id="grand_total" readonly style="border:none"></li>
+      </ul>
+      </div>
+      </div>
+    </div> -->
+    </div>
+    <!-- <div style="text-align:right">
+    <button class="btn text-white" style="background: #60b5ba">Save Order</button>
+    </div> -->
+    <div class="container-fluid my-3">
+    <div class="row justify-content-end">
+      <div class="col-md-4 ">
+      <div>
+        <h4>Price details</h4>
+        <table class="table">
+        <tbody>
+          <tr>
+          <td>Discount</td>
+          <td><strong>₹ </strong><input type="number" name="total_discount" id="total_discount" readonly
+            style="border:none"></td>
+          </tr>
+          <tr>
+          <td>Taxable Amount</td>
+          <td><strong>₹ </strong><input type="number" name="total_taxable_amount" id="total_taxable_amount"
+            readonly style="border:none"></td>
+          </tr>
+          <tr>
+          <td>Tax (GST)</td>
+          <td><strong>₹ </strong><input type="number" name="total_gst" id="total_gst" readonly
+            style="border:none"></td>
+          </tr>
+          <tr>
+          <td>Rand Off</td>
+          <td><strong>₹ </strong><input type="number" name="round_off" id="round_off" readonly
+            style="border:none"></td>
+          </tr>
+          <tr class="grandtotal">
+          <td>Grand Total</td>
+          <td><strong>₹ </strong><input type="number" name="grand_total" id="grand_total" readonly
+            style="border:none"></td>
+          </tr>
+        </tbody>
         </table>
       </div>
-    </div>
-    <div class="col-md-6">
-    </div>
-    <div class="col-md-6">
-      <div class="row">
-        <div class="col-md-6">
-          <ul style="text-align: right;list-style-type:none">
-            <li class="mt-2" style="display:none">SubTotal</span></li>
-            <li class="mt-2">Discount</li>
-            <li class="mt-2">Sub Total</li>
-            <li class="mt-2">Tax (GST)</li>
-            <li class="mt-2">Round Off</li>
-            <li class="mt-2">Grand Total</li>
-          </ul>
-        </div>
-        <div class="col-md-6">
-          <ul style="text-align: right;list-style-type:none">
-            <li class="p-1"><input type="number" name="total_discount" id="total_discount" readonly style="border:none"></li>
-            <li class="p-1"><input type="number" name="total_taxable_amount" id="total_taxable_amount" readonly style="border:none"></li>
-            <li class="p-1"><input type="number" name="total_gst" id="total_gst" readonly style="border:none"></li>
-            <li class="p-1"><input type="number" name="round_off" id="round_off" readonly style="border:none"></li>
-            <li class="p-1"><input type="number" name="grand_total" id="grand_total" readonly style="border:none"></li>
-          </ul>
-        </div>
+      <button class="btn background btn-lg btn-primary text-white border-0 fs-6 p-3 rounded-0 w-100"
+        style="background: #60b5ba">Save
+        Order</button>
       </div>
     </div>
-  </div>
-  <div style="text-align:right">
-    <button class="btn text-white" style="background: #60b5ba">Save Order</button>
-  </div>
-</form>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-<script>
-  function array_sum(array) {
+
+
+    </div>
+  </form>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+    integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <script>
+    function array_sum(array) {
     // console.log(array,"testttt");
     let sum = 0;
 
@@ -389,7 +516,7 @@
                 let grandTotal = array_sum(totals)
           grandTotal = parseFloat(grandTotal).toFixed(2);
 
-grandTotal = Math.round(grandTotal * 100) / 100;
+         grandTotal = Math.round(grandTotal * 100) / 100;
           //       var grand_total = array_sum(totals);
           //       if (grand_total) {
           //         grand_total_value = grand_total;
@@ -448,92 +575,144 @@ grandTotal = Math.round(grandTotal * 100) / 100;
 
 
 
-@push('styles')
-<style>
-  ul li:hover {
+  @push('styles')
+    <style>
+    ul li:hover {
     cursor: copy;
     background-color: #60b5ba;
     color: #fff;
-  }
+    }
 
-  .container {
+    .container {
     width: 1100px;
     margin: 0 auto;
-  }
+    }
 
-  .ciRow3,
-  .ciRow2 {
+    /* .ciRow3,
+    .ciRow2 {
     clear: both;
     display: block;
     margin-bottom: 15px;
-  }
+    }
 
-  .ciRow3:after,
-  .ciRow2:after {
+    .ciRow3:after,
+    .ciRow2:after {
     content: "";
     clear: both;
     display: block;
     height: 1px;
     width: 100%;
-  }
+    } */
 
-  /*.ciRow3 .ciCol {
+    /*.ciRow3 .ciCol {
     width: 31%;
     float: left;
     margin-right: 2%;
-  }
+    }
 
-  .ciRow2 .ciCol {
+    .ciRow2 .ciCol {
     width: 48%;
     float: left;
     margin-right: 2%;
-  }*/
+    }*/
 
-  .ciRow3 .ciCol label {
+    /* .ciRow3 .ciCol label {
     clear: both;
     display: block;
     margin-bottom: 5px;
-    font-weight:bold;
-  }
+    font-weight: bold;
+    }
 
-  .ciRow3 .ciCol input {
+    .ciRow3 .ciCol input {
     border: 1px solid #ebebeb;
     padding: 10px;
     width: 90%;
-  }
+    }
 
-  .ciRow2 .ciCol label {
+    .ciRow2 .ciCol label {
     clear: both;
     display: block;
     margin-bottom: 5px;
-    font-weight:bold;
-  }
+    font-weight: bold;
+    }
 
-  .ciRow2 .ciCol textarea {
+    .ciRow2 .ciCol textarea {
     border: 1px solid #ebebeb;
     padding: 10px;
     width: 91%;
-  }
+    } */
 
-  .customerInfo .container {
-    background: #f7f7f7;
-    padding: 30px;
-    border-radius: 0px 0px 20px 20px;
+    .customerInfo input,
+    .customerInfo textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    height: 40px;
+    margin: 10px 0px;
+    }
+
+    .customerInfo .container1 {
+    /* background: #f7f7f7;
+    padding: 30px; */
+    /* border-radius: 0px 0px 20px 20px; */
+    max-width: 100%;
     margin-bottom: 10px;
-  }
+    }
 
-  .qty_outoff_stock {
+    .qty_outoff_stock {
     background-color: red;
     color: #fff;
-  }
+    }
 
-  .qty_in_stock {
+    .qty_in_stock {
     background-color: #fff;
-  }
+    }
 
-  .text_center {
+    .text_center {
     text-align: center;
-  }
-</style>
-@endpush
+    }
+
+    .selectBox {
+    color: #858796;
+    }
+
+    .grandtotal {
+    border-top: 2px solid #E0E0E0;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    }
+
+    .delete {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    background-color: #E94F4F;
+    text-align: center;
+    display: block;
+    margin-right: 10px;
+    }
+
+    .delete svg {
+    margin-top: 10px;
+    }
+
+    .addbtn {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    background-color: #35B71D;
+    text-align: center;
+    display: block;
+    }
+
+    .addbtn svg {
+    margin-top: 10px;
+    }
+    </style>
+  @endpush
 @endsection
