@@ -82,56 +82,64 @@
         </thead>
         <tbody id="table">
         <tr>
-          <th class="row">1</th>
+          <td class="row">1</td>
           <td style="position: relative;">
-          <input type="text" name="product_name[]" class="form-control product-name" id="ProductNameSearch"
-            placeholder="Enter product name">
-          <!-- <div class="dropdown-menu product-suggestions" style="width: 100%; max-height: 150px; overflow-y: auto;"></div> -->
+          <input type="text" name="product_name[]" class="form-control product-name ProductNameSearch"
+            placeholder="Enter product name" value="" />
           </td>
-          <td style="display:none;"></td>
-          <td>
-          <div class="d-flex align-items-center">
-            <strong class="me-1">₹ </strong>55
-          </div>
-          </td>
-          <td>
-          <input type="text" class="form-control" placeholder="Batch No." />
-          </td>
-          <td>2024-10-05</td>
-          <td>
-          <input type="text" class="form-control" placeholder="Qty" />
+          <td style="display:none;">
+          <input type="number" step="any" name="id[]" class="id" value="" />
+          <input type="text" name="title[]" class="title" value="" />
+          <input type="text" name="exp[]" class="id" value="" />
           </td>
           <td>
           <div class="d-flex align-items-center">
-            <strong class="me-1">₹ </strong>55
+            <strong class="me-1">₹</strong>00
           </div>
           </td>
           <td>
-          <input type="text" class="form-control" placeholder="Discount" />
+          <input type="text" class="form-control" name="batch_no[]" value="" placeholder="Enter Batch No"
+            readonly />
+          </td>
+          <td id="year">yyyy-mm-dd</td>
+          <td>
+          <input type="number" step="any" class="form-control qty" name="qty[]" value="1" min="1" id=""
+            placeholder="Enter Quantity" />
+          </td>
+          <td>
+          <div class="d-flex align-items-center">
+            <strong class="me-1">₹</strong>00
+          </div>
+          <input type="hidden" name="rate[]" class="rate" value="" />
+          </td>
+          <td>
+          <input type="number" step="any" class="form-control discount" name="discount[]" min="0" max="20"
+            value="0" placeholder="Enter Discount" />
           </td>
           <td style="display:none;"></td>
           <td>
-          <input type="text" class="form-control" placeholder="GST" />
+          <span>00</span>
           </td>
           <td>
-          <input type="text" class="form-control" placeholder="Total" />
+          <input type="text" class=" form-control gst" name="gst[]" value="" placeholder="Enter Total" readonly />
           </td>
           <td>
-          <input type="text" class="form-control" placeholder="TotalAfterDiscount" />
+          <input type='number' step='any' name='total[]' class='form-control total' value=''
+            placeholder="Enter Total After Discount" readonly>
           </td>
           <td class="d-flex gap-2">
-          <a href="#" class="delete" data-bs-target="#staticBackdrop">
-            <svg width="21" height="19" viewBox="0 0 21 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <a href="#" class="delete" id="delete${rowId}" data-bs-target="#staticBackdrop">
+            <svg width="21" height="19" fill="red" xmlns="http://www.w3.org/2000/svg">
             <path
-              d="M0.410156 3.05157C0.180469 3.05157 0 2.87111 0 2.64142C0 2.41173 0.180469 2.23126 0.410156 2.23126L19.6875 2.26407C19.9172 2.26407 20.0977 2.44454 20.0977 2.67423C20.0977 2.90392 19.9172 3.08439 19.6875 3.08439L0.410156 3.05157ZM3.57656 3.88829C3.57656 3.65861 3.75703 3.47814 3.98672 3.47814C4.21641 3.47814 4.39687 3.65861 4.39687 3.88829V18.0141L16.4062 17.8828V4.03595C16.4062 3.80626 16.5867 3.62579 16.8164 3.62579C17.0461 3.62579 17.2266 3.80626 17.2266 4.03595V18.736L3.56016 18.8836V3.88829H3.57656Z"
+              d="M0.41 3.05C0.18 3.05 0 2.87 0 2.64C0 2.41 0.18 2.23 0.41 2.23L19.69 2.26C19.92 2.26 20.1 2.44 20.1 2.67C20.1 2.9 19.92 3.08 19.69 3.08L0.41 3.05ZM3.58 3.89C3.58 3.66 3.76 3.48 3.99 3.48C4.22 3.48 4.4 3.66 4.4 3.89V18.01L16.41 17.88V4.04C16.41 3.81 16.59 3.63 16.82 3.63C17.05 3.63 17.23 3.81 17.23 4.04V18.74L3.56 18.88V3.89H3.58Z"
               fill="white" />
             <path
-              d="M13.7484 15.8812C13.5187 15.8812 13.3383 15.7008 13.3383 15.4711V5.72578C13.3383 5.49609 13.5187 5.31562 13.7484 5.31562C13.9781 5.31562 14.1586 5.49609 14.1586 5.72578V15.4711C14.175 15.7008 13.9781 15.8812 13.7484 15.8812ZM7.28435 15.8812C7.05466 15.8812 6.87419 15.7008 6.87419 15.4711V5.72578C6.87419 5.49609 7.05466 5.31562 7.28435 5.31562C7.51404 5.31562 7.69451 5.49609 7.69451 5.72578V15.4711C7.71091 15.7008 7.51404 15.8812 7.28435 15.8812ZM10.5164 15.8812C10.2867 15.8812 10.1062 15.7008 10.1062 15.4711V5.72578C10.1062 5.49609 10.2867 5.31562 10.5164 5.31562C10.7461 5.31562 10.9265 5.49609 10.9265 5.72578V15.4711C10.9429 15.7008 10.7461 15.8812 10.5164 15.8812ZM13.1906 2.47734V1.47656C13.1906 1.11562 12.8953 0.820312 12.5344 0.820312H8.33435C7.95701 0.820312 7.6781 1.11563 7.6781 1.49297V2.3625H6.85779V1.49297C6.85779 0.672656 7.53044 0 8.35076 0H12.5508C13.3711 0 14.0437 0.672656 14.0437 1.49297V2.49375H13.1906V2.47734Z"
+              d="M13.75 15.88C13.52 15.88 13.34 15.7 13.34 15.47V5.73C13.34 5.5 13.52 5.32 13.75 5.32C13.98 5.32 14.16 5.5 14.16 5.73V15.47C14.18 15.7 13.98 15.88 13.75 15.88ZM7.28 15.88C7.05 15.88 6.87 15.7 6.87 15.47V5.73C6.87 5.5 7.05 5.32 7.28 5.32C7.51 5.32 7.69 5.5 7.69 5.73V15.47C7.71 15.7 7.51 15.88 7.28 15.88ZM10.52 15.88C10.29 15.88 10.11 15.7 10.11 15.47V5.73C10.11 5.5 10.29 5.32 10.52 5.32C10.75 5.32 10.93 5.5 10.93 5.73V15.47C10.94 15.7 10.75 15.88 10.52 15.88ZM13.19 2.48V1.48C13.19 1.12 12.9 0.82 12.53 0.82H8.33C7.96 0.82 7.68 1.12 7.68 1.49V2.36H6.86V1.49C6.86 0.67 7.53 0 8.35 0H12.55C13.37 0 14.04 0.67 14.04 1.49V2.49H13.19V2.48Z"
               fill="white" />
             </svg>
           </a>
           <a href="#" class="addbtn">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="20" height="20" fill="green" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd"
               d="M8.75 11.25V20H11.25V11.25H20V8.75H11.25V0H8.75V8.75H0V11.25H8.75Z" fill="white" />
             </svg>
@@ -220,12 +228,185 @@
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
   <script>
-    function array_sum(array) {
-    // console.log(array,"testttt");
-    let sum = 0;
+    let id = 2;
+    let rowId;
+    function amountCalculation() {
+    // console.log("enter in calculate function");
 
+    var grandTotalArray = [];
+    var gstAmountArray = [];
+    var DiscountsArray = [];
+    $('.discount').each(function (index, element) {
+      let discount = $(this).val();
+      let price = $(this).data('id') || parseFloat($(this).closest('tr').find(".rate").text().replace('₹', '').trim()) || 0;
+      let qty = $(this).closest('tr').find("input[name='qty[]']").val();
+      let discountAmount = (price * qty * discount) / 100
+      let subtotal = (price * qty) - discountAmount;
+      $(this).closest('tr').find(".total").val(subtotal.toFixed(2));
+      let gstRate = $(this).data('gst');
+      let gstAmount = subtotal * gstRate / 100;
+      $(this).closest('tr').find(".gst").val(gstAmount.toFixed(2));
+      // console.log("price", price);
+      // console.log("discount", discount);
+      // console.log("qty", qty);
+      // console.log("discount amount", discountAmount);
+      // console.log("subtotal", subtotal);
+
+      grandTotal = subtotal - gstAmount;
+      grandTotalArray[index] = grandTotal;
+      gstAmountArray[index] = gstAmount;
+      DiscountsArray[index] = discountAmount;
+    });
+    var fiGrandTotal = (array_sum(grandTotalArray) + array_sum(gstAmountArray)).toFixed(2);
+    var roundOff = (Math.round(fiGrandTotal) - fiGrandTotal).toFixed(2);
+    // console.log("grand total ",array_sum(grandTotalArray).toFixed(2));
+
+    $("#total_taxable_amount").val(array_sum(grandTotalArray).toFixed(2));
+    $("#total_gst").val(array_sum(gstAmountArray).toFixed(2));
+    $("#total_discount").val(array_sum(DiscountsArray).toFixed(2));
+    $("#round_off").val(roundOff);
+    $("#grand_total").val(parseFloat(array_sum([parseFloat(fiGrandTotal), parseFloat(roundOff)])).toFixed(2));
+
+    }
+
+    $(document).on('change', '.discount', function () {
+    let discount = $(this).val();
+    if (discount > 20) { // limit discount to 10%
+      discount = 20;
+      $(this).val(discount); // update the value of the discount input to reflect the limit
+    }
+    amountCalculation()
+    });
+
+    $(document).on('input', '.qty', function () { // listen to changes on the quantity input of the corresponding row
+    amountCalculation()
+    });
+
+    $(document).on('click', '.delete', function () {
+    const row = $(this).closest('tr');
+    const rowId = row.attr('id');
+    delete totals[rowId];
+    delete gstValues[rowId];
+    delete discounts[rowId];
+    row.remove();
+    id = id - 1;
+    amountCalculation();
+    });
+
+    $(document).on('click', '.addbtn', function () {
+    console.log("clicked");
+    let rowId = Date.now(); // unique ID
+    let newRow = $("<tr>", {
+      "id": rowId
+    });
+
+    // Create new row with appropriate structure
+    newRow.append(`
+      <td class="row">${id}</td>
+      <td style="position: relative;">
+      <input type="text" name="product_name[]" id="product_name_${rowId}" class="form-control product-name" placeholder="Enter product name">
+      </td>
+      <td style="display:none;">
+      <input type="hidden" name="product_id[]" id="product_id_${rowId}" />
+      </td>
+      <td class="d-flex align-items-center" id="mrp_${rowId}"><strong class="me-1">₹</strong>00</td>
+      <td><input type="text" class="form-control batch-no" id="batch_no_${rowId}" name="batch_no[]" placeholder="Batch No." /></td>
+      <td class="exp-date" id="exp_date_${rowId}" name="exp[]">yyyy-mm-dd</td>
+      <td><input type="text" class="form-control qty" id="qty_${rowId}" name="qty[]" placeholder="Qty" /></td>
+      <td><div class="d-flex align-items-center rate" id="rate_div_${rowId}"><strong class="me-1">₹</strong>00</div></td>
+      <td><input type="number" step="any" class="form-control discount" name="discount[]" min="0" max="20" value="0" /></td>
+      <td style="display:none;"></td>
+      <td class="gst-amount" id="gst_${rowId}">00</td>
+      <td><input type="text" class=" form-control gst" name="gst[]" id="gst_amount_${rowId}" placeholder="Total" /></td>
+      <td><input type="text"  step='any' name='total[]' class='form-control total' id="total_after_discount_${rowId}" placeholder="TotalAfterDiscount" /></td>
+      <td class="d-flex gap-2">
+      <a href="#" class="delete" id="delete${rowId}" data-bs-target="#staticBackdrop">
+      <svg width="21" height="19" fill="red" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0.41 3.05C0.18 3.05 0 2.87 0 2.64C0 2.41 0.18 2.23 0.41 2.23L19.69 2.26C19.92 2.26 20.1 2.44 20.1 2.67C20.1 2.9 19.92 3.08 19.69 3.08L0.41 3.05ZM3.58 3.89C3.58 3.66 3.76 3.48 3.99 3.48C4.22 3.48 4.4 3.66 4.4 3.89V18.01L16.41 17.88V4.04C16.41 3.81 16.59 3.63 16.82 3.63C17.05 3.63 17.23 3.81 17.23 4.04V18.74L3.56 18.88V3.89H3.58Z" fill="white"/>
+      <path d="M13.75 15.88C13.52 15.88 13.34 15.7 13.34 15.47V5.73C13.34 5.5 13.52 5.32 13.75 5.32C13.98 5.32 14.16 5.5 14.16 5.73V15.47C14.18 15.7 13.98 15.88 13.75 15.88ZM7.28 15.88C7.05 15.88 6.87 15.7 6.87 15.47V5.73C6.87 5.5 7.05 5.32 7.28 5.32C7.51 5.32 7.69 5.5 7.69 5.73V15.47C7.71 15.7 7.51 15.88 7.28 15.88ZM10.52 15.88C10.29 15.88 10.11 15.7 10.11 15.47V5.73C10.11 5.5 10.29 5.32 10.52 5.32C10.75 5.32 10.93 5.5 10.93 5.73V15.47C10.94 15.7 10.75 15.88 10.52 15.88ZM13.19 2.48V1.48C13.19 1.12 12.9 0.82 12.53 0.82H8.33C7.96 0.82 7.68 1.12 7.68 1.49V2.36H6.86V1.49C6.86 0.67 7.53 0 8.35 0H12.55C13.37 0 14.04 0.67 14.04 1.49V2.49H13.19V2.48Z" fill="white"/>
+      </svg>
+      </a>
+      <a href="#" class="addbtn">
+      <svg width="20" height="20" fill="green" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.75 11.25V20H11.25V11.25H20V8.75H11.25V0H8.75V8.75H0V11.25H8.75Z" fill="white"/>
+      </svg>
+      </a>
+      </td>
+    `);
+
+    // Append the newly created row to the table
+    $("#table").append(newRow);
+    id++;
+    // Autocomplete functionality for the new product input field
+    $(`#product_name_${rowId}`).autocomplete({
+      source: "{{ route('admin.prod_name') }}",
+      dataType: "json",
+      minLength: 2,
+      select: function (event, ui) {
+        console.log("ui", ui);
+
+        let $input = $(this);
+        let $row = $input.closest("tr");
+        let rowId = $row.attr("id");  // Capture the correct rowId dynamically
+
+        let productV = ui.item.values.product_veriant;
+        let category = ui.item.values.category;
+        let category1 = 12;
+        if (category.length > 0) {
+          let rawGst = parseFloat(category[0].Gstrate);
+          if (!isNaN(rawGst)) category1 = rawGst;
+        }
+
+        let rate_default = 0;
+        let default_strip = 0;
+        let default_batch = "Null";
+        let default_expdate = "0000-00-00";
+
+        if (productV.length > 0) {
+          rate_default = parseFloat(productV[0].rate);
+          if (isNaN(rate_default)) {
+            rate_default = parseFloat(productV[0].mrp_per_unit);
+            if (isNaN(rate_default)) rate_default = 0;
+          }
+
+          default_strip = parseFloat(productV[0].strip);
+          if (isNaN(default_strip)) default_strip = 0;
+
+          default_batch = productV[0].batch || "Null";
+          default_expdate = productV[0].expdate || "0000-00-00";
+        }
+
+        // Fill fields with the selected data
+        $(`#product_name_${rowId}`).val(ui.item.label);
+        $(`#product_id_${rowId}`).val(ui.item.id);
+        $(`#batch_no_${rowId}`).val(default_batch);
+        $(`#exp_date_${rowId}`).text(default_expdate);
+        $(`#mrp_${rowId}`).text(productV[0].mrp_per_unit.toFixed(2));
+        $(`#rate_div_${rowId}`).text(rate_default.toFixed(2));
+        $(`#gst_${rowId}`).text(category1);
+        $(`#qty_${rowId}`).val(1);
+        // Add data attributes to the discount input field
+        $row.find(".discount").data("id", rate_default).data("gst", category1);
+
+        // GST Calculation
+        let gstAmount = (parseFloat(rate_default) * parseFloat(category1) / 100).toFixed(2);
+        $(`#gst_amount_${rowId}`).val(gstAmount);
+
+        // Total Calculation
+        let totalAfterDiscount = rate_default;
+        $(`#total_after_discount_${rowId}`).val(totalAfterDiscount.toFixed(2));
+        amountCalculation();
+      }
+    });
+  });
+
+    function array_sum(array) {
+    let sum = 0;
     for (const value of Object.values(array)) {
-      sum += value;
+      let v = parseFloat(value);
+      if (!isNaN(v)) {
+      sum += v;
+      }
     }
     return sum;
     }
@@ -239,84 +420,7 @@
     function log(message) {
       $("#table").append(message);
     }
-    $("#ProductNameSearch").autocomplete({
-      source: "{{ route('admin.prod_name') }}",
-      dataType: "json",
-      minLength: 2,
-      select: function (event, ui) {
-      // console.log(event, "event");
-      // console.log(ui, "ui");
-      let productV = ui.item.values.product_veriant;
-      // console.log(productV, "fr3fr");
-      let category = ui.item.values.category;
-      var category1 = 0;
-      if (category.length > 0) {
-        if (category[0].Gstrate) {
-        var category1 = category[0].Gstrate;
-        console.log(typeof category1);
-        } else if (category[0].Gstrate == null) {
-        var category1 = 12;
-        console.log(typeof category1);
-        } else if (category[0].Gstrate == 'NULL') {
-        var category1 = 12;
-        console.log(typeof category1);
-        } else if (category[0].Gstrate == '') {
-        var category1 = 12;
-        console.log(typeof category1);
-        } else {
-        var category1 = 12;
-        console.log(typeof category1);
-        }
-      } else {
-        var category1 = 12;
-      }
 
-      var rate_default = 0;
-      var default_strip = 0;
-      var default_batch = 'Null';
-      var default_expdate = 0000 - 00 - 00;
-      if (productV.length > 0) {
-        if (productV[0].rate) {
-        rate_default = productV[0].rate;
-        } else if (productV[0].rate == null) {
-        rate_default = productV[0].mrp_per_unit;
-        } else if (productV[0].rate == 'NULL') {
-        rate_default = productV[0].mrp_per_unit;
-        } else {
-        rate_default = 0;
-        }
-
-        if (productV[0].strip) {
-        default_strip = productV[0].strip;
-        } else if (productV[0].strip == null) {
-        default_strip = 0;
-        } else if (productV[0].strip == 'NULL') {
-        default_strip = 0;
-        } else {
-        default_strip = 0;
-        }
-
-        if (productV[0].batch) {
-        default_batch = productV[0].batch;
-        } else if (productV[0].batch == '') {
-        default_batch = 'Null';
-        } else {
-        default_batch = 'Null';
-        }
-
-        if (productV[0].expdate) {
-        default_expdate = productV[0].expdate;
-        } else {
-        default_expdate = 0000 - 00 - 00;
-        }
-      } else {
-        rate_default = 0;
-        default_strip = 0;
-        default_batch = 'Null';
-        default_expdate = 0000 - 00 - 00;
-      }
-      }
-    })
     $("#seachprodduct").autocomplete({
       source: "{{ route('admin.prod_name') }}",
       dataType: "json",
@@ -395,20 +499,71 @@
       }
       // var grand_total_value = 0;
 
-      let rowId = Date.now(); // generate a unique identifier for the row
+      rowId = Date.now(); // generate a unique identifier for the row
       let newRow = $("<tr>", {
         "id": rowId
       }); // add the identifier to the new row
       if (productV.length > 0) {
-        newRow.append("<td></td><td style='display:none'><input  step='any' name='exp[]' class='id' value='" + default_expdate + "' /></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[0].pid + "' /></td><td>" + ui.item.value + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" + productV[0].mrp_per_unit + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
-        default_batch + "' readonly/></td><td>" + default_expdate + "</td>" +
-        "<td><input type='number' step='any' id='" + productV[0].pid + "' name='qty[]' value=1 min=1 /></td><td>" +
-        rate_default + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' data-id='" + rate_default + "' data-gst='" + category1 + "' min=0 max=20 value=0 /></td><td>" + category1 + "</td><td><input type='number' step='any' readonly name='gst[]' class='gst' value='" + (parseInt(rate_default) * parseInt(category1) / 100).toFixed(2) + "' readonly ></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default + "' readonly></td><td><i class='bi bi-trash3-fill' id='delete" + rowId + "' style='cursor: pointer; color: red;'></i></td></tr>");
+        newRow.append(`<td class="row">${id}</td>
+    <td style="position: relative;">
+      <input type="text" name="product_name[]" class="form-control product-name ProductNameSearch" placeholder="Enter product name" value="${ui.item.label}" readonly />
+    </td>
+    <td style="display:none;">
+      <input type="number" step="any" name="id[]" class="id" value="${productV[0].pid}" />
+      <input type="text" name="title[]" class="title" value="${ui.item.label}" />
+      <input type="text" name="exp[]" class="id" value="${default_expdate}" />
+    </td>
+    <td>
+      <div class="d-flex align-items-center">
+      <strong class="me-1">₹</strong>${productV[0].mrp_per_unit}
+      </div>
+    </td>
+    <td>
+      <input type="text" class="form-control" name="batch_no[]" value="${default_batch}" readonly />
+    </td>
+    <td>${default_expdate}</td>
+    <td>
+      <input type="number" step="any" class="form-control qty" name="qty[]" value="1" min="1" id="qty_${productV[0].pid}" />
+    </td>
+    <td>
+      <div class="d-flex align-items-center">
+      <strong class="me-1">₹</strong>${rate_default}
+      </div>
+      <input type="hidden" name="rate[]" class="rate" value="${rate_default}" />
+    </td>
+    <td>
+      <input type="number" step="any" class="form-control discount" name="discount[]" data-id="${rate_default}" data-gst="${category1}" min="0" max="20" value="0" />
+    </td>
+    <td style="display:none;"></td>
+    <td>
+      ${category1}
+    </td>
+    <td>
+      <input type="text" class=" form-control gst" name="gst[]" value="${(parseFloat(rate_default) * parseFloat(category1) / 100).toFixed(2)}" readonly />
+    </td>
+    <td>
+      <input type='number' step='any' name='total[]' class='form-control total' value='${rate_default}' readonly>
+    </td>
+    <td class="d-flex gap-2">
+      <a href="#" class="delete" id="delete${rowId}" data-bs-target="#staticBackdrop">
+      <svg width="21" height="19" fill="red" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0.41 3.05C0.18 3.05 0 2.87 0 2.64C0 2.41 0.18 2.23 0.41 2.23L19.69 2.26C19.92 2.26 20.1 2.44 20.1 2.67C20.1 2.9 19.92 3.08 19.69 3.08L0.41 3.05ZM3.58 3.89C3.58 3.66 3.76 3.48 3.99 3.48C4.22 3.48 4.4 3.66 4.4 3.89V18.01L16.41 17.88V4.04C16.41 3.81 16.59 3.63 16.82 3.63C17.05 3.63 17.23 3.81 17.23 4.04V18.74L3.56 18.88V3.89H3.58Z" fill="white"/>
+      <path d="M13.75 15.88C13.52 15.88 13.34 15.7 13.34 15.47V5.73C13.34 5.5 13.52 5.32 13.75 5.32C13.98 5.32 14.16 5.5 14.16 5.73V15.47C14.18 15.7 13.98 15.88 13.75 15.88ZM7.28 15.88C7.05 15.88 6.87 15.7 6.87 15.47V5.73C6.87 5.5 7.05 5.32 7.28 5.32C7.51 5.32 7.69 5.5 7.69 5.73V15.47C7.71 15.7 7.51 15.88 7.28 15.88ZM10.52 15.88C10.29 15.88 10.11 15.7 10.11 15.47V5.73C10.11 5.5 10.29 5.32 10.52 5.32C10.75 5.32 10.93 5.5 10.93 5.73V15.47C10.94 15.7 10.75 15.88 10.52 15.88ZM13.19 2.48V1.48C13.19 1.12 12.9 0.82 12.53 0.82H8.33C7.96 0.82 7.68 1.12 7.68 1.49V2.36H6.86V1.49C6.86 0.67 7.53 0 8.35 0H12.55C13.37 0 14.04 0.67 14.04 1.49V2.49H13.19V2.48Z" fill="white"/>
+      </svg>
+      </a>
+      <a href="#" class="addbtn">
+      <svg width="20" height="20" fill="green" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.75 11.25V20H11.25V11.25H20V8.75H11.25V0H8.75V8.75H0V11.25H8.75Z" fill="white"/>
+      </svg>
+      </a>
+    </td></tr>`
+        );
         $("#table").append(newRow);
+        id = id + 1;
         // $("#no_data_row").remove();
         totals[rowId] = rate_default;
         // gstValues[rowId] = parseInt(rate_default) * parseInt(category1) / 100;
-        gstValues = parseInt(rate_default) * parseInt(category1) / 100;
+        gstValues[rowId] = parseInt(rate_default) * parseInt(category1) / 100;
 
         discounts[rowId] = 0;
         let grandTotal = array_sum(totals)
@@ -427,59 +582,6 @@
         // $("#table").append(newRow);
         window.alert("This Product is not in Stock.");
       }
-
-      $(document).on('change', '.discount', function () {
-        let discount = $(this).val();
-        if (discount > 20) { // limit discount to 10%
-        discount = 20;
-        $(this).val(discount); // update the value of the discount input to reflect the limit
-        }
-        amountCalculation()
-      });
-
-      $(document).on('change', '#' + rowId + ' input[name="qty[]"]', function () { // listen to changes on the quantity input of the corresponding row
-        amountCalculation()
-      });
-
-      function amountCalculation() {
-        var grandTotalArray = [];
-        var gstAmountArray = [];
-        var DiscountsArray = [];
-        $('.discount').each(function (index, element) {
-        let discount = $(this).val();
-        let price = $(this).data('id');
-        let qty = $(this).closest('tr').find("input[name='qty[]']").val();
-        let discountAmount = (price * qty * discount) / 100
-        let subtotal = (price * qty) - discountAmount;
-        $(this).closest('tr').find(".total").val(subtotal.toFixed(2));
-        let gstRate = $(this).data('gst');
-        let gstAmount = subtotal * gstRate / 100;
-        $(this).closest('tr').find(".gst").val(gstAmount.toFixed(2));
-
-        grandTotal = subtotal - gstAmount;
-        grandTotalArray[index] = grandTotal;
-        gstAmountArray[index] = gstAmount;
-        DiscountsArray[index] = discountAmount;
-        });
-        var fiGrandTotal = array_sum([parseFloat(array_sum(grandTotalArray)), parseFloat(array_sum(gstAmountArray))]).toFixed(2);
-        var roundOff = (Math.round(fiGrandTotal) - fiGrandTotal).toFixed(2);
-
-        $("#total_taxable_amount").val(array_sum(grandTotalArray).toFixed(2));
-        $("#total_gst").val(array_sum(gstAmountArray).toFixed(2));
-        $("#total_discount").val(array_sum(DiscountsArray).toFixed(2));
-        $("#round_off").val(roundOff);
-        $("#grand_total").val(parseFloat(array_sum([parseFloat(fiGrandTotal), parseFloat(roundOff)])).toFixed(2));
-
-      }
-
-
-      $(document).on('click', '#delete' + rowId, function () {
-        $('#table #' + rowId).remove();
-        amountCalculation()
-      });
-
-
-
       $(document).on('change', '#' + productV[0].pid, function () {
         $(".remaining-row" + productV[0].pid + "").remove();
         let row = $(this).closest('tr'); // Get the parent row of the changed quantity input
@@ -539,12 +641,59 @@
           if (remainingQuantity > variantQuantity) {
           // Create a new row for the current variant's stock
           let newRow = $("<tr>").addClass("remaining-row" + productV[0].pid);
-          newRow.append("<td></td><td style='display:none'><input  step='any' name='exp[]' class='id' value='" + default_expdate + "' /></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[i].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
-            rate_default_copy * default_strip_copy + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
-            default_batch_copy + "' readonly/></td><td>" +
-            default_expdate_copy + "</td>" +
-            "<td><input type='number' step='any' name='qty[]' value='" + variantQuantity + "' readonly/></td><td>" +
-            rate_default_copy + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default_copy + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' min=0 max=20 value=0 /></td><td>" + category1 + "</td><td><input type='number' step='any' name='gst[]' class='gst' value='" + parseInt(rate_default_copy) * parseInt(category1) / 100 + "' readonly></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default_copy + "' ></td></tr>");
+          newRow.append(`<td class="row">${id}</td>
+    <td style="position: relative;">
+    <input type="text" name="product_name[]" class="form-control product-name ProductNameSearch"  value="${ui.item.label}" readonly />
+    </td>
+    <td style="display:none;">
+    <input type="text" name="exp[]" class="id" value="${default_expdate_copy}" />
+    <input type="number" name="id[]" class="id" value="${productV[i].pid}" />
+    <input type="text" name="title[]" class="title" value="${ui.item.label}" />
+    </td>
+    <td>
+    <div class="d-flex align-items-center">
+      <strong class="me-1">₹</strong>${rate_default_copy * default_strip_copy}
+    </div>
+    </td>
+    <td>
+    <input type="text" class="form-control" name="batch_no[]" value="${default_batch_copy}" readonly />
+    </td>
+    <td>${default_expdate_copy}</td>
+    <td>
+    <input type="number" step="any" class="form-control qty" name="qty[]" value="${variantQuantity}" readonly />
+    </td>
+    <td>
+    <div class="d-flex align-items-center">
+      <strong class="me-1">₹</strong>${rate_default_copy}
+    </div>
+    <input type="hidden" name="rate[]" class="rate" value="${rate_default_copy}" />
+    </td>
+    <td>
+    <input type="number" step="any" class="form-control discount" name="discount[]" min="0" max="20" value="0" />
+    </td>
+    <td style="display:none;"></td>
+    <td>
+      ${category1}
+    </td>
+    <td>
+      <input type="text" class="form-control gst" name="gst[]" value="${(parseFloat(rate_default) * parseFloat(category1) / 100).toFixed(2)}" readonly />
+    </td>
+    <td>
+      <input type='number' step='any' name='total[]' class='form-control total' value='${rate_default}' readonly>
+    </td>
+    <td class="d-flex gap-2">
+    <a href="#" class="delete" id="delete${rowId}" data-bs-target="#staticBackdrop">
+      <svg width="21" height="19" fill="red" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0.41 3.05C0.18 3.05 0 2.87 0 2.64C0 2.41 0.18 2.23 0.41 2.23L19.69 2.26C19.92 2.26 20.1 2.44 20.1 2.67C20.1 2.9 19.92 3.08 19.69 3.08L0.41 3.05ZM3.58 3.89C3.58 3.66 3.76 3.48 3.99 3.48C4.22 3.48 4.4 3.66 4.4 3.89V18.01L16.41 17.88V4.04C16.41 3.81 16.59 3.63 16.82 3.63C17.05 3.63 17.23 3.81 17.23 4.04V18.74L3.56 18.88V3.89H3.58Z" fill="white"/>
+      <path d="M13.75 15.88C13.52 15.88 13.34 15.7 13.34 15.47V5.73C13.34 5.5 13.52 5.32 13.75 5.32C13.98 5.32 14.16 5.5 14.16 5.73V15.47C14.18 15.7 13.98 15.88 13.75 15.88ZM7.28 15.88C7.05 15.88 6.87 15.7 6.87 15.47V5.73C6.87 5.5 7.05 5.32 7.28 5.32C7.51 5.32 7.69 5.5 7.69 5.73V15.47C7.71 15.7 7.51 15.88 7.28 15.88ZM10.52 15.88C10.29 15.88 10.11 15.7 10.11 15.47V5.73C10.11 5.5 10.29 5.32 10.52 5.32C10.75 5.32 10.93 5.5 10.93 5.73V15.47C10.94 15.7 10.75 15.88 10.52 15.88ZM13.19 2.48V1.48C13.19 1.12 12.9 0.82 12.53 0.82H8.33C7.96 0.82 7.68 1.12 7.68 1.49V2.36H6.86V1.49C6.86 0.67 7.53 0 8.35 0H12.55C13.37 0 14.04 0.67 14.04 1.49V2.49H13.19V2.48Z" fill="white"/>
+      </svg>
+    </a>
+    <a href="#" class="addbtn">
+      <svg width="20" height="20" fill="green" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.75 11.25V20H11.25V11.25H20V8.75H11.25V0H8.75V8.75H0V11.25H8.75Z" fill="white"/>
+      </svg>
+    </a>
+    </td></tr>`);
           $("#table").append(newRow);
           // $("#no_data_row").remove();
           totals[rowId] = rate_default_copy;
@@ -577,14 +726,63 @@
 
           // Create a new row for the remaining quantity
           let newRow = $("<tr>").addClass("remaining-row" + productV[0].pid);
-          newRow.append("<td></td><td style='display:none'><input  step='any' name='exp[]' class='id' value='" + default_expdate + "' /></td><td style='display:none'><input type='number' step='any' name='id[]' class='id' value='" + productV[i].pid + "' /></td><td>" + ui.item.label + "</td><td style='display:none'><input type='text' name='title[]' class='title' value='" + ui.item.label + "' /></td><td>" +
-            rate_default_copy * default_strip_copy + "</td><td><input type='text' name='batch_no[]' class='id' value='" +
-            default_batch_copy + "' readonly/></td><td>" +
-            default_expdate_copy + "</td>" +
-            "<td><input type='number' step='any' name='qty[]' value='" + remainingQuantity + "' readonly/></td><td>" +
-            rate_default_copy + "</td><td style='display:none'><input type='number' step='any' name='rate[]' class='rate' value='" + rate_default_copy + "' /></td><td> <input type='number' step='any' name='discount[]' class='discount' min=0 max=20 value=0 /></td><td class='gst'>" + category1 + "</td><td><input type='number' step='any' name='gst[]' class='gst' value='" + parseInt(rate_default_copy) * parseInt(category1) / 100 + "'></td><td><input type='number' step='any' name='total[]' class='total' value='" + rate_default_copy + "' ></td></tr>");
+          newRow.append(`<th class="row">${id}</th>
+    <td style="position: relative;">
+    <input type="text" name="product_name[]" class="form-control product-name ProductNameSearch"  value="${ui.item.label}" readonly />
+    </td>
+
+    <!-- Hidden Inputs -->
+    <td style="display:none;">
+    <input type="text" name="exp[]" class="id" value="${default_expdate}" />
+    <input type="number" step="any" name="id[]" class="id" value="${productV[i].pid}" />
+    <input type="text" name="title[]" class="title" value="${ui.item.label}" />
+    </td>
+
+    <!-- MRP -->
+    <td>
+    <div class="d-flex align-items-center">
+      <strong class="me-1">₹</strong>${rate_default_copy * default_strip_copy}
+    </div>
+    </td>
+
+    <!-- Batch -->
+    <td>
+    <input type="text" name="batch_no[]" class="form-control" value="${default_batch_copy}" readonly />
+    </td>
+
+    <!-- Expiry -->
+    <td>${default_expdate_copy}</td>
+
+    <!-- Quantity -->
+    <td>
+    <input type="number" name="qty[]" step="any" class="form-control qty" value="${remainingQuantity}" readonly />
+    </td>
+
+    <!-- Rate per unit -->
+    <td>
+    <div class="d-flex align-items-center">
+      <strong class="me-1">₹</strong>${rate_default_copy}
+    </div>
+    <input type="hidden" name="rate[]" class="rate" value="${rate_default_copy}" />
+    </td>
+
+    <!-- Discount -->
+    <td>
+    <input type="number" step="any" name="discount[]" class="form-control discount" min="0" max="20" value="0" />
+    </td>
+
+    <td>
+      ${category1}
+    </td>
+    <td>
+      <input type="text" class="form-control gst" name="gst[]" value="${(parseFloat(rate_default) * parseFloat(category1) / 100).toFixed(2)}" readonly />
+    </td>
+    <td>
+      <input type='number' step='any' name='total[]' class='form-control total' value='${rate_default}' readonly>
+    </td></tr>`);
+
           $("#table").append(newRow);
-          $
+
           // $("#no_data_row").remove();
           //       totals[(rowId+1)] = rate_default_copy;
           //       gstValues[(rowId+1)] = parseInt(rate_default_copy) * parseInt(category1) / 100;
@@ -592,7 +790,7 @@
           let grandTotal = array_sum(totals)
           grandTotal = parseFloat(grandTotal).toFixed(2);
 
-          grandTotal = Math.round(grandTotal * 100) / 100;
+          grandTotal[rowId] = Math.round(grandTotal * 100) / 100;
           //       var grand_total = array_sum(totals);
           //       if (grand_total) {
           //         grand_total_value = grand_total;
@@ -610,8 +808,9 @@
           var current_val = curent_qty.val()
 
           var prow_input = $('#' + rowId).find("input[name='total[]']");
-          var prow_value = prow_input.val()
+          var prow_value = prow_input.val();
           $('#' + rowId).find("input[name='total[]']").val(prow_value - (rate_default_copy * current_val))
+          totals[rowId] = parseFloat(prow_value - (rate_default_copy * current_val));
           $('.remaining-row' + productV[0].pid).find("input[name='total[]']").val((rate_default_copy * current_val))
           // console.log(current_val)
           // Append the new row to the table
@@ -647,6 +846,66 @@
       }
     });
     });
+
+
+    $(".ProductNameSearch").autocomplete({
+    source: "{{ route('admin.prod_name') }}",
+    dataType: "json",
+    minLength: 2,
+    select: function (event, ui) {
+      let $input = $(this);
+      let $row = $input.closest("tr");
+
+      let productV = ui.item.values.product_veriant;
+      let category = ui.item.values.category;
+      let category1 = 12;
+      if (category.length > 0) {
+      let rawGst = parseFloat(category[0].Gstrate);
+      if (!isNaN(rawGst)) category1 = rawGst;
+      }
+
+      let rate_default = 0;
+      let default_strip = 0;
+      let default_batch = "Null";
+      let default_expdate = "0000-00-00";
+
+      if (productV.length > 0) {
+      rate_default = parseFloat(productV[0].rate);
+      if (isNaN(rate_default)) {
+        rate_default = parseFloat(productV[0].mrp_per_unit);
+        if (isNaN(rate_default)) rate_default = 0;
+      }
+
+      default_strip = parseFloat(productV[0].strip);
+      if (isNaN(default_strip)) default_strip = 0;
+
+      default_batch = productV[0].batch || "Null";
+      default_expdate = productV[0].expdate || "0000-00-00";
+      }
+
+      // Fill the row
+      $row.find("input.title").val(ui.item.label);
+      $row.find("input.id").val(ui.item.id);
+      $row.find("input[name='batch_no[]']").val(default_batch);
+      $row.find("input.rate").val(rate_default);
+      $row.find("input[name='exp[]']").val(default_expdate);
+
+      // Set data attributes correctly for calculation
+      $row.find(".discount").data("id", rate_default);
+      $row.find(".discount").data("gst", category1);
+
+      let gstAmount = (rate_default * category1) / 100;
+      $row.find("input.gst").val(isNaN(gstAmount) ? 0 : gstAmount.toFixed(2));
+
+      $row.find("td:nth-child(4) div").html(`<strong class="me-1">₹</strong>${productV[0].mrp_per_unit || 0}`);
+      $row.find("td:nth-child(8) div").html(`<strong class="me-1">₹</strong>${rate_default}`);
+      $row.find("td:nth-child(11)").html(`${category1}`);
+      $row.find("td:nth-child(6)").html(`${default_expdate}`);
+
+      amountCalculation();
+    }
+    })
+  
   </script>
 
 
