@@ -307,13 +307,16 @@
       <input type="text" name="product_name[]" id="product_name_${rowId}" class="form-control product-name" placeholder="Enter product name">
       </td>
       <td style="display:none;">
-      <input type="hidden" name="product_id[]" id="product_id_${rowId}" />
+      <input type="number" step="any" name="id[]" class="id" id="product_id_${rowId}" value="" />
+      <input type="text" name="title[]" class="title" id="title_${rowId}" value="" />
+      <input type="text" name="exp[]" class="id" id="hidden_exp_${rowId}" value="" />
       </td>
       <td class="d-flex align-items-center" id="mrp_${rowId}"><strong class="me-1">₹</strong>00</td>
       <td><input type="text" class="form-control batch-no" id="batch_no_${rowId}" name="batch_no[]" placeholder="Batch No." /></td>
       <td class="exp-date" id="exp_date_${rowId}" name="exp[]">yyyy-mm-dd</td>
       <td><input type="text" class="form-control qty" id="qty_${rowId}" name="qty[]" placeholder="Qty" /></td>
-      <td><div class="d-flex align-items-center rate" id="rate_div_${rowId}"><strong class="me-1">₹</strong>00</div></td>
+      <td><div class="d-flex align-items-center rate" id="rate_div_${rowId}"><strong class="me-1">₹</strong>00</div>
+      <input type="hidden" name="rate[]" id="rate_${rowId}" class="rate" value="" /></td>
       <td><input type="number" step="any" class="form-control discount" name="discount[]" min="0" max="20" value="0" /></td>
       <td style="display:none;"></td>
       <td class="gst-amount" id="gst_${rowId}">00</td>
@@ -343,62 +346,65 @@
       dataType: "json",
       minLength: 2,
       select: function (event, ui) {
-        console.log("ui", ui);
+      console.log("ui", ui);
 
-        let $input = $(this);
-        let $row = $input.closest("tr");
-        let rowId = $row.attr("id");  // Capture the correct rowId dynamically
+      let $input = $(this);
+      let $row = $input.closest("tr");
+      let rowId = $row.attr("id");  // Capture the correct rowId dynamically
 
-        let productV = ui.item.values.product_veriant;
-        let category = ui.item.values.category;
-        let category1 = 12;
-        if (category.length > 0) {
-          let rawGst = parseFloat(category[0].Gstrate);
-          if (!isNaN(rawGst)) category1 = rawGst;
+      let productV = ui.item.values.product_veriant;
+      let category = ui.item.values.category;
+      let category1 = 12;
+      if (category.length > 0) {
+        let rawGst = parseFloat(category[0].Gstrate);
+        if (!isNaN(rawGst)) category1 = rawGst;
+      }
+
+      let rate_default = 0;
+      let default_strip = 0;
+      let default_batch = "Null";
+      let default_expdate = "0000-00-00";
+
+      if (productV.length > 0) {
+        rate_default = parseFloat(productV[0].rate);
+        if (isNaN(rate_default)) {
+        rate_default = parseFloat(productV[0].mrp_per_unit);
+        if (isNaN(rate_default)) rate_default = 0;
         }
 
-        let rate_default = 0;
-        let default_strip = 0;
-        let default_batch = "Null";
-        let default_expdate = "0000-00-00";
+        default_strip = parseFloat(productV[0].strip);
+        if (isNaN(default_strip)) default_strip = 0;
 
-        if (productV.length > 0) {
-          rate_default = parseFloat(productV[0].rate);
-          if (isNaN(rate_default)) {
-            rate_default = parseFloat(productV[0].mrp_per_unit);
-            if (isNaN(rate_default)) rate_default = 0;
-          }
+        default_batch = productV[0].batch || "Null";
+        default_expdate = productV[0].expdate || "0000-00-00";
+      }
 
-          default_strip = parseFloat(productV[0].strip);
-          if (isNaN(default_strip)) default_strip = 0;
+      // Fill fields with the selected data
+      $(`#product_name_${rowId}`).val(ui.item.label);
+      $(`#product_id_${rowId}`).val(ui.item.id);
+      $(`#batch_no_${rowId}`).val(default_batch);
+      $(`#exp_date_${rowId}`).text(default_expdate);
+      $(`#mrp_${rowId}`).text(productV[0].mrp_per_unit.toFixed(2));
+      $(`#rate_div_${rowId}`).text(rate_default.toFixed(2));
+      $(`#gst_${rowId}`).text(category1);
+      $(`#qty_${rowId}`).val(1);
+      $(`#title_${rowId}`).val(ui.item.label);
+      $(`#hidden_exp_${rowId}`).val(default_expdate);
+      $(`#rate_${rowId}`).val(rate_default);
+      // Add data attributes to the discount input field
+      $row.find(".discount").data("id", rate_default).data("gst", category1);
 
-          default_batch = productV[0].batch || "Null";
-          default_expdate = productV[0].expdate || "0000-00-00";
-        }
+      // GST Calculation
+      let gstAmount = (parseFloat(rate_default) * parseFloat(category1) / 100).toFixed(2);
+      $(`#gst_amount_${rowId}`).val(gstAmount);
 
-        // Fill fields with the selected data
-        $(`#product_name_${rowId}`).val(ui.item.label);
-        $(`#product_id_${rowId}`).val(ui.item.id);
-        $(`#batch_no_${rowId}`).val(default_batch);
-        $(`#exp_date_${rowId}`).text(default_expdate);
-        $(`#mrp_${rowId}`).text(productV[0].mrp_per_unit.toFixed(2));
-        $(`#rate_div_${rowId}`).text(rate_default.toFixed(2));
-        $(`#gst_${rowId}`).text(category1);
-        $(`#qty_${rowId}`).val(1);
-        // Add data attributes to the discount input field
-        $row.find(".discount").data("id", rate_default).data("gst", category1);
-
-        // GST Calculation
-        let gstAmount = (parseFloat(rate_default) * parseFloat(category1) / 100).toFixed(2);
-        $(`#gst_amount_${rowId}`).val(gstAmount);
-
-        // Total Calculation
-        let totalAfterDiscount = rate_default;
-        $(`#total_after_discount_${rowId}`).val(totalAfterDiscount.toFixed(2));
-        amountCalculation();
+      // Total Calculation
+      let totalAfterDiscount = rate_default;
+      $(`#total_after_discount_${rowId}`).val(totalAfterDiscount.toFixed(2));
+      amountCalculation();
       }
     });
-  });
+    });
 
     function array_sum(array) {
     let sum = 0;
@@ -905,7 +911,7 @@
       amountCalculation();
     }
     })
-  
+
   </script>
 
 
